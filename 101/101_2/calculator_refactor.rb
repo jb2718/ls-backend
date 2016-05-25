@@ -11,16 +11,17 @@ def valid_number?(num)
 end
 
 def operator_to_msg(op)
-  case op
-  when '1'
-    "Adding"
-  when '2'
-    "Subtracting"
-  when '3'
-    "Multiplying"
-  when '4'
-    "Dividing"
-  end
+  msg = case op
+        when '1'
+          "Adding"
+        when '2'
+          "Subtracting"
+        when '3'
+          "Multiplying"
+        when '4'
+          "Dividing"
+        end
+  msg
 end
 
 prompt("Welcome to Calculator!")
