@@ -3,42 +3,43 @@ def prompt(msg)
 end
 
 def valid_number?(num)
-  num.to_i != 0
+  if num.start_with('0')
+    true
+  else
+    num.to_i != 0
+  end
 end
 
 def operator_to_msg(op)
-  msg = case op 
-    when '1'
-      "Adding"
-    when '2'
-      "Subtracting"
-    when '3'
-      "Multiplying"
-    when '4'
-      "Dividing"
+  case op
+  when '1'
+    "Adding"
+  when '2'
+    "Subtracting"
+  when '3'
+    "Multiplying"
+  when '4'
+    "Dividing"
   end
-
-  msg
 end
 
 prompt("Welcome to Calculator!")
 name = ''
-loop do 
+loop do
   prompt("What's your name? ")
   name = gets.chomp
-  unless name.empty? or name.nil?
-    break
-  else
+  if name.empty? || name.nil?
     prompt("Please use a valid name")
+  else
+    break
   end
 end
 
 prompt("Hi #{name}")
 
-loop do  # main loop
-
+loop do # main loop
   first_num = ''
-  loop do 
+  loop do
     prompt("Please enter the first integer: ")
     first_num = gets.chomp
 
@@ -65,18 +66,17 @@ loop do  # main loop
 
   puts
 
-  operator_prompt = 
-  <<-MSG 
-Which operation would you like to perform? : 
-    1) addition 
-    2) subtraction 
-    3) multiplication 
+  operator_prompt = <<-MSG
+  Which operation would you like to perform? :
+    1) addition
+    2) subtraction
+    3) multiplication
     4) division
-  MSG
+MSG
   prompt(operator_prompt)
-  
+
   operation = ''
-  loop do 
+  loop do
     operation = gets.chomp
     if %w(1 2 3 4).include?(operation)
       break
@@ -84,21 +84,21 @@ Which operation would you like to perform? :
       prompt("Please choose 1, 2, 3 or 4")
     end
   end
-  
+
   prompt("#{operator_to_msg(operation)} the two numbers...")
 
-  result = case operation
-    when '1'
-      first_num.to_i + second_num.to_i
-    when '2'
-      first_num.to_i - second_num.to_i
-    when '3'
-      first_num.to_i * second_num.to_i
-    when '4'
-      first_num.to_f / second_num.to_f
-    else
-      prompt('Invalid entry')  
-  end
+  result =  case operation
+            when '1'
+              first_num.to_i + second_num.to_i
+            when '2'
+              first_num.to_i - second_num.to_i
+            when '3'
+              first_num.to_i * second_num.to_i
+            when '4'
+              first_num.to_f / second_num.to_f
+            else
+              prompt('Invalid entry')
+            end
 
   prompt("The result is #{result}")
 
