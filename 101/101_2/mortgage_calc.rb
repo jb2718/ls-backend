@@ -14,30 +14,28 @@ end
 
 def valid_apr?(value)
   regex = /\A(\d{1,3}\.{0,1}\d*)\z/
-  if !regex.match(value).nil?
+  unless regex.match(value).nil?
     value = regex.match(value)[0].to_f
     if value >= 0 && value <= 100
-      true
+      return true
     else
-      false
+      return false
     end
-  else
-    false
   end
+  false
 end
 
 def valid_years?(value)
   regex = /\A(\d{1,2})\z/
-  if !regex.match(value).nil?
+  unless regex.match(value).nil?
     value = regex.match(value)[0].to_i
     if value > 0 && value <= 40
-      true
+      return true
     else
-      false
+      return false
     end
-  else
-    false
   end
+  false
 end
 
 puts "===================================="
@@ -95,11 +93,12 @@ loop do # main loop
 
   monthy_payment_ratio_num = monthly_int * (1 + monthly_int)**term_months
   monthy_payment_ratio_denom = (1 + monthly_int)**term_months - 1
-  monthly_payment = loan.to_f * (monthy_payment_ratio_num / monthy_payment_ratio_denom)
+  charge_factor = (monthy_payment_ratio_num / monthy_payment_ratio_denom)
+  monthly_payment = loan.to_f * charge_factor
 
   response = <<-RESP
   In order to buy a property that costs $#{loan},
-  you will need to pay $#{sprintf('%#.2f', monthly_payment.round(2))} per month
+  you will need to pay $#{format('%#.2f', monthly_payment.round(2))} per month
   for #{term_months} months (that's #{term_years} years)
 
   RESP
