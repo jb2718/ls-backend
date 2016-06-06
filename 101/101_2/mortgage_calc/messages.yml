@@ -1,0 +1,52 @@
+# messages.yml
+  en:
+    title: "Mortgage Caculator App"
+    welcome: "Welcome to the Mortgage Calculator!"
+
+    invalid_input: "That's not a valid input. Please try again!"
+    invalid_input_years: "Make sure to enter an integer between 1 and 40."
+    invalid_input_dollars: "Make sure to have no more than 2 digits after the decimal."
+
+    get_loan_amt: "How much money do you need to borrow to purchase the property?"
+    get_loan_amt_note: "(Please do not write anything between the numbers):"
+
+    get_apr: "How much will you be charged each year to borrow this money?"
+    get_apr_note: "(Please enter the APR as a number between 0 and 100): "
+
+    get_years: "How many years do you need to pay the loan back?"
+
+    calculating: "Calculating monthly payment..."
+    response: 
+      line1: "You must make a montly payment of "
+      line2: "to pay for a property that costs "
+      line3: "over a period of "
+      line4: "years"
+
+    another_calculation: "Do you want to do another calculation? (Y to calculate again): "
+    good_bye: "Thanks for using Mortgage Calculator!  Goodbye!"
+
+  es:
+    title: "Calculadora de Hipoteca"
+    welcome: "Bienvenido a la Calculadora de Hipoteca!"
+
+    invalid_input: "Eso no es una entrada válida . Por favor, inténtelo de nuevo!"
+    invalid_input_years: "Asegúrese de introducir un número entero entre 1 y 40."
+    invalid_input_dollars: "Asegúrese de tener no más de 2 dígitos después del punto decimal."
+
+    get_loan_amt: "¿Cuánto dinero necesita pedir prestado para comprar la propiedad?"
+    get_loan_amt_note: "(Por favor, no escribir nada entre los numeros):"
+
+    get_apr: "¿Cuánto se le cobrará cada año para pedir prestado el dinero?"
+    get_apr_note: "(Por favor, introduzca el cargo financiero como un número entre 0 y 100): "
+
+    get_years: "¿Cuántos años se necesitan para pagar el préstamo?"
+
+    calculating: "Calcular el pago mensual..."
+    response: 
+      line1: "Usted debe hacer un pago mensual de "
+      line2: "a pagar por una propiedad que cuesta "
+      line3: "durante un período de "
+      line4: "años"
+
+    another_calculation: "¿Quiere hacer otro cálculo? (Y para calcular de nuevo): "
+    good_bye: "Gracias por usar la Calculadora de Hipoteca! ¡Adiós!"

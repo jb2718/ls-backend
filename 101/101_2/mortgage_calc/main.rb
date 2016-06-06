@@ -1,5 +1,14 @@
-def prompt(message)
-  puts "=> #{message}"
+require 'yaml'
+LANGUAGE ='en'
+MESSAGES = YAML.load_file('messages.yml')
+
+def messages(message, lang='en')
+  MESSAGES[lang][message]
+end
+
+def prompt(msg)
+  msg = messages(msg, LANGUAGE)
+  puts "=> #{msg}"
 end
 
 def valid_dollar_amt?(number)
@@ -39,53 +48,51 @@ def valid_years?(value)
 end
 
 puts "===================================="
-puts "      Mortgage Caculator App"
+puts MESSAGES['title']
 puts "===================================="
 
-prompt "Welcome to the Mortgage Caculator!"
+prompt 'welcome'
 
 loop do # main loop
   loan = ""
   loop do
-    prompt "How much money do you need to borrow to purchase the house?"
-    prompt "(Please do not enter commas ',''):"
+    prompt MESSAGES['get_loan_amt']
+    prompt MESSAGES['get_loan_amt_note']
     loan = gets.chomp
 
     if valid_dollar_amt?(loan)
       break
     else
-      prompt "Invalid dollar amount."
-      prompt "Make sure to have no more than 2 digits after the decimal."
-      prompt "Please try again!"
+      prompt MESSAGES['invalid_input']
+      prompt MESSAGES['invalid_input_dollars']
     end
   end
 
   apr = ""
   loop do
-    prompt "How much will you be charged each year to borrow this money?"
-    prompt "(Please enter the APR as a number between 0 and 100): "
+    prompt MESSAGES['get_apr']
+    prompt MESSAGES['get_apr_note']
     apr = gets.chomp
     if valid_apr?(apr)
       break
     else
-      prompt "That's not a valid input.  Please try again!"
+      prompt MESSAGES['invalid_input']
     end
   end
 
   term_years = ""
   loop do
-    prompt "How many years do you need to pay the loan back?"
+    prompt MESSAGES['get_years']
     term_years = gets.chomp
     if valid_years?(term_years)
       break
     else
-      prompt "That's not a valid input."
-      prompt "Make sure to enter an integer between 1 and 40."
-      prompt "Please try again!"
+      prompt MESSAGES['invalid_input']
+      prompt MESSAGES['invalid_input_years']
     end
   end
 
-  prompt "Calculating monthly payment..."
+  prompt MESSAGES['calculating']
 
   # P = L[c(1 + c)n]/[(1 + c)n - 1]
   monthly_int = apr.to_f / (100 * 12)
@@ -96,17 +103,14 @@ loop do # main loop
   charge_factor = (monthy_payment_ratio_num / monthy_payment_ratio_denom)
   monthly_payment = loan.to_f * charge_factor
 
-  response = <<-RESP
-  In order to buy a property that costs $#{loan},
-  you will need to pay $#{format('%#.2f', monthly_payment.round(2))} per month
-  for #{term_months} months (that's #{term_years} years)
-
-  RESP
+  response =  MESSAGES['response']['line1'] + "$#{format('%#.2f', monthly_payment.round(2))} \n" +
+              MESSAGES['response']['line2'] + "$#{loan}\n" + 
+              MESSAGES['response']['line3'] + "#{term_years} " + MESSAGES['response']['line4']
   prompt response
 
-  prompt "Do you want to do another calculation? (Y to calculate again): "
+  prompt MESSAGES['another_calculation']
   answer = gets.chomp
   break unless answer.downcase.start_with?('y')
 end # end main loop
 
-prompt "Thanks for using Mortgage Calculator!  Goodbye!"
+prompt MESSAGES['good_bye']
