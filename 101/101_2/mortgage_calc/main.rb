@@ -1,5 +1,5 @@
 require 'yaml'
-LANGUAGE ='en'
+LANGUAGE ='es'
 MESSAGES = YAML.load_file('messages.yml')
 
 def messages(message, lang='en')
@@ -48,7 +48,7 @@ def valid_years?(value)
 end
 
 puts "===================================="
-puts MESSAGES['title']
+puts MESSAGES[LANGUAGE]['title']
 puts "===================================="
 
 prompt 'welcome'
@@ -56,43 +56,43 @@ prompt 'welcome'
 loop do # main loop
   loan = ""
   loop do
-    prompt MESSAGES['get_loan_amt']
-    prompt MESSAGES['get_loan_amt_note']
+    prompt 'get_loan_amt'
+    prompt 'get_loan_amt_note'
     loan = gets.chomp
 
     if valid_dollar_amt?(loan)
       break
     else
-      prompt MESSAGES['invalid_input']
-      prompt MESSAGES['invalid_input_dollars']
+      prompt 'invalid_input'
+      prompt 'invalid_input_dollars'
     end
   end
 
   apr = ""
   loop do
-    prompt MESSAGES['get_apr']
-    prompt MESSAGES['get_apr_note']
+    prompt 'get_apr'
+    prompt 'get_apr_note'
     apr = gets.chomp
     if valid_apr?(apr)
       break
     else
-      prompt MESSAGES['invalid_input']
+      prompt 'invalid_input'
     end
   end
 
   term_years = ""
   loop do
-    prompt MESSAGES['get_years']
+    prompt 'get_years'
     term_years = gets.chomp
     if valid_years?(term_years)
       break
     else
-      prompt MESSAGES['invalid_input']
-      prompt MESSAGES['invalid_input_years']
+      prompt 'invalid_input'
+      prompt 'invalid_input_years'
     end
   end
 
-  prompt MESSAGES['calculating']
+  prompt 'calculating'
 
   # P = L[c(1 + c)n]/[(1 + c)n - 1]
   monthly_int = apr.to_f / (100 * 12)
@@ -103,14 +103,14 @@ loop do # main loop
   charge_factor = (monthy_payment_ratio_num / monthy_payment_ratio_denom)
   monthly_payment = loan.to_f * charge_factor
 
-  response =  MESSAGES['response']['line1'] + "$#{format('%#.2f', monthly_payment.round(2))} \n" +
-              MESSAGES['response']['line2'] + "$#{loan}\n" + 
-              MESSAGES['response']['line3'] + "#{term_years} " + MESSAGES['response']['line4']
-  prompt response
+  response =  MESSAGES[LANGUAGE]['response']['line1'] + "$#{format('%#.2f', monthly_payment.round(2))} \n" +
+              MESSAGES[LANGUAGE]['response']['line2'] + "$#{loan}\n" + 
+              MESSAGES[LANGUAGE]['response']['line3'] + "#{term_years} " + MESSAGES[LANGUAGE]['response']['line4']
+  puts response
 
-  prompt MESSAGES['another_calculation']
+  prompt 'another_calculation'
   answer = gets.chomp
   break unless answer.downcase.start_with?('y')
 end # end main loop
 
-prompt MESSAGES['good_bye']
+prompt 'good_bye'
