@@ -1,8 +1,8 @@
 require 'yaml'
-LANGUAGE ='es'
+LANGUAGE = 'en'
 MESSAGES = YAML.load_file('messages.yml')
 
-def messages(message, lang='en')
+def messages(message, lang = 'en')
   MESSAGES[lang][message]
 end
 
@@ -103,9 +103,11 @@ loop do # main loop
   charge_factor = (monthy_payment_ratio_num / monthy_payment_ratio_denom)
   monthly_payment = loan.to_f * charge_factor
 
-  response =  MESSAGES[LANGUAGE]['response']['line1'] + "$#{format('%#.2f', monthly_payment.round(2))} \n" +
-              MESSAGES[LANGUAGE]['response']['line2'] + "$#{loan}\n" + 
-              MESSAGES[LANGUAGE]['response']['line3'] + "#{term_years} " + MESSAGES[LANGUAGE]['response']['line4']
+  response =  MESSAGES[LANGUAGE]['response']['line1'] +
+              "$#{format('%#.2f', monthly_payment.round(2))} \n" +
+              MESSAGES[LANGUAGE]['response']['line2'] + "$#{loan}\n" +
+              MESSAGES[LANGUAGE]['response']['line3'] + "#{term_years} " +
+              MESSAGES[LANGUAGE]['response']['line4']
   puts response
 
   prompt 'another_calculation'
