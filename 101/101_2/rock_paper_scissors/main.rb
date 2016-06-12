@@ -1,7 +1,6 @@
 # main.rb rock paper scissors main file
 VALID_CHOICES = %w(rock paper scissors)
-$player_points = 0
-$computer_points = 0
+scorecard = [0, 0] # index0 = player points, index1 = computer points
 
 def test_method
   prompt('test method')
@@ -22,12 +21,7 @@ def won?(first, second)
   false
 end
 
-def display_points
-  prompt "Your points: #{$player_points}"
-  prompt "Computer points: #{$computer_points}"
-end
-
-def display_results(player, computer)
+def display_results(player, computer, scorecard)
   if won?(player, computer)
     prompt "You won this round!"
   elsif won?(computer, player)
@@ -35,20 +29,20 @@ def display_results(player, computer)
   else
     prompt "It's a tie!"
   end
-  display_points
+  prompt "Your points: #{scorecard[0]}"
+  prompt "Computer points: #{scorecard[1]}"
 end
 
-def tally_points(player, computer)
+def update_points(player, computer, scorecard)
   if won?(player, computer)
-    $player_points += 1
+    scorecard[0] += 1
   elsif won?(computer, player)
-    $computer_points += 1
+    scorecard[1] += 1
   end
 end
 
-def reset_points
-  $player_points = 0
-  $computer_points = 0
+def reset_points(scorecard)
+  scorecard.fill(0)
 end
 
 loop do
@@ -68,16 +62,15 @@ loop do
   computer_choice = %w(rock paper scissors).sample
 
   prompt "You chose: #{choice}; Computer chose #{computer_choice}"
+  update_points(choice, computer_choice, scorecard)
+  display_results(choice, computer_choice, scorecard)
 
-  tally_points(choice, computer_choice)
-  display_results(choice, computer_choice)
-
-  if $player_points == 5
+  if scorecard[0] == 5
     prompt "You scored 5 points first and won the whole game!"
-    reset_points
-  elsif $computer_points == 5
+    reset_points(scorecard)
+  elsif scorecard[1] == 5
     prompt "The computer scored 5 points first and won the whole game!"
-    reset_points
+    reset_points(scorecard)
   end
 
   prompt "Would you like to play again? (Yes or No)"
