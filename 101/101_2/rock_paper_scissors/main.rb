@@ -1,5 +1,5 @@
 # main.rb rock paper scissors main file
-VALID_CHOICES = %w(rock paper scissors)
+VALID_CHOICES = %w(rock paper scissors lizard spock)
 scorecard = [0, 0] # index0 = player points, index1 = computer points
 
 def test_method
@@ -14,6 +14,9 @@ end
 
 def won?(first, second)
   win = [%w(rock scissors), %w(paper rock), %w(scissors paper)]
+  win << %w(rock lizard) << %w(paper spock) << %w(scissors lizard)
+  win << %w(spock scissors) << %w(spock rock) << %w(lizard spock)
+  win << %w(lizard paper)
   check = []
   check << first << second
   return true if win.include?(check)
@@ -59,7 +62,7 @@ loop do
     end
   end
 
-  computer_choice = %w(rock paper scissors).sample
+  computer_choice = %w(rock paper scissors lizard spock).sample
 
   prompt "You chose: #{choice}; Computer chose #{computer_choice}"
   update_points(choice, computer_choice, scorecard)
