@@ -1,0 +1,34 @@
+Q1. 
+I would expect the code to print out the original array.  The reason being that the method uniq did not mutate the original numbers array.
+
+
+Q2.
+'!' is usually an indicator that the method will mutate its caller.  It can also mean NOT.
+
+ '?' usually indicates that the method will return a boolean value
+
+- 1) != means 'not equal to'; it should be used in boolean equations
+
+- 2) !user_name would return the opposite of user_name's truth/false value.  If it user_name evaluates to true, then !user_name would be false and vice versa.
+
+- 3) In this scenario, the ! means the method uniq! will mutate the content of the variable words 
+
+- 4) '?' before something can be part of the ternary operator --> condition ? choice for true : choice for false
+
+- 5) Putting '?' after a method is usually an indicator that the method will return true/false
+
+- 6) Putting '!!' before something will return the boolean value the something would have returned to begin with...it is like a double negation
+
+
+Q3. See program q3.rb
+
+Q4.
+numbers.delete_at(1) will delete the value at index 1 of the numbers array
+
+number.delete(1) will delete all values of '1' in the array 
+
+
+
+
+
+(See programs for responses to rest of questions)
