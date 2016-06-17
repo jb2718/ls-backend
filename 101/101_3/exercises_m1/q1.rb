@@ -1,0 +1,1 @@
+10.times{ |num| puts "The Flintstones Rock!".rjust(21 + num)}
