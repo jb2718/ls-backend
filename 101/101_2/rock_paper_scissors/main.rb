@@ -48,12 +48,23 @@ def reset_points(scorecard)
   scorecard.fill(0)
 end
 
+def clean_input(response)
+  input = { 'r' => 'rock', 's' => 'scissors',
+            'p' => 'paper', 'l' => 'lizard',
+            'k' => 'spock' }
+  if input.key?(response)
+    return input[response]
+  else
+    return input
+  end
+end
+
 loop do
   choice = ''
 
   loop do
-    prompt "Choose one: #{VALID_CHOICES.join(', ')}"
-    choice = gets.chomp
+    prompt "Choose one: [r]ock, [p]aper, [s]cissors, [l]izard, spoc[k]"
+    choice = clean_input(gets.chomp.downcase)
 
     if VALID_CHOICES.include?(choice)
       break
