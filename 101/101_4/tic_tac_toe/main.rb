@@ -133,10 +133,11 @@ end
 
 def computer_ai(moves)
   WINNING_COMBOS.each do |combo|
-    potential_win = moves.collect do |mark|
+    combo_compare = moves.collect do |mark|
       combo.include?(mark)
     end
-    if potential_win.count == 2
+    puts combo_compare
+    if combo_compare.count(true) == 2
       combo.each do |mark|
         return mark unless moves.include?(mark)
       end
