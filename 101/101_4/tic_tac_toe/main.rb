@@ -3,7 +3,7 @@ require 'pry'
 PLAYER_MARK = 'X'.freeze
 COMPUTER_MARK = 'O'.freeze
 EMPTY_SQUARE_MARK = '*'.freeze
-WHO_GOES_FIRST = 'choice' # 'player', 'computer', or 'choice'
+WHO_GOES_FIRST = 'choice'.freeze # 'player', 'computer', or 'choice'
 WINNING_COMBOS = [
   [1, 2, 3], [4, 5, 6], [7, 8, 9],
   [1, 4, 7], [2, 5, 8], [3, 6, 9],
@@ -31,11 +31,11 @@ def prompt(message)
 end
 
 def winner?(player, brd)
-  if player == 'computer'
-    moves = brd[:computer_moves]
-  else
-    moves = brd[:player_moves]
-  end
+  moves = if player == 'computer'
+            brd[:computer_moves]
+          else
+            brd[:player_moves]
+          end
   WINNING_COMBOS.each do |combo|
     marks_in_a_row = 0
     combo.each do |number|
@@ -137,41 +137,47 @@ def computer_ai(moves)
       combo.include?(mark)
     end
     puts combo_compare
-    if combo_compare.count(true) == 2
-      combo.each do |mark|
-        return mark unless moves.include?(mark)
-      end
+    next unless combo_compare.count(true) == 2
+    combo.each do |mark|
+      return mark unless moves.include?(mark)
     end
   end
   nil
 end
 
+def choose_first_player
+  loop do
+    prompt "Choose who goes first. [P]layer or [C]omputer?"
+    choice = gets.chomp
+    choice.downcase!
+    if choice == 'p' || choice == 'player'
+      return 'player'
+    elsif choice == 'c' || choice == 'computer'
+      return 'computer'
+    else
+      prompt "That choice is not valid. Please try again!"
+    end
+  end
+end
+
+# rubocop:disable Performance/Casecmp
 def find_who_goes_first
   if WHO_GOES_FIRST.downcase == 'choice'
-      loop do
-        prompt "Choose who goes first. [P]layer or [C]omputer?"
-        choice = gets.chomp
-        if choice.downcase == 'p' || choice.downcase == 'player'
-          return 'player'
-        elsif choice.downcase == 'c' || choice.downcase == 'computer'
-          return 'computer' 
-        else
-          prompt "That choice is not valid. Please try again!"
-        end
-      end
+    choose_first_player
   elsif WHO_GOES_FIRST.downcase == 'computer'
     'computer'
   else
     'player'
-  end  
+  end
 end
+# rubocop:enable Performance/Casecmp
 
 def alternate_player(player)
   if player == 'computer'
     'player'
   else
     'computer'
-  end  
+  end
 end
 
 def play_game(curr_player, brd)
@@ -195,7 +201,7 @@ loop do
     current_player = alternate_player(current_player)
   end
 
-  outcome = if winner?('player',board)
+  outcome = if winner?('player', board)
               board[:player_score] += 1
               "Nice work, you win!"
             elsif winner?('computer', board)
