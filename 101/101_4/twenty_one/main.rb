@@ -6,6 +6,7 @@ WINNING_VALUE = 21
 DEALER_MAX = 17
 
 player = {
+  name: "player",
   game_score: 0,
   hand: [],
   hand_value: 0,
@@ -13,19 +14,40 @@ player = {
 }
 
 dealer = {
+  name: "dealer",
   game_score: 0,
   hand: [],
   hand_value: 0,
   busted_flag: false
 }
 
+def show_hand(player)
+  display_text = []
+  player[:hand].each do |card|
+    display_text << "#{card.last} of #{card.first.capitalize}"
+  end
+  if player[:name] == 'dealer'
+    mystery_arr = []
+    display_text.count.times { mystery_arr << "[?]" }
+    first_card = display_text.first
+    display_text = mystery_arr
+    display_text[0] = first_card
+  end
+  puts joinor(display_text, ', ', 'and')
+end
+
 def show_table(player, dealer)
   system "clear"
   puts "---------------------------------------------------"
   puts "Crazy Al's #{WINNING_VALUE} Bonanza".center(50)
   puts "---------------------------------------------------\n\n"
-  puts "Dealer's Hand: #{dealer[:hand]} || Points: #{dealer[:hand_value]}\n\n"
-  puts "Your Hand: #{player[:hand]} || Points: #{player[:hand_value]}\n\n"
+  puts "Dealer's Hand:"
+  show_hand(dealer)
+  puts "Dealer's Points: #{dealer[:hand_value]}\n\n"
+
+  puts "Your Hand:"
+  show_hand(player)
+  puts "Your Points: #{player[:hand_value]}\n\n"
   puts "---------------------------------------------------\n\n"
 end
 
@@ -138,16 +160,22 @@ loop do
     break if valid_stay?(answer) || busted?(player[:hand_value])
     if valid_hit?(answer)
       hit(player, game_deck)
-      prompt "You chose to hit!"
-      prompt "Current Hand: #{player[:hand]} || Points: #{player[:hand_value]}"
+      prompt "You chose to hit! Updating hand..."
     else
       prompt "That is not a valid entry.  Please try again!"
     end
+    sleep(2)
     next unless busted?(player[:hand_value])
     player[:busted_flag] = true
-    prompt "Sorry, you busted!"
+    show_table(player, dealer)
+    prompt "Sorry, you busted! Ending round..."
+    sleep(2)
+    break
   end
-  prompt "You chose to stay!" unless player[:busted_flag]
+  unless player[:busted_flag]
+    prompt "You chose to stay!"
+    sleep(2)
+  end
 
   # dealer's turn
   unless player[:busted_flag]
@@ -157,7 +185,7 @@ loop do
       break if dealer[:hand_value] >= DEALER_MAX
       prompt "Dealer chooses to hit..."
       hit(dealer, game_deck)
-      prompt "Dealer's Hand: #{dealer[:hand]} || Points: #{dealer[:hand_value]}"
+      sleep(2)
     end
     if busted?(dealer[:hand_value])
       dealer[:busted_flag] = true
@@ -165,6 +193,7 @@ loop do
     else
       prompt "Dealer stays!"
     end
+    sleep(2)
   end
 
   show_table(player, dealer)
@@ -188,7 +217,7 @@ loop do
 
   answer = ''
   loop do
-    puts "--------------------------------------------"
+    puts "---------------------------------------------------"
     prompt "Would you like to play again? [Y]es/[N]o"
     answer = gets.chomp
     break unless play_again?(answer) < 0
