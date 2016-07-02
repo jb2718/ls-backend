@@ -77,15 +77,19 @@ def setup_game(deck, player, dealer)
   2.times { hit(dealer, deck) }
 end
 
-# rubocop:disable Performance/Casecmp
 def valid_stay?(response)
-  response.downcase == 's' || response.downcase == 'stay'
+  case response.downcase
+  when 's', 'stay'
+    true
+  end
 end
 
 def valid_hit?(response)
-  response.downcase == 'h' || response.downcase == 'hit'
+  case response.downcase
+  when 'h', 'hit'
+    true
+  end
 end
-# rubocop:enable Performance/Casecmp
 
 def determine_winner(player, dealer)
   if player[:busted_flag] == true
@@ -164,18 +168,20 @@ loop do
     else
       prompt "That is not a valid entry.  Please try again!"
     end
-    sleep(2)
+    sleep(1)
     next unless busted?(player[:hand_value])
+    break
+  end
+
+  # player has stayed or busted
+  if busted?(player[:hand_value])
     player[:busted_flag] = true
     show_table(player, dealer)
     prompt "Sorry, you busted! Ending round..."
-    sleep(2)
-    break
-  end
-  unless player[:busted_flag]
+  else
     prompt "You chose to stay!"
-    sleep(2)
   end
+  sleep(2)
 
   # dealer's turn
   unless player[:busted_flag]
@@ -215,15 +221,7 @@ loop do
     complete_reset(dealer)
   end
 
-  answer = ''
-  loop do
-    puts "---------------------------------------------------"
-    prompt "Would you like to play again? [Y]es/[N]o"
-    answer = gets.chomp
-    break unless play_again?(answer) < 0
-    prompt "#{answer} is an invalid response"
-  end
-  break unless play_again?(answer) == 1
-end
+  break unless play_again?
+end # end main game loop
 
 prompt "Thanks for playing!  See you next time :)"
