@@ -10,17 +10,21 @@ WINNING_COMBOS = [
   [1, 5, 9], [3, 5, 7]
 ].freeze
 
-# rubocop:disable Performance/Casecmp
-def play_again?(response)
-  if response.downcase == 'y' || response.downcase == 'yes'
-    return 1
-  elsif response.downcase == 'n' || response.downcase == 'no'
-    return 0
-  else
-    return -1
+def play_again?
+  answer = ''
+  loop do
+    prompt "Would you like to play again? [Y]es/[N]o"
+    answer = gets.chomp
+    case answer.downcase
+    when 'y', 'yes'
+      return true
+    when 'n', 'no'
+      return false
+    else
+      prompt "#{answer} is an invalid response."
+    end
   end
 end
-# rubocop:enable Performance/Casecmp
 
 def valid_move?(move, board)
   board.include?(move)
@@ -133,11 +137,10 @@ end
 
 def computer_ai(moves)
   WINNING_COMBOS.each do |combo|
-    combo_compare = moves.collect do |mark|
+    combo_compare = moves.select do |mark|
       combo.include?(mark)
     end
-    puts combo_compare
-    next unless combo_compare.count(true) == 2
+    next unless combo_compare.count == 2
     combo.each do |mark|
       return mark unless moves.include?(mark)
     end
@@ -160,17 +163,16 @@ def choose_first_player
   end
 end
 
-# rubocop:disable Performance/Casecmp
 def find_who_goes_first
-  if WHO_GOES_FIRST.downcase == 'choice'
+  case WHO_GOES_FIRST.downcase
+  when 'choice'
     choose_first_player
-  elsif WHO_GOES_FIRST.downcase == 'computer'
+  when 'computer'
     'computer'
   else
     'player'
   end
 end
-# rubocop:enable Performance/Casecmp
 
 def alternate_player(player)
   if player == 'computer'
@@ -201,16 +203,29 @@ loop do
     current_player = alternate_player(current_player)
   end
 
-  outcome = if winner?('player', board)
-              board[:player_score] += 1
+  winner = if winner?('player', board)
+             :player
+           elsif winner?('computer', board)
+             :computer
+           end
+
+  case winner
+  when :player
+    board[:player_score] += 1
+  when :computer
+    board[:computer_score] += 1
+  end
+
+  outcome = case winner
+            when :player
               "Nice work, you win!"
-            elsif winner?('computer', board)
-              board[:computer_score] += 1
+            when :computer
               "Looks like the computer won!"
             else
               "Tie game - nobody won."
             end
-  prompt outcome.to_s
+
+  prompt outcome
   prompt "Player Points: #{board[:player_score]}"
   prompt "Computer Points: #{board[:computer_score]}"
   prompt "End of Round..."
@@ -223,14 +238,7 @@ loop do
     board = new_board
   end
 
-  answer = ''
-  loop do
-    prompt "Would you like to play again? [Y]es/[N]o"
-    answer = gets.chomp
-    break unless play_again?(answer) < 0
-    prompt "#{answer} is an invalid response"
-  end
-  break unless play_again?(answer) == 1
+  break unless play_again?
 end
 
 prompt "Thanks for playing!  See you next time :)"
