@@ -5,22 +5,6 @@ require 'pry'
 WINNING_VALUE = 21
 DEALER_MAX = 17
 
-player = {
-  name: "player",
-  game_score: 0,
-  hand: [],
-  hand_value: 0,
-  busted_flag: false
-}
-
-dealer = {
-  name: "dealer",
-  game_score: 0,
-  hand: [],
-  hand_value: 0,
-  busted_flag: false
-}
-
 def show_hand(player)
   display_text = []
   player[:hand].each do |card|
@@ -122,16 +106,10 @@ end
 
 def update_score(player, dealer, result)
   case result
-  when "pbust"
+  when "pbust", "dealer"
     dealer[:game_score] += 1
-  when "dbust"
+  when "dbust", "player"
     player[:game_score] += 1
-  when "player"
-    player[:game_score] += 1
-  when "dealer"
-    dealer[:game_score] += 1
-  when "tie"
-    # nobody gains points when there's a tie
   end
 end
 
@@ -147,6 +125,22 @@ def complete_reset(player)
   player[:hand] = []
   player[:busted_flag] = false
 end
+
+player = {
+  name: "player",
+  game_score: 0,
+  hand: [],
+  hand_value: 0,
+  busted_flag: false
+}
+
+dealer = {
+  name: "dealer",
+  game_score: 0,
+  hand: [],
+  hand_value: 0,
+  busted_flag: false
+}
 
 loop do
   # initialize new hand
