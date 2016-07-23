@@ -79,6 +79,53 @@ def valid_hit?(response)
   end
 end
 
+def player_turn(player, dealer, deck)
+  loop do
+    show_table(player, dealer)
+    prompt "Do you want to [h]it or [s]tay?"
+    answer = gets.chomp
+    break if valid_stay?(answer) || busted?(player[:hand_value])
+    if valid_hit?(answer)
+      hit(player, deck)
+      prompt "You chose to hit! Updating hand..."
+    else
+      prompt "That is not a valid entry.  Please try again!"
+    end
+    sleep(1)
+    next unless busted?(player[:hand_value])
+    break
+  end
+
+  if busted?(player[:hand_value])
+    player[:busted_flag] = true
+    show_table(player, dealer)
+    prompt "Sorry, you busted! Ending round..."
+  else
+    prompt "You chose to stay!"
+  end
+  sleep(2)
+end
+
+def dealer_turn(player, dealer, deck)
+  unless player[:busted_flag]
+    loop do
+      show_table(player, dealer)
+      prompt "Dealer's turn..."
+      break if dealer[:hand_value] >= DEALER_MAX
+      prompt "Dealer chooses to hit..."
+      hit(dealer, deck)
+      sleep(2)
+    end
+    if busted?(dealer[:hand_value])
+      dealer[:busted_flag] = true
+      prompt "Dealer busted!"
+    else
+      prompt "Dealer stays!"
+    end
+    sleep(2)
+  end
+end
+
 def determine_winner(player, dealer)
   if player[:busted_flag] == true
     "pbust"
@@ -114,6 +161,18 @@ def update_score(player, dealer, result)
     dealer[:game_score] += 1
   when "dbust", "player"
     player[:game_score] += 1
+  end
+end
+
+def show_score(player, dealer)
+  prompt "Player Points: #{player[:game_score]}"
+  prompt "Dealer Points: #{dealer[:game_score]}"
+  prompt "End of Round..."
+
+  if player[:game_score] == 5
+    prompt "You scored 5 points first and won the whole game!"
+  elsif dealer[:game_score] == 5
+    prompt "The dealer scored 5 points first and won the whole game!"
   end
 end
 
@@ -154,66 +213,17 @@ loop do
   setup_game(game_deck, player, dealer)
 
   # play game
-  # player's turn
-  loop do
-    show_table(player, dealer)
-    prompt "Do you want to [h]it or [s]tay?"
-    answer = gets.chomp
-    break if valid_stay?(answer) || busted?(player[:hand_value])
-    if valid_hit?(answer)
-      hit(player, game_deck)
-      prompt "You chose to hit! Updating hand..."
-    else
-      prompt "That is not a valid entry.  Please try again!"
-    end
-    sleep(1)
-    next unless busted?(player[:hand_value])
-    break
-  end
-
-  if busted?(player[:hand_value])
-    player[:busted_flag] = true
-    show_table(player, dealer)
-    prompt "Sorry, you busted! Ending round..."
-  else
-    prompt "You chose to stay!"
-  end
-  sleep(2)
-
-  # dealer's turn
-  unless player[:busted_flag]
-    loop do
-      show_table(player, dealer)
-      prompt "Dealer's turn..."
-      break if dealer[:hand_value] >= DEALER_MAX
-      prompt "Dealer chooses to hit..."
-      hit(dealer, game_deck)
-      sleep(2)
-    end
-    if busted?(dealer[:hand_value])
-      dealer[:busted_flag] = true
-      prompt "Dealer busted!"
-    else
-      prompt "Dealer stays!"
-    end
-    sleep(2)
-  end
+  player_turn(player, dealer, game_deck)
+  dealer_turn(player, dealer, game_deck)
 
   show_table(player, dealer)
   winner = determine_winner(player, dealer)
   display_winner(winner)
 
   update_score(player, dealer, winner)
-  prompt "Player Points: #{player[:game_score]}"
-  prompt "Dealer Points: #{dealer[:game_score]}"
-  prompt "End of Round..."
+  show_score(player, dealer)
 
-  if player[:game_score] == 5
-    prompt "You scored 5 points first and won the whole game!"
-    complete_reset(player)
-    complete_reset(dealer)
-  elsif dealer[:game_score] == 5
-    prompt "The dealer scored 5 points first and won the whole game!"
+  if player[:game_score] == 5 || dealer[:game_score] == 5
     complete_reset(player)
     complete_reset(dealer)
   end
