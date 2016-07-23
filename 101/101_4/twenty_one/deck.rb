@@ -25,3 +25,38 @@ def get_value(card)
   }
   card_vals[card.last]
 end
+
+def draw_card(card)
+  symbol_table = {
+    'spades' => "\xe2\x99\xa0",
+    'diamonds' => "\xe2\x99\xa6",
+    'clubs' => "\xe2\x99\xa3",
+    'hearts' => "\xe2\x99\xa5"
+  }
+
+  space = ' '
+  space = '' if card.last == '10' 
+
+  lines = []
+  lines << "┌─────────┐"
+  lines << "|#{card.last}#{space}       |"
+  lines << "|         |"
+  lines << "|         |"
+  lines << "|    #{symbol_table[card.first]}    |"
+  lines << "|         |"
+  lines << "|         |"
+  lines << "|       #{card.last}#{space}|"
+  lines << "└─────────┘"
+  lines
+end
+
+def draw_card_back
+  shaded_row = []
+  9.times {shaded_row << "\xe2\x96\x92"}
+  shading = shaded_row.join
+  lines = []
+  lines << "┌─────────┐"
+  7.times{ lines << "|" + shading + "|"}
+  lines << "└─────────┘"
+  lines
+end

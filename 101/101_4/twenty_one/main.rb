@@ -37,8 +37,12 @@ end
 
 def update_hand_value(player)
   sum = 0
-  player[:hand].each do |card|
-    sum += if sum >= 11 && card.last == 'A'
+  non_ace_cards = player[:hand].select {|card| card.last != 'A'}
+  aces = player[:hand].select {|card| card.last == 'A'}
+
+  non_ace_cards.each { |card| sum += get_value(card) }
+  aces.each do |card|
+    sum += if sum >= 11
              1
            else
              get_value(card)
@@ -167,7 +171,6 @@ loop do
     break
   end
 
-  # player has stayed or busted
   if busted?(player[:hand_value])
     player[:busted_flag] = true
     show_table(player, dealer)
