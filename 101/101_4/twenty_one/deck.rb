@@ -60,3 +60,16 @@ def draw_card_back
   lines << "└─────────┘"
   lines
 end
+
+def draw_hand(hand)
+  rows = []
+  9.times do |num|
+    rows << Array.new(hand.map {|card| card[num]})
+  end
+ 
+  rows.each do |row|
+    display_row = ""
+    row.each {|card_piece| display_row += card_piece.ljust(12)}
+    puts display_row
+  end
+end

@@ -4,20 +4,38 @@ require 'pry'
 
 WINNING_VALUE = 21
 DEALER_MAX = 17
+CARD_STYLE = :graphic  # :text or :graphic
 
 def show_hand(player)
-  display_text = []
-  player[:hand].each do |card|
-    display_text << "#{card.last} of #{card.first.capitalize}"
+  case CARD_STYLE
+  when :text
+    display_text = []
+    player[:hand].each do |card|
+      display_text << "#{card.last} of #{card.first.capitalize}"
+    end
+    if player[:name] == 'dealer' && player[:my_turn] == false
+      mystery_arr = []
+      display_text.count.times { mystery_arr << "[?]" }
+      first_card = display_text.first
+      display_text = mystery_arr
+      display_text[0] = first_card
+    end
+    puts joinor(display_text, ', ', 'and')
+  when :graphic
+    display_cards = []
+    player[:hand].each do |card|
+      display_cards << draw_card(card)
+    end
+    if player[:name] == 'dealer' && player[:my_turn] == false
+      mystery_cards = []
+      display_cards.count.times { mystery_cards << draw_card_back }
+      first_card = display_cards.first
+      display_cards = mystery_cards
+      display_cards[0] = first_card
+    end
+    draw_hand(display_cards)
   end
-  if player[:name] == 'dealer' && player[:my_turn] == false
-    mystery_arr = []
-    display_text.count.times { mystery_arr << "[?]" }
-    first_card = display_text.first
-    display_text = mystery_arr
-    display_text[0] = first_card
-  end
-  puts joinor(display_text, ', ', 'and')
+
 end
 
 def show_table(player, dealer)
