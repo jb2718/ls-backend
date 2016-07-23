@@ -10,7 +10,7 @@ def show_hand(player)
   player[:hand].each do |card|
     display_text << "#{card.last} of #{card.first.capitalize}"
   end
-  if player[:name] == 'dealer'
+  if player[:name] == 'dealer' && player[:my_turn] == false
     mystery_arr = []
     display_text.count.times { mystery_arr << "[?]" }
     first_card = display_text.first
@@ -27,7 +27,11 @@ def show_table(player, dealer)
   puts "---------------------------------------------------\n\n"
   puts "Dealer's Hand:"
   show_hand(dealer)
-  puts "Dealer's Points: #{dealer[:hand_value]}\n\n"
+  if player[:my_turn] == false
+    puts "Dealer's Points: #{dealer[:hand_value]}\n\n"
+  else
+    puts "\n\n"
+  end
 
   puts "Your Hand:"
   show_hand(player)
@@ -80,6 +84,7 @@ def valid_hit?(response)
 end
 
 def player_turn(player, dealer, deck)
+  player[:my_turn] = true
   loop do
     show_table(player, dealer)
     prompt "Do you want to [h]it or [s]tay?"
@@ -107,6 +112,8 @@ def player_turn(player, dealer, deck)
 end
 
 def dealer_turn(player, dealer, deck)
+  player[:my_turn] = false
+  dealer[:my_turn] = true
   unless player[:busted_flag]
     loop do
       show_table(player, dealer)
@@ -180,6 +187,7 @@ def reset_hand(player)
   player[:hand_value] = 0
   player[:hand] = []
   player[:busted_flag] = false
+  player[:my_turn] = false
 end
 
 def complete_reset(player)
@@ -187,6 +195,7 @@ def complete_reset(player)
   player[:hand_value] = 0
   player[:hand] = []
   player[:busted_flag] = false
+  player[:my_turn] = false
 end
 
 player = {
@@ -194,7 +203,8 @@ player = {
   game_score: 0,
   hand: [],
   hand_value: 0,
-  busted_flag: false
+  busted_flag: false,
+  my_turn: false
 }
 
 dealer = {
@@ -202,7 +212,8 @@ dealer = {
   game_score: 0,
   hand: [],
   hand_value: 0,
-  busted_flag: false
+  busted_flag: false,
+  my_turn: false
 }
 
 loop do
