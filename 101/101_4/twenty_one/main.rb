@@ -4,38 +4,45 @@ require 'pry'
 
 WINNING_VALUE = 21
 DEALER_MAX = 17
-CARD_STYLE = :graphic  # :text or :graphic
+CARD_STYLE = :text # :text or :graphic
+
+def display_text_hand(player)
+  display_text = []
+  player[:hand].each do |card|
+    display_text << "#{card.last} of #{card.first.capitalize}"
+  end
+  if player[:name] == 'dealer' && player[:my_turn] == false
+    mystery_arr = []
+    display_text.count.times { mystery_arr << "[?]" }
+    first_card = display_text.first
+    display_text = mystery_arr
+    display_text[0] = first_card
+  end
+  puts joinor(display_text, ', ', 'and')
+end
+
+def display_graphic_hand(player)
+  display_cards = []
+  player[:hand].each do |card|
+    display_cards << draw_card(card)
+  end
+  if player[:name] == 'dealer' && player[:my_turn] == false
+    mystery_cards = []
+    display_cards.count.times { mystery_cards << draw_card_back }
+    first_card = display_cards.first
+    display_cards = mystery_cards
+    display_cards[0] = first_card
+  end
+  draw_hand(display_cards)
+end
 
 def show_hand(player)
   case CARD_STYLE
   when :text
-    display_text = []
-    player[:hand].each do |card|
-      display_text << "#{card.last} of #{card.first.capitalize}"
-    end
-    if player[:name] == 'dealer' && player[:my_turn] == false
-      mystery_arr = []
-      display_text.count.times { mystery_arr << "[?]" }
-      first_card = display_text.first
-      display_text = mystery_arr
-      display_text[0] = first_card
-    end
-    puts joinor(display_text, ', ', 'and')
+    display_text_hand(player)
   when :graphic
-    display_cards = []
-    player[:hand].each do |card|
-      display_cards << draw_card(card)
-    end
-    if player[:name] == 'dealer' && player[:my_turn] == false
-      mystery_cards = []
-      display_cards.count.times { mystery_cards << draw_card_back }
-      first_card = display_cards.first
-      display_cards = mystery_cards
-      display_cards[0] = first_card
-    end
-    draw_hand(display_cards)
+    display_graphic_hand
   end
-
 end
 
 def show_table(player, dealer)
@@ -59,8 +66,8 @@ end
 
 def update_hand_value(player)
   sum = 0
-  non_ace_cards = player[:hand].select {|card| card.last != 'A'}
-  aces = player[:hand].select {|card| card.last == 'A'}
+  non_ace_cards = player[:hand].select { |card| card.last != 'A' }
+  aces = player[:hand].select { |card| card.last == 'A' }
 
   non_ace_cards.each { |card| sum += get_value(card) }
   aces.each do |card|
@@ -101,8 +108,12 @@ def valid_hit?(response)
   end
 end
 
-def player_turn(player, dealer, deck)
-  player[:my_turn] = true
+def switch_board_control(turn_on, turn_off)
+  turn_on[:my_turn] = true
+  turn_off[:my_turn] = false
+end
+
+def player_actions(player, dealer, deck)
   loop do
     show_table(player, dealer)
     prompt "Do you want to [h]it or [s]tay?"
@@ -118,6 +129,10 @@ def player_turn(player, dealer, deck)
     next unless busted?(player[:hand_value])
     break
   end
+end
+
+def player_turn(player, dealer, deck)
+  player_actions(player, dealer, deck)
 
   if busted?(player[:hand_value])
     player[:busted_flag] = true
@@ -130,25 +145,21 @@ def player_turn(player, dealer, deck)
 end
 
 def dealer_turn(player, dealer, deck)
-  player[:my_turn] = false
-  dealer[:my_turn] = true
-  unless player[:busted_flag]
-    loop do
-      show_table(player, dealer)
-      prompt "Dealer's turn..."
-      break if dealer[:hand_value] >= DEALER_MAX
-      prompt "Dealer chooses to hit..."
-      hit(dealer, deck)
-      sleep(2)
-    end
-    if busted?(dealer[:hand_value])
-      dealer[:busted_flag] = true
-      prompt "Dealer busted!"
-    else
-      prompt "Dealer stays!"
-    end
+  loop do
+    show_table(player, dealer)
+    prompt "Dealer's turn..."
+    break if dealer[:hand_value] >= DEALER_MAX
+    prompt "Dealer chooses to hit..."
+    hit(dealer, deck)
     sleep(2)
   end
+  if busted?(dealer[:hand_value])
+    dealer[:busted_flag] = true
+    prompt "Dealer busted!"
+  else
+    prompt "Dealer stays!"
+  end
+  sleep(2)
 end
 
 def determine_winner(player, dealer)
@@ -240,10 +251,12 @@ loop do
   reset_hand(player)
   reset_hand(dealer)
   setup_game(game_deck, player, dealer)
+  switch_board_control(player, dealer)
 
   # play game
   player_turn(player, dealer, game_deck)
-  dealer_turn(player, dealer, game_deck)
+  switch_board_control(dealer, player)
+  dealer_turn(player, dealer, game_deck) unless player[:busted_flag]
 
   show_table(player, dealer)
   winner = determine_winner(player, dealer)

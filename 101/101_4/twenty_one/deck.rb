@@ -26,16 +26,20 @@ def get_value(card)
   card_vals[card.last]
 end
 
-def draw_card(card)
-  symbol_table = {
+def symbols
+  {
     'spades' => "\xe2\x99\xa0",
     'diamonds' => "\xe2\x99\xa6",
     'clubs' => "\xe2\x99\xa3",
     'hearts' => "\xe2\x99\xa5"
   }
+end
+
+def draw_card(card)
+  symbol_table = symbols
 
   space = ' '
-  space = '' if card.last == '10' 
+  space = '' if card.last == '10'
 
   lines = []
   lines << "┌─────────┐"
@@ -52,11 +56,11 @@ end
 
 def draw_card_back
   shaded_row = []
-  9.times {shaded_row << "\xe2\x96\x92"}
+  9.times { shaded_row << "\xe2\x96\x92" }
   shading = shaded_row.join
   lines = []
   lines << "┌─────────┐"
-  7.times{ lines << "|" + shading + "|"}
+  7.times { lines << "|" + shading + "|" }
   lines << "└─────────┘"
   lines
 end
@@ -64,12 +68,12 @@ end
 def draw_hand(hand)
   rows = []
   9.times do |num|
-    rows << Array.new(hand.map {|card| card[num]})
+    rows << Array.new(hand.map { |card| card[num] })
   end
- 
+
   rows.each do |row|
     display_row = ""
-    row.each {|card_piece| display_row += card_piece.ljust(12)}
+    row.each { |card_piece| display_row += card_piece.ljust(12) }
     puts display_row
   end
 end
