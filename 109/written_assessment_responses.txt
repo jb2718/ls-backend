@@ -1,0 +1,118 @@
+# Local Variables
+
+### Question 1
+
+In this code, we initialize the variable **str** to point to the object **1** outside of the loop.  Because **str** has been initialized outside of the loop, the inner-scope of the loop can still access **str**.  Inside the loop, we reassign the variable **str** to point at a different object, **2**.  Therefore when we output what the local variable **str** points to in the last line, it is **2**.  This example illustrates how the internal scope of a block can see/access variables that are initialized in a higher scope.
+
+### Question 2
+
+This code raises an exception because the variable **str** is not accessible outside of the scope of the loop block.  The line "puts str" is trying to output a variable that is non-existant as far as the scope that contains "puts str" is concerned.
+
+### Question 3
+
+I cannot say with certainty because I do not know if there was a local variable called **str** that was initialized elsewhere in the same scope; nor do I know if there is a method called **str** that is defined somewhere in the code I cannot see.  
+
+### Question 4
+
+This code raises an exception because when **a_method** is called, it tries to output a local variable that has not been defined as far as the inner-scope of the **a_method** function is concerned.  Unlike blocks, methods cannot automatically see or access local variables defined outside of their own internal scopes.  In order to have access to an external local variable, the method definition would need to be altered to allow the passing of parameters.
+
+### Question 5
+
+In this example we have the local variable **str** that is initialized in the scope outside of the **a_method** function, and we also have the local variable **str** that is initialized in the internal scope of **a_method**.  The two **str**'s are completely different and they exist in different scopes that do not know about each other.  This code will not raise an exception because when we call **a_method**, the only thing that happens is a variable called **str** is initialized to point to a string **"world"**
+
+**a_method** will return **str** (which points to **"world"**), but our program does nothing with that return value, so it is essentially ignored.  Line 8 will output the local variable **str** that was initialized in line 1 of the program (and still points to **"hello"**).  It's legal to use "puts str" here, because **str** has already been initialized within this scope.
+
+### Question 6
+
+**b** is still **"hello"** here because **b** is initialized to point to the same thing **a** is pointing to.  At the time of initialization, **a** is pointing to the string **"hello"**, so **b** also points to that string.  On line 3, **a** is reassigned to another string object.  **b** still points to the original object, **"hello"**
+
+So no matter what type of destructive methods are called on **a** at this point, **b** is no longer pointing to the same object as **a**.  **b** is still assigned to **"hello"**  
+
+### Question 7
+
+There are 2 objects and 4 variables
+
+The only two objects are the 2 strings "hello" and "world"
+a, b, c, and d are all variables
+
+
+# Mutating Method Arguments
+
+### Question 1
+
+The last line in the code prints **"hello"** because the variable **greeting** is initialized to point at the string **"hello"** before the call to the method **change()**.  Furthermore, **change()** is not a destructive method.  It simply has the effect of creating and returning a new object composed of the concatenation of the input parameter and the string **" world"**
+
+Although the variable **greeting** is passed to the method **change**, it is not mutated.  Therefore, when line 8 is run, the output is still **"hello"**
+
+### Question 2
+
+The last line in this code prints **"hello world"** because this time the method **change()** is destructive.  We start by initializing the local variable **greeting** to point at the object **"hello"**
+
+**greeting** is then passed to the method **change** as a parameter.  Inside the **change** method, the internal local variable **param** is initialized to point at the same object **greeting** was pointing at, namely **"hello"**
+
+Next, line 2 is run and the String#<< method will mutate its caller.  It has the effect of appending **" world"** on to the object that **param** was pointing to: **"hello"** (which is the same object that **greeting** is pointing to).  The method **change** will return **param**, but our program does nothing with that returned data.  However, the object that **greeting** was pointing to has now been changed, so when line 8 is run, **"hello world"** is ouput.
+
+### Question 3
+
+In this example, we start off initializing **greeting** to point to the object **"hello"** just like we did in the last example.  **greeting** is passed to the method **change** as a parameter.  Inside the method **change** the internal local variable **param** is initialized to point at the same thing that **greeting** is pointing to.  The difference here is that on line 2, **param** is reassigned to point at a new object, **"hi"**
+
+So now, when the destructive String#<< operator is called on **param**, it modifies the object that **param** is currently pointing to: **"hi"**  Meanwhile, **greeting** is still pointing at the object it was originally pointing to: **"hello"**
+
+So when line 9 is run, the output will be **"hello"** because the object **greeting** was pointing to was not mutated by calling the method **change**
+
+### Question 4
+
+This example is similar to the last one.  At the very beginning of the **change** method, the internal local variable **param** is initialized to point at the same object that **greeting** is pointing to: "hello"
+
+However on line 2, **param** is reassigned to point to a new object that is the concatenation of the object the original parameter was pointing to and the string **"greeting"**  The variable **greeting** is still pointing to **"hello"** and that object is not mutated by any of the other code in the method **change**
+
+So when line 11 is run, the output is "hello"  
+
+
+
+# Working With Collections
+
+### Question 1
+
+Array#map is a method that will return a new array created by transforming each element of the original array based on the return value of the block that gets passed to the method. 
+
+### Question 2
+
+Array#select is a method that will return a new array made up of each element of the original array for which the block passed to Array#select evaluates to true.
+
+### Question 3
+
+Both lines of code will return the following array: [2, 3, 4] because both blocks will return a value that equals each element of the array incremented by 1.
+
+The difference between the two options is how we arrive at the value that is returned by the blocks.  The first option only uses Fixnum#+, then implicitly returns the value computed by calling Fixnum#+ on whichever Fixnum object **n** is pointing to.
+
+```sh
+[1, 2, 3].map {|n| n + 1}
+```
+
+The second option involves more work behind the scenes:
+
+```sh
+[1, 2, 3].map {|n| n += 1}
+```
+
+With this code, we have both the use of the Fixnum#+ method and reassignment.  The variable **n** is reassigned to the value of calling Fixnum#+ on **n**, and then the reassigned **n** is implicitly returned.  Once we reassign **n** if we need to use any destructive methods later in the block, we no longer run the risk of causing unintended consequences by mutating an object that another variable outside the code block may have been pointing to.  For that reason, the second method is preferable.
+
+
+
+### Question 4
+
+Array#map will transform each element of an array based on the return value of the block that gets passed to it.  In this case the return values of the block that is passed to the map method are booleans.  So each element of the array will be transformed into the corresponding boolean that resulted when the block was passed to map for that particular element of the array.
+
+### Question 5
+
+**arr** changed to an array full of nil's.  The reason is because now that puts n is the last line of the block that is passed to the Array#map method, the return value of the block is going to be nil.  So each element of the array will be transformed into a nil
+
+### Question 6
+
+Array#select will return an array that is made up of each element of the original array for which the block passed to Array#select returns true.  In this scenario, the block will evaluate to true for every element in the original array, so arr will still be [1, 2, 3]
+
+### Question 7
+
+With a puts statement as the last line in the block that is passed to Array#select, the block will evaluate to false for every element in the array that select is being called on.  It will evaluate to false because the return value of the block will be nil every time since that's what the puts statement will return.  Therefore, the select method will return an empty array because the block did not evaluate to true for any of the elements in the array.  arr = []
+
