@@ -1,0 +1,1 @@
+The method lookup path is the way Ruby goes about finding definitions for methods that are called on objects.  It starts first in the object's class, then it will look at and modules that may be mixed in, and then it goes up the chain to any superclasses in the order of closesness to the class
