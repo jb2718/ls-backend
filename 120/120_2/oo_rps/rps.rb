@@ -1,13 +1,30 @@
 class Player
   attr_accessor :name, :move
 
-  def initialize(name)
-    @name = name
+  def initialize(player_type)
+    # @name = name
+    @player_type = player_type
   end
 
   def choose
-    # @move = move
-    puts "Chosing a move"
+    if @player_type == :human
+      choice = nil
+      loop do
+        puts "Choose one: rock, paper, or scissors"
+        choice = gets.chomp.downcase
+
+        if %w(rock paper scissors).include?(choice)
+          @move = choice
+          puts "You chose: #{@move}"
+          break
+        else
+          puts "That is not a valid choice."
+        end
+      end
+    else
+      @move = %w(rock paper scissors).sample
+      puts "Computer chose: #{@move}"
+    end
   end
 end
 
@@ -27,8 +44,8 @@ end
 class Game
   attr_accessor :user, :computer
   def initialize
-    @user = Player.new('User')
-    @computer = Player.new('Player')
+    @user = Player.new(:human)
+    @computer = Player.new(:computer)
   end
 
   def display_welcome_message
@@ -43,8 +60,8 @@ class Game
     display_welcome_message
     user.choose
     computer.choose
-    # compare choices/determine winner
-    # display winner
+    # determine_winner
+    # display_winner
     display_goodbye_message
   end
 end
