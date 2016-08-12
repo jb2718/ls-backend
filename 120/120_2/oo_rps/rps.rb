@@ -1,8 +1,20 @@
+require 'pry'
+
 class Player
-  attr_accessor :name, :move
+  attr_accessor :name, :move, :score
 
   def initialize
+    @score = 0
     set_name
+  end
+
+  def reset_score
+    @score = 0
+  end
+
+  def display_score
+    coda = @score == 1 ? "point" : "points"
+    puts "#{self.name} has #{@score} #{coda}."
   end
 end
 
@@ -84,6 +96,7 @@ class Move
 end
 
 class Game
+  MAX_SCORE = 3
   attr_accessor :user, :computer
   def initialize
     @user = Human.new
@@ -98,6 +111,16 @@ class Game
     puts "Thanks for playing Rock, Paper, Scissors.  Good bye!"
   end
 
+  def tally_score
+    if user.move > computer.move
+      user.score += 1
+    elsif user.move < computer.move
+      computer.score += 1
+    else
+      # Tie - Do nothing
+    end
+  end
+
   def display_winner
     if user.move > computer.move
       puts "#{user.name} won!"
@@ -106,6 +129,8 @@ class Game
     else
       puts "Tie game!"
     end
+    user.display_score
+    computer.display_score
   end
 
   def play_again?
@@ -120,11 +145,18 @@ class Game
     return false if answer == 'n'
   end
 
+  def reset_game
+    user.reset_score
+    computer.reset_score
+  end
+
   def play
     display_welcome_message
     loop do
+      reset_game if user.score >= MAX_SCORE || computer.score >= MAX_SCORE
       user.choose
       computer.choose
+      tally_score
       display_winner
       break unless play_again?
     end
