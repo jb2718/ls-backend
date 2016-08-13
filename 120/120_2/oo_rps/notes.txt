@@ -1,0 +1,5 @@
+1. Keeping score
+- the object version is a bit cleaner because there are a couple of things a score can do for itself instead of having the player and game class handling that logic.
+
+2. Adding lizard and spock
+- Adding this in was pretty easy given the setup we have with the options for the moves being states of the move object.  The only thing is, I think the complexity of the comparison for the Move#< and Move#> methods may be too high 
