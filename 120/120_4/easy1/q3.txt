@@ -1,0 +1,1 @@
+That is accomplished by calling the class method on the object

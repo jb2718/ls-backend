@@ -1,0 +1,1 @@
+Ruby will print the object with its state variables if it has any.  The printout of the object will have its class name as well as a numerical value that represents its id.

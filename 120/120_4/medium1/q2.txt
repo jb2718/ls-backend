@@ -1,0 +1,2 @@
+The error is that there is no setter method for quantity
+To fix this, we can change attr_reader to attr_accessor for the :quantity variable

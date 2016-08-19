@@ -1,0 +1,1 @@
+Here, self refers to the class.  'self.cats_count' is a class method

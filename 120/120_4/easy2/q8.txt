@@ -1,0 +1,7 @@
+We can do the following:
+
+class Bingo < Game
+.
+.
+.
+end

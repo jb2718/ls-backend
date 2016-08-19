@@ -1,0 +1,3 @@
+The getter is there, but we don't use it in the class
+
+The information class method doesn't seem to be all that valuable bc all of the information there is hard coded

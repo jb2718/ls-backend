@@ -1,0 +1,7 @@
+excited_dog is a local variable
+
+@excited_dog is an instance variable
+
+@@excited_dog is a class variable
+
+I can tell the difference by the use or lack therof of the '@' symbol

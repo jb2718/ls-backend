@@ -1,0 +1,1 @@
+self refers to the calling object itself.  So in this case self.age references the instance variable @age

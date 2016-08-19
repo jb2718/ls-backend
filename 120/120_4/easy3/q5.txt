@@ -1,0 +1,5 @@
+tv.manufacturer wouldn't work bc that method is a class method, not an instance method
+
+Television.model wouldn't work bc that method is an instance method, not a class method
+
+The other method calls should work just fine

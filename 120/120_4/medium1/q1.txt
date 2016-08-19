@@ -1,0 +1,1 @@
+Ben is correct because the expression "balacnce >= 0" is calling the getter method for balance...it is not an instance method

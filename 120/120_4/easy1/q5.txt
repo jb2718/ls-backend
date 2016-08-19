@@ -1,0 +1,1 @@
+The Pizza class has the instance variable name.  I can tell because the variable is pre-pended with the '@' symbol
