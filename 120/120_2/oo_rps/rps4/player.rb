@@ -42,13 +42,17 @@ class Human < Player
 end
 
 class Computer < Player
+  # def initialize
+  #   super
+  #   @computer_ai = AI.new
+  # end
+
   def set_name
     @name = ['Number 5', 'R2D2', 'Eve', 'Wall-E'].sample
   end
 
   def choose
-    # @move = Move.new(Move::VALUES.sample)
-    @move = Move.new('paper')
+    @move = Move.new(Move::VALUES.sample)
     puts "#{@name} chose: #{@move}"
   end
 end

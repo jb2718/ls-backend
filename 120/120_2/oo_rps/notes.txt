@@ -3,3 +3,7 @@
 
 2. Adding lizard and spock
 - Adding this in was pretty easy given the setup we have with the options for the moves being states of the move object.  The only thing is, I think the complexity of the comparison for the Move#< and Move#> methods may be too high 
+
+3. Making rock, paper, scissors, spock and lizard classes themselve feels like too much abstraction because there is not much for each class to do.  The only benefit I can see is that it may reduce the complexity of the Move#< and Move#> methods, but it makes it makes it adds complexity in that I now have to write a way to go from the user's choice of a move (in string form) to the object form.  If there are ever more things we want to associate with a particular move...like a point value, probability, etc, then I can see the value of moving it to a class.  However, at this stage the trade-off is of about equal value...not necessarily better
+
+4.  I think I want to use a 2D array to keep track of the move history.  That structure will allow me to analyze the history nicely

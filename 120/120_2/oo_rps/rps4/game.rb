@@ -1,16 +1,19 @@
 require './player.rb'
 require './score.rb'
 require './move.rb'
+require 'pry'
+require './history.rb'
 
 def space_output(phrase)
   puts "\n\n#{phrase}"
 end
 
 class Game
-  attr_accessor :user, :computer
+  attr_accessor :user, :computer, :history
   def initialize
     @user = Human.new
     @computer = Computer.new
+    @history = History.new
   end
 
   def display_welcome_message
@@ -45,6 +48,22 @@ class Game
     computer.display_score
   end
 
+  def update_history
+    winner = nil
+    if user.move > computer.move
+      winner = "user"
+    elsif user.move < computer.move
+      winner = "computer"
+    else
+      winner = "tie"
+    end
+    history.insert({"user": user.move.value, "computer": computer.move.value, "winner": winner})
+  end
+
+  def show_history
+    "#{history}"
+  end
+
   def play_again?
     answer = nil
     loop do
@@ -66,14 +85,16 @@ class Game
   def play
     display_welcome_message
     loop do
+      system "clear"
       reset_game if user.score.maxed_out? || computer.score.maxed_out?
       user.choose
       computer.choose
       tally_score
       display_winner
+      update_history
       break unless play_again?
-      system "clear"
     end
+    show_history
     display_goodbye_message
   end
 end
