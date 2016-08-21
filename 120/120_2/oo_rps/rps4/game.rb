@@ -1,8 +1,8 @@
 require './player.rb'
-require './score.rb'
 require './move.rb'
-require 'pry'
 require './history.rb'
+
+require 'pry'
 
 def space_output(phrase)
   puts "\n\n#{phrase}"
@@ -11,9 +11,9 @@ end
 class Game
   attr_accessor :user, :computer, :history
   def initialize
-    @user = Human.new
-    @computer = Computer.new
     @history = History.new
+    @user = Human.new
+    @computer = Computer.new(@history)
   end
 
   def display_welcome_message
@@ -61,7 +61,7 @@ class Game
   end
 
   def show_history
-    "#{history}"
+    puts history
   end
 
   def play_again?

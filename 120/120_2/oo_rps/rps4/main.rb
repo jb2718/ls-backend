@@ -1,5 +1,5 @@
-#This version of game builds on rps3 - it's a refactor to change the options for Moves to Classes
-# I also added the history feature
+# This version of game builds on rps3 - it's a refactor to change the options for Moves to Classes
+# I also added the history and ai features
 require 'pry'
 require './game.rb'
 
