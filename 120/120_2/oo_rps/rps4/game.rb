@@ -68,9 +68,9 @@ class Game
 
   def update_history
     record = {
-      "user": user.move.value,
-      "computer": computer.move.value,
-      "winner": determine_winner
+      user: user.move.value,
+      computer: computer.move.value,
+      winner: determine_winner
     }
     history.insert(record)
   end
@@ -97,11 +97,15 @@ class Game
     computer.score.reset
   end
 
+  def max_score?
+    user.score.maxed_out? || computer.score.maxed_out?
+  end
+
   def play
     display_welcome_message
     loop do
       system "clear"
-      reset_game if user.score.maxed_out? || computer.score.maxed_out?
+      reset_game if max_score?
       user.choose
       computer.choose
       tally_score
