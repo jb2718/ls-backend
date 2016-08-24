@@ -29,35 +29,41 @@ class Game
       user.score.increment
     elsif user.move < computer.move
       computer.score.increment
-    else
-      # Tie - Do nothing
     end
+  end
+
+  def display_game_winner
+    puts "#{user.name} won the entire game" if user.score.maxed_out?
+    puts "#{computer.name} won the entire game" if computer.score.maxed_out?
   end
 
   def display_winner
     if user.move > computer.move
       space_output "#{user.name} won the round!"
-      puts "#{user.name} won the entire game" if user.score.maxed_out?
     elsif user.move < computer.move
       space_output "#{computer.name} won the round!"
-      puts "#{computer.name} won the entire game" if computer.score.maxed_out?
     else
       space_output "Tie game!"
     end
+    display_game_winner
     user.display_score
     computer.display_score
   end
 
   def update_history
-    winner = nil
-    if user.move > computer.move
-      winner = "user"
-    elsif user.move < computer.move
-      winner = "computer"
-    else
-      winner = "tie"
-    end
-    history.insert({"user": user.move.value, "computer": computer.move.value, "winner": winner})
+    winner = if user.move > computer.move
+               "user"
+             elsif user.move < computer.move
+               "computer"
+             else
+               "tie"
+             end
+    record = {
+      "user": user.move.value,
+      "computer": computer.move.value,
+      "winner": winner
+    }
+    history.insert(record)
   end
 
   def show_history

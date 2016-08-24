@@ -4,20 +4,20 @@ class Score
   def initialize
     @value = 0
   end
-  
+
   def increment
-    @value += 1 if @value < MAX_VALUE
+    self.value += 1 if @value < MAX_VALUE
   end
 
   def maxed_out?
-    @value >= MAX_VALUE
+    value >= MAX_VALUE
   end
-  
+
   def reset
-    @value = 0
+    self.value = 0
   end
 
   def to_s
-    "#{self.value}"
+    self.value.to_s
   end
 end

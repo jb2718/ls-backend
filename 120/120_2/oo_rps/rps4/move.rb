@@ -91,30 +91,30 @@ class Move
 
   def initialize(user_choice)
     @value = user_choice
-    @choice = convert_input(@value)
+    @choice = convert_input
   end
 
   def rock?
-    @value == 'rock'
+    value == 'rock'
   end
 
   def paper?
-    @value == 'paper'
+    value == 'paper'
   end
 
   def scissors?
-    @value == 'scissors'
+    value == 'scissors'
   end
 
   def lizard?
-    @value == 'lizard'
+    value == 'lizard'
   end
 
   def spock?
-    @value == 'spock'
+    value == 'spock'
   end
 
-  def convert_input(choice)
+  def convert_input
     if rock?
       Rock.new
     elsif paper?
@@ -125,7 +125,7 @@ class Move
       Lizard.new
     elsif spock?
       Spock.new
-    end  
+    end
   end
 
   def >(other_move)
@@ -137,6 +137,6 @@ class Move
   end
 
   def to_s
-    @value
+    value
   end
 end

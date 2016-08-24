@@ -7,7 +7,10 @@ class History
 
   def to_s
     message = ''
-    message += "================\n" + "History of Moves\n" + "================\n"
+    message += "================\n"
+    message += "History of Moves\n"
+    message += "================\n"
+
     table.each_with_index do |data, idx|
       message += "Round: #{idx + 1}\n"
       message += "User Move: #{data[:user]}\n"
@@ -34,4 +37,3 @@ class History
     @table.length
   end
 end
-
