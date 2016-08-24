@@ -24,10 +24,23 @@ class Game
     puts "Thanks for playing Rock, Paper, Scissors, Lizard, Spock.  Good bye!"
   end
 
+  def determine_winner
+    winner = if user.move > computer.move
+               "user"
+             elsif user.move < computer.move
+               "computer"
+             else
+               "tie"
+             end
+    winner
+  end
+
   def tally_score
-    if user.move > computer.move
+    winner = determine_winner
+    case winner
+    when 'user'
       user.score.increment
-    elsif user.move < computer.move
+    when 'computer'
       computer.score.increment
     end
   end
@@ -38,30 +51,26 @@ class Game
   end
 
   def display_winner
-    if user.move > computer.move
+    winner = determine_winner
+    case winner
+    when 'user'
       space_output "#{user.name} won the round!"
-    elsif user.move < computer.move
+    when 'computer'
       space_output "#{computer.name} won the round!"
-    else
+    when 'tie'
       space_output "Tie game!"
     end
+
     display_game_winner
     user.display_score
     computer.display_score
   end
 
   def update_history
-    winner = if user.move > computer.move
-               "user"
-             elsif user.move < computer.move
-               "computer"
-             else
-               "tie"
-             end
     record = {
       "user": user.move.value,
       "computer": computer.move.value,
-      "winner": winner
+      "winner": determine_winner
     }
     history.insert(record)
   end

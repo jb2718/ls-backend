@@ -1,0 +1,28 @@
+#personality_prefs.yml
+  Number 5:
+    prefs:
+      tendency_threshhold: 0.6
+      favorite_move: 'spock'
+      streak_window: 9
+      streak_length: 5
+  
+  R2D2:
+    prefs:
+      tendency_threshhold: 0.33
+      favorite_move: 'paper'
+      streak_window: 10
+      streak_length: 4
+
+  Eve:
+    prefs:
+      tendency_threshhold: 0.5
+      favorite_move: 'rock'
+      streak_window: 8
+      streak_length: 5
+
+  Wall-E:
+    prefs:
+      tendency_threshhold: 0.25
+      favorite_move: 'scissors'
+      streak_window: 5
+      streak_length: 3
