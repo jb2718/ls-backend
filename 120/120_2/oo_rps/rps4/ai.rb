@@ -1,7 +1,6 @@
 require 'pry'
 require './history.rb'
-
-VALUES = %w(rock paper scissors lizard spock).freeze
+require './move.rb'
 
 class AI
   # This class does ai processing based on a history of moves
@@ -49,7 +48,7 @@ class AI
   end
 
   def enemy_streak
-    VALUES.each do |move|
+    Move::VALUES.each do |move|
       num_rounds = @prefs[:streak_window]
       num_in_row = @prefs[:streak_length]
       return move if streak?(move, num_rounds, num_in_row)
@@ -66,7 +65,7 @@ class AI
   end
 
   def overall_enemy_tendency
-    VALUES.each do |move|
+    Move::VALUES.each do |move|
       return move if enemy_tendency?(move)
     end
     nil
@@ -88,7 +87,7 @@ class AI
   end
 
   def preferred_moves(move)
-    arr = Array.new(VALUES)
+    arr = Array.new(Move::VALUES)
     3.times { arr << move }
     arr
   end
