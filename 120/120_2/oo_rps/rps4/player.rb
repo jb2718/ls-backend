@@ -16,6 +16,14 @@ class Player
     coda = @score.value == 1 ? "point" : "points"
     puts "#{name} has #{@score} #{coda}."
   end
+
+  def won_entire_game?
+    score.maxed_out?
+  end
+
+  def reset_score
+    score.reset
+  end
 end
 
 class Human < Player

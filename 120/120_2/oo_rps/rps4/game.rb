@@ -25,19 +25,17 @@ class Game
   end
 
   def determine_winner
-    winner = if user.move > computer.move
-               "user"
-             elsif user.move < computer.move
-               "computer"
-             else
-               "tie"
-             end
-    winner
+    if user.move > computer.move
+      "user"
+    elsif user.move < computer.move
+      "computer"
+    else
+      "tie"
+    end
   end
 
   def tally_score
-    winner = determine_winner
-    case winner
+    case determine_winner
     when 'user'
       user.score.increment
     when 'computer'
@@ -46,13 +44,12 @@ class Game
   end
 
   def display_game_winner
-    puts "#{user.name} won the entire game" if user.score.maxed_out?
-    puts "#{computer.name} won the entire game" if computer.score.maxed_out?
+    puts "#{user.name} won the entire game" if user.won_entire_game?
+    puts "#{computer.name} won the entire game" if computer.won_entire_game?
   end
 
   def display_winner
-    winner = determine_winner
-    case winner
+    case determine_winner
     when 'user'
       space_output "#{user.name} won the round!"
     when 'computer'
@@ -93,12 +90,12 @@ class Game
 
   def reset_game
     puts "Starting new game..."
-    user.score.reset
-    computer.score.reset
+    user.reset_score
+    computer.reset_score
   end
 
   def max_score?
-    user.score.maxed_out? || computer.score.maxed_out?
+    user.won_entire_game? || computer.won_entire_game?
   end
 
   def play

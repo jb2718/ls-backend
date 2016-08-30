@@ -7,13 +7,11 @@ class Rock
   end
 
   def beats?(other_move)
-    return true if ['lizard', 'scissors'].include?(other_move.value)
-    false
+    ['lizard', 'scissors'].include?(other_move.value)
   end
 
   def defeated_by?(other_move)
-    return true if ['spock', 'paper'].include?(other_move.value)
-    false
+    ['spock', 'paper'].include?(other_move.value)
   end
 end
 
@@ -24,13 +22,11 @@ class Paper
   end
 
   def beats?(other_move)
-    return true if ['rock', 'spock'].include?(other_move.value)
-    false
+    ['rock', 'spock'].include?(other_move.value)
   end
 
   def defeated_by?(other_move)
-    return true if ['scissors', 'lizard'].include?(other_move.value)
-    false
+    ['scissors', 'lizard'].include?(other_move.value)
   end
 end
 
@@ -41,13 +37,11 @@ class Scissors
   end
 
   def beats?(other_move)
-    return true if ['paper', 'lizard'].include?(other_move.value)
-    false
+    ['paper', 'lizard'].include?(other_move.value)
   end
 
   def defeated_by?(other_move)
-    return true if ['rock', 'spock'].include?(other_move.value)
-    false
+    ['rock', 'spock'].include?(other_move.value)
   end
 end
 
@@ -58,13 +52,11 @@ class Lizard
   end
 
   def beats?(other_move)
-    return true if ['paper', 'spock'].include?(other_move.value)
-    false
+    ['paper', 'spock'].include?(other_move.value)
   end
 
   def defeated_by?(other_move)
-    return true if ['scissors', 'rock'].include?(other_move.value)
-    false
+    ['scissors', 'rock'].include?(other_move.value)
   end
 end
 
@@ -75,13 +67,11 @@ class Spock
   end
 
   def beats?(other_move)
-    return true if ['rock', 'scissors'].include?(other_move.value)
-    false
+    ['rock', 'scissors'].include?(other_move.value)
   end
 
   def defeated_by?(other_move)
-    return true if ['paper', 'lizard'].include?(other_move.value)
-    false
+    ['paper', 'lizard'].include?(other_move.value)
   end
 end
 

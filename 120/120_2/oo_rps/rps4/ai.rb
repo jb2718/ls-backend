@@ -18,7 +18,7 @@ class AI
     start = (@game_history.length - num)
     arr = []
     (start...@game_history.length).each do |idx|
-      arr.push(@game_history[idx])
+      arr.push(@game_history.find_by_round(idx))
     end
     arr
   end
@@ -37,8 +37,7 @@ class AI
       streaks << counter
     end
 
-    return true if !streaks.max.nil? && streaks.max >= num_in_row
-    false
+    !streaks.max.nil? && streaks.max >= num_in_row
   end
 
   def enemy_streak
@@ -51,11 +50,11 @@ class AI
   end
 
   def enemy_tendency?(move)
-    return false if @game_history.length == 0
+    return false if @game_history.empty? == 0
     total_times_chosen = @game_history.find_by(@enemy, move).count
     percentage_chosen = total_times_chosen.to_f / @game_history.length.to_f
-    return true if percentage_chosen > @prefs[:tendency_threshhold]
-    false
+
+    percentage_chosen > @prefs[:tendency_threshhold]
   end
 
   def overall_enemy_tendency
