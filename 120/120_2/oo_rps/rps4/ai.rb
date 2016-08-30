@@ -4,27 +4,21 @@ require './move.rb'
 
 class AI
   # This class does ai processing based on a history of moves
-  # and a set of preferences.  It tells the caller which move
-  # to pick.
-
-  # INPUT: most recent history, preferences for a particular personality,
-  #        access to list of valid moves
-  # OUTPUT: a string representation of one of the valid move choices
+  # and a set of preferences.
 
   def initialize(history, enemy, protagonist, prefs)
-    @game_hx = history
+    @game_history = history
     @enemy = enemy
     @protagonist = protagonist
     @prefs = prefs
-    @num_rounds = @game_hx.length
   end
 
   def last_n_rounds(num)
-    return [] if num > @num_rounds
-    start = (@num_rounds - num)
+    return [] if num > @game_history.length
+    start = (@game_history.length - num)
     arr = []
-    (start...@num_rounds).each do |idx|
-      arr.push(@game_hx[idx])
+    (start...@game_history.length).each do |idx|
+      arr.push(@game_history[idx])
     end
     arr
   end
@@ -57,9 +51,9 @@ class AI
   end
 
   def enemy_tendency?(move)
-    return false if @num_rounds == 0
-    total_times_chosen = @game_hx.find_by(@enemy, move).count
-    percentage_chosen = total_times_chosen.to_f / @num_rounds.to_f
+    return false if @game_history.length == 0
+    total_times_chosen = @game_history.find_by(@enemy, move).count
+    percentage_chosen = total_times_chosen.to_f / @game_history.length.to_f
     return true if percentage_chosen > @prefs[:tendency_threshhold]
     false
   end
