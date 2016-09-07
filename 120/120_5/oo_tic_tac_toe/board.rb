@@ -2,9 +2,9 @@ require './brain.rb'
 
 class Square
   attr_accessor :mark, :position
-  def initialize(position)
+  def initialize(idx)
     @mark = ' '
-    @position = position + 1 # represents 1 - 9 numbering of board
+    @position = idx + 1 # represents 1 - 9 numbering of board
   end
 
   def marked?
@@ -118,7 +118,6 @@ class Board
     return false if temp.count < 3
     temp.each { |square| list_of_moves << square.position }
     winning_moves = brain.find_wins(list_of_moves)
-    return true if winning_moves.count > 0
-    false
+    winning_moves.count > 0
   end
 end

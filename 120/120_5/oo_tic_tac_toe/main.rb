@@ -1,4 +1,3 @@
-require 'pry'
 require './board.rb'
 require './player.rb'
 require './util.rb'
@@ -18,6 +17,7 @@ class Game
   end
 
   private
+
   def choose_first_player
     loop do
       prompt "Choose who goes first. [U]ser or [C]omputer?"
@@ -36,16 +36,14 @@ class Game
   end
 
   def first_to_go
-    case self.first_turn
+    case first_turn
     when :user
-      self.first_turn = :user
       user
     when :computer
-      self.first_turn = :computer
       computer
     else
       choose_first_player
-    end 
+    end
   end
 
   def set_start_message
@@ -98,7 +96,7 @@ class Game
       reset_game
     end
     self.messaging = set_start_message
-    self.messaging[0] = "Let's play again!"
+    messaging[0] = "Let's play again!"
     board.clear
     @current_player = first_to_go
   end
@@ -127,34 +125,38 @@ class Game
     draw_board
   end
 
-  def computer_turn
+  def computer_choice
+    open_moves = board.open_moves
     cpu_moves = board.all_moves_of_type(computer.mark)
-    offensive_move = computer.next_move(cpu_moves)
     user_moves = board.all_moves_of_type(user.mark)
-    defensive_move = computer.next_move(user_moves)
+    offensive_move = computer.next_move(cpu_moves, open_moves)
+    defensive_move = computer.next_move(user_moves, open_moves)
 
-    choice = if offensive_move && board.open_moves.include?(offensive_move)
-              offensive_move 
-             elsif defensive_move && board.open_moves.include?(defensive_move)
-              defensive_move
-             elsif board.open_moves.include?(5)
-              5
+    choice = if offensive_move
+               offensive_move
+             elsif defensive_move
+               defensive_move
+             elsif open_moves.include?(5)
+               5
              else
-              board.open_moves.sample
-             end  
+               open_moves.sample
+             end
+    choice
+  end
 
+  def computer_turn
+    choice = computer_choice
     board[choice] = computer.mark
     draw_board
   end
 
   def winner
     if board.won?(user.mark)
-      :user
+      return :user
     elsif board.won?(computer.mark)
-      :computer
-    else
-      nil
+      return :computer
     end
+    nil
   end
 
   def play_again?
@@ -182,19 +184,30 @@ class Game
     end
   end
 
+  def show_score
+    prompt "#{user.name}'s New Score: #{user.score}"
+    prompt "#{computer.name}'s New Score: #{computer.score}"
+  end
+
+  def show_game_winner
+    if user.score == MAX_SCORE
+      prompt "#{user.name} won the game!"
+    elsif computer.score == MAX_SCORE
+      prompt "#{computer.name} won the game!"
+    end
+  end
+
   def display_result
     case winner
     when :user
       prompt "#{user.name} won this round!"
-      prompt "#{user.name} won the game!" if user.score == 5
     when :computer
       prompt "#{computer.name} won this round!"
-      prompt "#{computer.name} won the game!" if computer.score == 5
     else
       prompt "Tie!"
     end
-    prompt "#{user.name}'s New Score: #{user.score}"
-    prompt "#{computer.name}'s New Score: #{computer.score}"
+    show_game_winner
+    show_score
   end
 
   public

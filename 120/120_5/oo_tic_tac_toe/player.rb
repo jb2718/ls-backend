@@ -60,7 +60,9 @@ class Computer < Player
     "O"
   end
 
-  def next_move(current_moves)
-    ai.complete_two_in_row(current_moves)
+  def next_move(current_moves, open_moves)
+    move = ai.complete_two_in_row(current_moves)
+    return move if open_moves.include?(move)
+    nil
   end
 end

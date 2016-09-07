@@ -7,15 +7,19 @@ class Brain
   def initialize
   end
 
+  private
+
   def invert(list)
     (1..9).to_a.select { |num| !list.include?(num) }
   end
 
-  def filter(num)
+  def filter_wins(num)
     WINNING_COMBOS.select do |combo|
       combo.include?(num)
     end
   end
+
+  public
 
   def find_wins(list)
     wins = Array.new(WINNING_COMBOS)
@@ -23,7 +27,7 @@ class Brain
     temp = []
     loop do
       break if not_marked.empty? || wins.empty?
-      temp = filter(not_marked.pop)
+      temp = filter_wins(not_marked.pop)
       if !temp.empty?
         temp.each { |combo| wins.delete(combo) }
       end
