@@ -6,7 +6,7 @@ require './util.rb'
 class Game
   attr_accessor :board, :user, :computer, :messaging, :first_turn
   MAX_SCORE = 5
-  WHO_GOES_FIRST = :choice # :player, :computer, or :choice
+  WHO_GOES_FIRST = :choice # :user, :computer, or :choice
   def initialize
     draw_banner
     @board = Board.new

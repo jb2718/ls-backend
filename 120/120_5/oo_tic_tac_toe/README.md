@@ -6,9 +6,9 @@ Inside the Game class (which can be found in "main.rb"), there are two constants
 
 MAX_SCORE is the number of points it takes to win an entire game.  Each game is comprised of several rounds of tic-tac-toe.  The first player to reach the MAX_SCORE wins the game and the scores are reset on the next round.  This setting should be set to an integer greater than or equal to 1.
 
-WHO_GOES_FIRST should be set to one of three options: :player, :computer, or :choice
+WHO_GOES_FIRST should be set to one of three options: :user, :computer, or :choice
 
-* :player - the human user will always go first at the start of a round
+* :user - the human user will always go first at the start of a round
 
 * :computer - the computer player will always go first at the start of a round
 
