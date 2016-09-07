@@ -26,7 +26,9 @@ WHO_GOES_FIRST should be set to one of three options: :player, :computer, or :ch
 
 ***
 => Welcome to Tic Tac Toe!
+
 => User's Mark: X      | User's Score: 0
+
 => Pop's Mark: O       | Pop's Score: 0
 
 
