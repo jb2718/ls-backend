@@ -45,6 +45,7 @@ WHO_GOES_FIRST should be set to one of three options: :user, :computer, or :choi
 
 
 => Choose your next move: 
+
 => Available Moves: 1, 2, 3, 4, 5, 6, 7, 8, or 9
 ***
 
