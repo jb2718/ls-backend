@@ -1,4 +1,4 @@
-require './brain.rb'
+require_relative 'brain'
 
 class Square
   attr_accessor :mark, :position

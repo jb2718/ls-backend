@@ -1,5 +1,5 @@
-require './util.rb'
-require './brain.rb'
+require_relative 'util'
+require_relative 'brain'
 
 class Player
   attr_accessor :score, :name, :ai

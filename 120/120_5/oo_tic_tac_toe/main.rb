@@ -1,6 +1,6 @@
-require './board.rb'
-require './player.rb'
-require './util.rb'
+require_relative 'board'
+require_relative 'player'
+require_relative 'util'
 
 class Game
   attr_accessor :board, :user, :computer, :messaging, :first_turn
@@ -13,7 +13,7 @@ class Game
     @computer = Computer.new
     @first_turn = WHO_GOES_FIRST
     @current_player = first_to_go
-    @messaging = set_start_message
+    @messaging = set_game_stats
   end
 
   private
@@ -46,7 +46,7 @@ class Game
     end
   end
 
-  def set_start_message
+  def set_game_stats
     messages = ["Welcome to Tic Tac Toe!"]
     [user, computer].each do |player|
       msg = "#{player.name}'s Mark: #{player.mark}".ljust(20)
@@ -58,7 +58,7 @@ class Game
   end
 
   def current_player_turn
-    if @current_player.mark == user.mark
+    if @current_player == user
       player_turn
     else
       computer_turn
@@ -67,7 +67,7 @@ class Game
   end
 
   def alternate_turn
-    @current_player = if @current_player.mark == user.mark
+    @current_player = if @current_player == user
                         computer
                       else
                         user
@@ -75,7 +75,7 @@ class Game
   end
 
   def clear_screen
-    system "clear"
+    system("clear") || system("cls")
   end
 
   def draw_board
@@ -95,15 +95,14 @@ class Game
     if user.score == MAX_SCORE || computer.score == MAX_SCORE
       reset_game
     end
-    self.messaging = set_start_message
+    self.messaging = set_game_stats
     messaging[0] = "Let's play again!"
     board.clear
     @current_player = first_to_go
   end
 
   def draw_banner
-    str = ''
-    50.times { str << "=" }
+    str = "=" * 50
     puts str
     puts "Tic Tac Toe".center(50)
     puts str
@@ -115,14 +114,23 @@ class Game
       prompt("Choose your next move: ")
       prompt("Available Moves: #{joinor(board.open_moves, ', ')}")
       choice = gets.chomp.to_i
-      if board.open_moves.include?(choice)
-        break
-      else
-        prompt("Your entry is invalid.  Please try again!")
-      end
+      break if board.open_moves.include?(choice)
+      prompt("Your entry is invalid.  Please try again!")
     end
     board[choice] = user.mark
     draw_board
+  end
+
+  def select_computer_option(offensive_move, defensive_move, open_moves)
+    if offensive_move
+      offensive_move
+    elsif defensive_move
+      defensive_move
+    elsif open_moves.include?(5)
+      5
+    else
+      open_moves.sample
+    end
   end
 
   def computer_choice
@@ -132,16 +140,7 @@ class Game
     offensive_move = computer.next_move(cpu_moves, open_moves)
     defensive_move = computer.next_move(user_moves, open_moves)
 
-    choice = if offensive_move
-               offensive_move
-             elsif defensive_move
-               defensive_move
-             elsif open_moves.include?(5)
-               5
-             else
-               open_moves.sample
-             end
-    choice
+    select_computer_option(offensive_move, defensive_move, open_moves)
   end
 
   def computer_turn
