@@ -1,7 +1,9 @@
-require 'minitest/autorun'
-require "minitest/reporters"
 require 'simplecov'
 SimpleCov.start
+
+require 'pry'
+require 'minitest/autorun'
+require "minitest/reporters"
 
 Minitest::Reporters.use!
 
@@ -170,7 +172,7 @@ class TodoListTest < MiniTest::Test
   end
 
   def test_todolist_to_s
-    output = <<-OUTPUT.gsub /^\s+/, ""
+    output = <<-OUTPUT.gsub(/^\s+/, "")
     ----Today's Todos----
     [ ] Buy milk
     [ ] Clean room
@@ -183,7 +185,7 @@ class TodoListTest < MiniTest::Test
   def test_todolist_to_s_one_todo_done
     @list.mark_done_at(1)
 
-    output = <<-OUTPUT.gsub /^\s+/, ""
+    output = <<-OUTPUT.gsub(/^\s+/, "")
     ----Today's Todos----
     [ ] Buy milk
     [X] Clean room
@@ -192,20 +194,27 @@ class TodoListTest < MiniTest::Test
 
     assert_equal(output, @list.to_s)
   end
-
-  def test_todolist_mark_done_text
-    skip
+  
+  def test_todolist_find_by_title
+    assert(@todo1, @list.find_by_title("Buy"))
   end
 
-  def test_todolist_find_by_title
-    skip
+  def test_todolist_mark_done_text
+    @list.mark_done("Buy")
+    assert(@todo1)
   end
 
   def test_todolist_all_done
-    skip
+    @list.mark_done_at(1)
+    assert_equal(@todo2.title, @list.all_done.first.title)
+    assert(@list.all_done.first.done?)
   end
 
   def test_todolist_all_not_done
-    skip
+    @list.mark_done_at(1)
+    not_complete = @list.all_not_done
+    assert_equal(@todo1.title, not_complete.first.title)
+    assert_equal(@todo3.title, not_complete.last.title)
+    refute(not_complete.first.done?)
   end 
 end
