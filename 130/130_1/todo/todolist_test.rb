@@ -202,10 +202,19 @@ class TodoListTest < MiniTest::Test
   end
 
   def test_todolist_all_done
-    skip
+    @list.mark_done_at(2)
+    @list.mark_done_at(0)
+    results = @list.all_done
+    assert_includes(results.to_a, @todo1)
+    assert_includes(results.to_a, @todo3)
   end
 
   def test_todolist_all_not_done
-    skip
+    @list.mark_done_at(2)
+    @list.mark_done_at(0)
+    results = @list.all_not_done
+    assert_includes(results.to_a, @todo2)
+    refute_includes(results.to_a, @todo3)
+    refute_includes(results.to_a, @todo1)
   end 
 end
