@@ -1,15 +1,13 @@
-require 'pry'
-
-def repeat_me_times(num)
-  count = 0
-  loop do
-    break if count >= (num)
-    yield(count) if block_given?
-    count += 1
+def times(num)
+  counter = 0
+  loop do 
+    break if counter == num
+    yield(counter)
+    counter += 1
   end
   num
 end
 
-repeat_me_times(5) do |num|
+times(5) do |num|
   puts num
 end

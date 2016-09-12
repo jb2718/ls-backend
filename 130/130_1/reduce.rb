@@ -1,11 +1,11 @@
-def reduce(list,acc=0)
-  count = 0
-  loop do
-    break if count >= list.length
-    acc = yield(acc,list[count])
-    count += 1
+def reduce(array, accumulator=0)
+  counter = 0
+  loop do 
+    break if counter == array.count
+    accumulator = yield(accumulator, array[counter])
+    counter += 1
   end
-  acc
+  accumulator
 end
 
 array = [1, 2, 3, 4, 5]

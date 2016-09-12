@@ -1,17 +1,13 @@
-def each(list)
-  count = 0
-  loop do
-    break if count >= list.length
-    yield(list[count]) if block_given?
-    count += 1
+def each(array)
+  counter = 0
+  loop do 
+    break if counter == array.count
+    yield(array[counter])
+    counter += 1
   end
-  list
+  array
 end
 
-each([1,2,3]) do |item|
-  puts item
+each([1, 2, 3, 4, 5]) do |num|
+  puts num
 end
-
-puts "-------------------------"
-
-p each([1, 2, 3, 4, 5]) {|num| "do nothing"}.select{ |num| num.odd? } 
