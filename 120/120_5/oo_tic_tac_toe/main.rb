@@ -1,6 +1,7 @@
 require_relative 'board'
 require_relative 'player'
 require_relative 'util'
+require_relative 'brain'
 
 class Game
   attr_accessor :board, :user, :computer, :messaging, :first_turn
@@ -8,9 +9,10 @@ class Game
   WHO_GOES_FIRST = :choice # :user, :computer, or :choice
   def initialize
     draw_banner
-    @board = Board.new
-    @user = Player.new
-    @computer = Computer.new
+    @brain = Brain.new
+    @board = Board.new(@brain)
+    @user = Player.new(@brain)
+    @computer = Computer.new(@brain)
     @first_turn = WHO_GOES_FIRST
     @current_player = first_to_go
     @messaging = set_game_stats
