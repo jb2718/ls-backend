@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 require_relative 'hand'
 require_relative 'util'
 
 class Player
-  include Utility
+  include Utilities::Console
   attr_accessor :name, :busted, :score, :hand, :active_turn
   attr_reader :winning_value
   def initialize(winning_value)
@@ -13,6 +14,8 @@ class Player
     @winning_value = winning_value
     @active_turn = false
   end
+
+  private
 
   def set_name
     choice = ''
@@ -27,6 +30,8 @@ class Player
     end
     choice
   end
+
+  public
 
   def hit(card)
     hand << card

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'util'
 require_relative 'display'
 require_relative 'deck'
@@ -6,8 +7,8 @@ require_relative 'validations'
 require 'pry'
 
 class Game
-  include Utility
-  include Validations
+  include Utilities::Console
+  include MoreValidations
 
   attr_accessor :user, :computer, :game_deck
   attr_reader :table
@@ -21,6 +22,8 @@ class Game
     @game_deck = []
     @table = Display.new(user, computer)
   end
+
+  private
 
   def setup
     self.game_deck = Deck.new
@@ -163,6 +166,8 @@ class Game
       user.add_point
     end
   end
+
+  public
 
   def play
     loop do

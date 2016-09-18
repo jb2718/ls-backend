@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'card'
 
 class Deck
@@ -6,6 +7,8 @@ class Deck
     @cards = []
     create_card_deck
   end
+
+  private
 
   def create_card_deck
     suits = ['spades', 'hearts', 'clubs', 'diamonds']
@@ -19,6 +22,8 @@ class Deck
       cards << Card.new(card_text[0], card_text[1])
     end
   end
+
+  public
 
   def deal_card
     card = cards.sample

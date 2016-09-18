@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Card
   attr_accessor :suit, :face_value, :num_value
   def initialize(suit, value)
@@ -5,6 +7,8 @@ class Card
     @face_value = value
     @num_value = set_num_value
   end
+
+  private
 
   def set_num_value
     card_vals = {

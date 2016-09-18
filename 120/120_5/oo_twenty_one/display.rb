@@ -1,4 +1,4 @@
-require_relative 'util'
+# frozen_string_literal: true
 require 'pry'
 
 class Display
@@ -14,6 +14,8 @@ class Display
     @human = human
     @dealer = dealer
   end
+
+  private
 
   def draw_card(card)
     space = ' '
@@ -96,6 +98,8 @@ class Display
     puts "\n#{human.name}'s Hand Value: #{human.hand_value}\n"
     puts "#{human.name}'s Overall Score: #{human.score}\n\n"
   end
+
+  public
 
   def refresh_screen
     clear_screen
