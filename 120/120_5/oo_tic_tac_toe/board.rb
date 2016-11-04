@@ -1,5 +1,3 @@
-require './brain.rb'
-
 class Square
   attr_accessor :mark, :position
   def initialize(idx)
@@ -14,9 +12,9 @@ end
 
 class Board
   attr_accessor :squares, :brain
-  def initialize
+  def initialize(brain)
     @squares = generate_squares
-    @brain = Brain.new
+    @brain = brain
   end
 
   def full?

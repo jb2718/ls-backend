@@ -1,7 +1,7 @@
 {
   "MiniTest": {
     "coverage": {
-      "/home/ubuntu/workspace/ls-backend/130/130_1/todo/todo_list.rb": [
+      "/home/jb2718/Documents/work/launchschool/ls-backend/130/130_1/todo/todo_list.rb": [
         1,
         1,
         1,
@@ -165,6 +165,6 @@
         null
       ]
     },
-    "timestamp": 1473704420
+    "timestamp": 1473698406
   }
 }

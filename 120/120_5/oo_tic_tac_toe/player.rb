@@ -1,15 +1,14 @@
-require './util.rb'
-require './brain.rb'
+require_relative 'util'
 
 class Player
   attr_accessor :score, :name, :ai
   attr_reader :mark
 
-  def initialize
+  def initialize(brain)
     @score = 0
     @name = set_name
     @mark = set_mark
-    @ai = Brain.new
+    @ai = brain
   end
 
   def set_name

@@ -4,7 +4,7 @@ require 'pry'
 
 WINNING_VALUE = 21
 DEALER_MAX = 17
-CARD_STYLE = :text # :text or :graphic
+CARD_STYLE = :graphic # :text or :graphic
 
 def display_text_hand(player)
   display_text = []
@@ -41,7 +41,7 @@ def show_hand(player)
   when :text
     display_text_hand(player)
   when :graphic
-    display_graphic_hand
+    display_graphic_hand(player)
   end
 end
 

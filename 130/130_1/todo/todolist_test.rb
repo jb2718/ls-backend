@@ -205,6 +205,7 @@ class TodoListTest < MiniTest::Test
   end
 
   def test_todolist_all_done
+<<<<<<< HEAD
     @list.mark_done_at(1)
     assert_equal(@todo2.title, @list.all_done.first.title)
     assert(@list.all_done.first.done?)
@@ -216,5 +217,21 @@ class TodoListTest < MiniTest::Test
     assert_equal(@todo1.title, not_complete.first.title)
     assert_equal(@todo3.title, not_complete.last.title)
     refute(not_complete.first.done?)
+=======
+    @list.mark_done_at(2)
+    @list.mark_done_at(0)
+    results = @list.all_done
+    assert_includes(results.to_a, @todo1)
+    assert_includes(results.to_a, @todo3)
+  end
+
+  def test_todolist_all_not_done
+    @list.mark_done_at(2)
+    @list.mark_done_at(0)
+    results = @list.all_not_done
+    assert_includes(results.to_a, @todo2)
+    refute_includes(results.to_a, @todo3)
+    refute_includes(results.to_a, @todo1)
+>>>>>>> e5782d0639881fbbf138b7754d2af0bc56afdd41
   end 
 end
