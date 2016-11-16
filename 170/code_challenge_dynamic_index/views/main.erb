@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+        <title><% @title %></title>
+    
+    </head>
+
+    <body>
+        <h1>Files in Public Directory</h1>
+        <ul>
+            <%@files.each do |file|%>
+                <li><a href= <%= "/" + file %>><%= file %></a></li>
+            <%end%>
+        </ul>
+        
+        <p><a href="/atoz">Sort in Ascending Order</a></p>
+        <p><a href="/ztoa">Sort in Descending Order</a></p>
+    </body>
+</html>
