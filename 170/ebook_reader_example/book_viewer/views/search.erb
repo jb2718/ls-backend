@@ -1,0 +1,24 @@
+<h2 class="content-subhead">Search</h2>
+
+<form action="/search" method="get">
+    <input name="query" value="<%= params[:query] %>">
+    <button type="submit">Search</button>
+</form>
+
+<% if params[:query] %>
+    <% if @chapters.empty? %>
+        <p>Sorry, no matches were found</p>
+    <%else%>
+        <h2 class="content-subhead">Results for <%= params[:query] %></h2>
+        <ul>
+            <% @chapters.each_with_index do |chapter, idx| %>
+                <li><%= chapter %></li>
+                    <ul>
+                        <% @matched_chap_to_paragraphs[chapter].each do |p_id, paragraph| %>
+                            <li><a href=<%= "/chapters/" + (idx + 1).to_s + "#" + p_id.to_s %> ><%= emphasize_word(paragraph, params[:query]) %></a></li>
+                        <% end %>
+                    </ul>
+            <% end %>
+        </ul>
+    <%end%>
+<%end%>
