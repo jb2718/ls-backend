@@ -1,0 +1,50 @@
+https://amazon.com/Double-Stainless-Commercial-Refrigerator/B60HON32?ie=UTF8&qid=142952676&sr=93&keywords=commercial+fridge
+
+1. 
+a) The host is amazon.com
+b. The names of the query parameters: ie, qid, sr, keywords
+c) The values of the query parameters: UTF8, 142952676, 93, commercial+fridge
+d) The protocol: https
+e) The path: /Double-Stainless-Commercial-Refrigerator/B60HON32
+f) The port: not given
+
+------------------------------------------------------
+
+2. http://amazon.com:3000/products/B60HON32?qid=142952676&sr=93
+
+
+------------------------------------------------------
+3. http://localhost:4567/todos/15
+
+a) The query parameters: none given - the path is used to specify scenarios/input
+b) The protocol: http
+c) The path: /todos/15
+d) The host: localhost
+e) The port: 4567
+
+------------------------------------------------------
+
+4. What are two different ways to encode a space in a query parameter? We didn't cover this in the lectures, so feel free to search online for the answer.
+
+a) method one - replace space with: %20
+b) method two - replace space with: +
+
+
+------------------------------------------------------
+
+5. What character indicates the beginning of a URL's query parameters?
+
+The question mark: ?
+
+
+------------------------------------------------------
+
+6. What character is used between the name and value of a query parameter?
+
+The equals sign: =
+
+------------------------------------------------------
+
+7. What character is used between multiple query parameters?
+
+The ampersand: &

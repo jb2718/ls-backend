@@ -39,13 +39,9 @@ def match_paragraphs(chapter_text, search_term)
   matches = {}
   chapter_text.split("\n\n").each_with_index do |line, idx|
     if line.include?(search_term)
-      p idx
-      p line
       matches[idx + 1] = line
-      # binding.pry
     end
   end
-  p matches
   matches
 end
 
@@ -88,11 +84,9 @@ get "/search" do
   @matched_chap_to_paragraphs = {}
   @chapters = match_chapters(@search_term)
   
-  @chapters.each_with_index do |chapter, idx|
-    p chapter
+  @chapters.each do |chapter|
+    idx = @toc_data.index(chapter)
     chap_data = File.read("data/chp" + (idx + 1).to_s + ".txt")
-    p chap_data if chapter == "The Five Orange Pips"
-    p match_paragraphs(chap_data, @search_term)
     @matched_chap_to_paragraphs[chapter] =  match_paragraphs(chap_data, @search_term)
   end
   
