@@ -4,12 +4,11 @@ require 'yaml'
 
 before do
 	@users = YAML.load_file('data/users.yaml')
+	@names = @users.keys.map(&:to_s)
 end
 
 get '/?' do
 	@title = "Users"
-	@names = @users.keys.map(&:to_s)
-	p @names
 
 	erb :index
 end
@@ -21,4 +20,10 @@ get '/:name' do
 	@title = "#{@user_name}'s Profile"
 
 	erb :user
+end
+
+get '/add/user' do
+	@title = "Add User"
+
+	erb :add_user
 end

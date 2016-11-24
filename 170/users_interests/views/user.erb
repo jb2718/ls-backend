@@ -1,0 +1,17 @@
+<div class="header">
+    <h1><%= "#{@user_name.capitalize}'s Profile" %></h1>
+</div>
+
+<div class="content">
+	
+    <h2 class="content-subhead">Email</h2>
+		<p><%= @user_email %></p>
+
+		<h2 class="content-subhead">Interests</h2>
+		<ul>
+			<%@user_interests.each do |interest|%>
+					<li><%= interest %></li>
+			<%end%>
+		</ul>
+
+</div>
