@@ -8,10 +8,6 @@
 		<p><%= @user_email %></p>
 
 		<h2 class="content-subhead">Interests</h2>
-		<ul>
-			<%@user_interests.each do |interest|%>
-					<li><%= interest %></li>
-			<%end%>
-		</ul>
+		<p><%= "#{@user_name.capitalize} is interested in #{@formatted_interests}" %></p>
 
 </div>

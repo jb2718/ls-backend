@@ -2,21 +2,54 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'yaml'
 
-before do
-	@users = YAML.load_file('data/users.yaml')
-	@names = @users.keys.map(&:to_s)
+def joinor(list, token=',', word='or')
+  tail = list.last
+  if list.count > 2
+    head = list[0..-2]
+    head.join(token) + "#{token}#{word} #{tail}"
+  elsif list.count == 2
+    list.first.to_s + " #{word} #{tail}"
+  else
+    tail.to_s
+  end
 end
 
-get '/?' do
-	@title = "Users"
+def count_interests(yaml_data)
+	names = yaml_data.keys.map(&:to_s)
+	interest_count = 0
+	names.each do |key|
+		interest_count += yaml_data[key.to_sym][:interests].count
+	end
+	interest_count
+end
 
-	erb :index
+before do
+	@data = YAML.load_file('data/users.yaml')
+	@names = @data.keys.map(&:to_s)
+	@user_count = @names.count
+	@interest_count = count_interests(@data)
+end
+
+helpers do
+	def menu_list
+		display_list = Array.new(@names)
+		display_list.delete(params[:name]) if params[:name]
+		display_list
+	end
+end
+
+get "/?" do
+  @title = "Users"
+  @user_list = Array.new(@names)
+  
+  erb :index
 end
 
 get '/:name' do
 	@user_name = params[:name].to_sym
-	@user_email = @users[@user_name][:email]
-	@user_interests = @users[@user_name][:interests]
+	@user_email = @data[@user_name][:email]
+	@user_interests = @data[@user_name][:interests]
+	@formatted_interests = joinor(@user_interests, ', ', 'and')
 	@title = "#{@user_name}'s Profile"
 
 	erb :user

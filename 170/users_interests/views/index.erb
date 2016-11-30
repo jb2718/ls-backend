@@ -7,7 +7,7 @@
 	
     <h2 class="content-subhead">List of All Users</h2>
     <ul>
-			<%@names.each do |name|%>
+			<%@user_list.each do |name|%>
 				<li><a href="/<%=name%>"><%= name.capitalize %></a></li>
 			<%end%>
 		</ul>

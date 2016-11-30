@@ -33,7 +33,7 @@
 	            <a class="pure-menu-heading" href="/">Main Page</a>
 
 	            <ul class="pure-menu-list">
-	            	<%@names.each do |name|%>
+	            	<%menu_list.each do |name|%>
 	                <li class="pure-menu-item"><a href="/<%=name%>" class="pure-menu-link"><%= name.capitalize %></a></li>
 	             <%end%>
 
@@ -44,7 +44,14 @@
 
 	    <div id="main">
 	    	<%= yield %>
+
+		    <div class="content">
+		    	<p><%= "There are #{@user_count} users with a total of #{@interest_count} interests."%></p>
+		    </div>
+
 	    </div>
+
+
 	</div>
 
 
