@@ -1,5 +1,6 @@
 require "sinatra"
 require "sinatra/reloader"
+require "sinatra/content_for"
 require "tilt/erubis"
 
 configure do
@@ -49,9 +50,31 @@ post "/lists" do
   end
 end
 
+# Show single list and its todos
 get "/lists/:id" do
   @list_id = params[:id].to_i
   @list = session[:lists][@list_id]
 
   erb :list, layout: :layout
+end
+
+# Render the edit list form
+get "/lists/:id/edit" do
+  erb :edit_list, layout: :layout
+end
+
+# Update list information
+post "/lists/:id" do
+  list_name = params[:list_name].strip
+
+  error = error_for_list_name(list_name)
+  if error
+    session[:error] = error
+    erb :new_list, layout: :layout
+  else
+    id = params[:id].to_i
+    session[:lists][id][:name] = list_name
+    session[:success] = "The list has been updated."
+    redirect "/lists/:id"
+  end
 end

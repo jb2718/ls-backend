@@ -1,0 +1,14 @@
+<form action=<%="/lists/#{params[:id]}"%> method="post">
+	<dl>
+		<dt>
+			<label for="list_name">Update the name for your list:</label>
+		</dt>
+		<dd>
+			<input type="text" name="list_name" placeholder="List Name" value="">
+		</dd>
+	</dl>
+	<fieldset class="actions">
+		<input type="submit" value="Save">
+		<a href=<%="/lists/#{params[:id]}"%> >Cancel</a>
+	</fieldset>
+</form>
