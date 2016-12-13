@@ -60,21 +60,33 @@ end
 
 # Render the edit list form
 get "/lists/:id/edit" do
+  list_id = params[:id].to_i
+  @list = session[:lists][list_id]
+
   erb :edit_list, layout: :layout
 end
 
-# Update list information
+# Update/edit list information
 post "/lists/:id" do
+  list_id = params[:id].to_i
+  @list = session[:lists][list_id]
   list_name = params[:list_name].strip
 
   error = error_for_list_name(list_name)
   if error
     session[:error] = error
-    erb :new_list, layout: :layout
+    erb :edit_list, layout: :layout
   else
-    id = params[:id].to_i
-    session[:lists][id][:name] = list_name
+    @list[:name] = list_name
     session[:success] = "The list has been updated."
-    redirect "/lists/:id"
+    redirect "/lists/#{list_id}"
   end
+end
+
+# Delete a list
+post "/lists/:id/delete" do
+  list_id = params[:id].to_i
+  session[:lists].delete_at(list_id)
+
+  redirect "/lists"
 end
