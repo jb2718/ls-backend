@@ -1,9 +1,16 @@
 <ul id="lists">
 	<% @lists.each_with_index do |list, idx| %>
-		<li>
+		<% if all_todos_complete?(list[:todos])%>
+			<li class="complete">
+		<%else%>
+			<li>
+		<%end%>
 			<a href=<%="/lists/#{idx}"%> >
 				<h2><%= list[:name] %></h2>
-				<p><%= list[:todos].size %></p>
+				<p>
+					<%= count_completed_todos(list[:todos]) %> /
+					<%= list[:todos].size %>		
+				</p>
 			</a> 
 		</li>
 	<%end%>

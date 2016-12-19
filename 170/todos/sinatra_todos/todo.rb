@@ -13,21 +13,6 @@ before do
   session[:lists] ||= []
 end
 
-get "/" do
-  redirect "/lists"
-end
-
-# View list of lists
-get "/lists" do
-  @lists = session[:lists]
-  erb :lists, layout: :layout
-end
-
-# Render the new list form
-get "/lists/new" do
-  erb :new_list, layout: :layout
-end
-
 # Return error msg if name invalid. Return nil if name valid.
 def error_for_list_name(name)
   if !(1..100).cover?(name.size)
@@ -42,6 +27,32 @@ def error_for_todo(name)
   if !(1..100).cover?(name.size)
     "Todo must be between 1 and 100 characters"
   end
+end
+
+def count_completed_todos(todos)
+  todos.select{ |todo|
+    todo[:completed] == true
+  }.count
+end
+
+def all_todos_complete?(todos)
+  count_completed_todos(todos) == todos.size
+end
+
+
+get "/" do
+  redirect "/lists"
+end
+
+# View list of lists
+get "/lists" do
+  @lists = session[:lists]
+  erb :lists, layout: :layout
+end
+
+# Render the new list form
+get "/lists/new" do
+  erb :new_list, layout: :layout
 end
 
 # Create a new list
@@ -141,13 +152,14 @@ post "/lists/:list_id/todos/:todo_id/check" do
 end
 
 # Update all todos as complete
-post "/lists/:id/todos/complete_all" do
-  @list_id = params[:id].to_i
+post "/lists/:list_id/todos/complete_all" do
+  @list_id = params[:list_id].to_i
   @list = session[:lists][@list_id]
 
   @list[:todos].each do |todo|
     todo[:completed] = true
   end
 
+  session[:success] = "All the todos have been completed."
   redirect "/lists/#{@list_id}"
 end

@@ -1,4 +1,8 @@
-<section id="todos">
+<% if all_todos_complete?(@list[:todos])%>
+	<section id="todos" class="complete">
+<%else%>
+	<section id="todos">
+<%end%>
 	<header>
 		<h2><%= @list[:name] %></h2>
 		<ul>
