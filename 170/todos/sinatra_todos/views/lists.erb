@@ -1,17 +1,13 @@
 <ul id="lists">
-	<% @lists.each_with_index do |list, idx| %>
-		<% if all_todos_complete?(list[:todos])%>
-			<li class="complete">
-		<%else%>
-			<li>
-		<%end%>
-			<a href=<%="/lists/#{idx}"%> >
-				<h2><%= list[:name] %></h2>
+	<% sort_lists(@lists).each do |sub_arr|%>
+		<li class="<%=list_class(sub_arr.first[:todos])%>">
+			<a href=<%="/lists/#{sub_arr.last}"%>>
+				<h2><%= sub_arr.first[:name] %></h2>
 				<p>
-					<%= count_completed_todos(list[:todos]) %> /
-					<%= list[:todos].size %>		
+					<%= count_remaining_todos(sub_arr.first[:todos]) %> /
+					<%= sub_arr.first[:todos].size %>		
 				</p>
-			</a> 
+			</a>
 		</li>
 	<%end%>
 </ul>

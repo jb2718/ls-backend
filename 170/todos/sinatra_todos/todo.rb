@@ -9,6 +9,53 @@ configure do
   set :session_secret, 'secret'
 end
 
+helpers do
+  def count_completed_todos(todos)
+    todos.select{ |todo|
+      todo[:completed]
+    }.count
+  end
+
+  def count_remaining_todos(todos)
+    todos.size - count_completed_todos(todos)
+  end
+
+  def all_todos_complete?(todos)
+    if todos.size > 0
+      return count_completed_todos(todos) == todos.size
+    end
+    false
+  end
+
+  def list_class(list)
+    "complete" if all_todos_complete?(list)
+  end
+ 
+  def add_orig_index(list)
+    orig_index_addon = {}
+    orig_idx = 0
+    list.each do |key, _|
+      orig_index_addon[key] = orig_idx
+      orig_idx += 1
+    end
+    orig_index_addon
+  end
+
+  def sort_lists(lists)
+    add_orig_index(lists).sort_by{ |arr_item|
+      item = arr_item.first
+      all_todos_complete?(item[:todos]) ? 1 : 0
+    }
+  end
+
+  def sort_todos(todos)
+    add_orig_index(todos).sort_by{ |arr_item|
+      item = arr_item.first
+      item[:completed] ? 1 : 0
+    }
+  end
+end
+
 before do
   session[:lists] ||= []
 end
@@ -29,16 +76,6 @@ def error_for_todo(name)
   end
 end
 
-def count_completed_todos(todos)
-  todos.select{ |todo|
-    todo[:completed] == true
-  }.count
-end
-
-def all_todos_complete?(todos)
-  count_completed_todos(todos) == todos.size
-end
-
 
 get "/" do
   redirect "/lists"
@@ -47,6 +84,7 @@ end
 # View list of lists
 get "/lists" do
   @lists = session[:lists]
+  sort_completed(@lists)
   erb :lists, layout: :layout
 end
 
