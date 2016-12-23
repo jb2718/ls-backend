@@ -1,11 +1,11 @@
 <ul id="lists">
-	<% sort_lists(@lists).each do |sub_arr|%>
-		<li class="<%=list_class(sub_arr.first[:todos])%>">
-			<a href=<%="/lists/#{sub_arr.last}"%>>
-				<h2><%= sub_arr.first[:name] %></h2>
+	<% sort_lists(@lists).each do |list|%>
+		<li class="<%=list_class(list[:todos])%>">
+			<a href=<%="/lists/#{list[:id]}"%>>
+				<h2><%= list[:name] %></h2>
 				<p>
-					<%= count_remaining_todos(sub_arr.first[:todos]) %> /
-					<%= sub_arr.first[:todos].size %>		
+					<%= count_remaining_todos(list[:todos]) %> /
+					<%= list[:todos].size %>		
 				</p>
 			</a>
 		</li>

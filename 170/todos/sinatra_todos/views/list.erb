@@ -14,20 +14,20 @@
 
 	<% if @list[:todos] %>
 		<ul>
-			<% sort_todos(@list[:todos]).each do |todo_item| %>
-				<% if todo_item.first[:completed]%>
+			<% sort_todos(@list[:todos]).each do |todo| %>
+				<% if todo[:completed]%>
 					<li class="complete">
 				<%else%>
 					<li>
 				<%end%>
-						<form action="/lists/<%= @list_id %>/todos/<%= todo_item.last %>/check" method="post" class="check">
-						<input type="hidden" name="completed" value="<%= !todo_item.first[:completed] %>" />
+						<form action="/lists/<%= @list_id %>/todos/<%= todo[:id] %>/check" method="post" class="check">
+						<input type="hidden" name="completed" value="<%= !todo[:completed] %>" />
 						<button type="submit">Complete</button>
 						</form>
 
-						<h3><%= todo_item.first[:name] %></h3>
+						<h3><%= todo[:name] %></h3>
 
-						<form action="/lists/<%= @list_id %>/todos/<%= todo_item.last %>/delete" method="post" class="delete">
+						<form action="/lists/<%= @list_id %>/todos/<%= todo[:id] %>/delete" method="post" class="delete">
 						<button type="submit">Delete</button>
 						</form>
 					</li>

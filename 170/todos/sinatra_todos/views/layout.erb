@@ -6,12 +6,14 @@
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Sans">
     <link rel="stylesheet" href="/stylesheets/whitespace-reset.css">
     <link rel="stylesheet" href="/stylesheets/application.css">
+    <script type="text/javascript" src="/javascripts/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="/javascripts/application.js"></script>
   </head>
   <body>
     <header>
       <h1>Todo Tracker</h1>
       <div class="actions">
-        <%= yield_content :header_links %>
+        <%== yield_content :header_links %>
       </div>
     </header>
     
@@ -28,7 +30,7 @@
     <%end%>
 
     <main>
-      <%= yield %>
+      <%== yield %>
     </main>
   </body>
 </html>
