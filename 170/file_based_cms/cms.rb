@@ -26,6 +26,7 @@ end
 
 define_routes(@files).each do |route|
 	get route do
-		route
+		headers["Content-Type"] = "text/plain"
+		File.read(route)
 	end
 end
