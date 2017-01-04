@@ -3,6 +3,13 @@ require "sinatra/reloader"
 require "sinatra/content_for"
 require "tilt/erubis"
 require "pry"
+# require "redcarpet"
+
+configure do
+  set :session_secret, 'secret sauce'
+  enable :sessions
+  # set :erb, :escape_html => true
+end
 
 before do
 	@files = []
@@ -11,22 +18,20 @@ before do
 	end
 end
 
-def define_routes(files)
-	file_routes = []	
-	files.each do |file|
-		file_routes << ('/' + file)
-	end
-	file_routes
-end
-
-get "/?" do
-	
+get "/?" do	
 	erb :index
 end
 
-define_routes(@files).each do |route|
-	get route do
+get "/:filename" do
+	file_name = params[:filename]
+	
+	if @files.include? file_name
+		path = "data/" + file_name
 		headers["Content-Type"] = "text/plain"
-		File.read(route)
+		text = File.open(path)
+		text.read
+	else
+		session[:error] = "#{file_name} does not exist."
+		redirect '/'
 	end
 end
