@@ -32,9 +32,16 @@ class CMSTest < Minitest::Test
 	def test_view_nonexistant_document
 		get "/nonexistant.txt"
 		assert_equal 302, last_response.status
-		
+
 		get last_response["Location"]
 		assert_equal 200, last_response.status
 		assert_includes last_response.body, "nonexistant.txt does not exist."
+	end
+
+	def test_view_markdown_document
+		get "test.md"
+		assert_equal 200, last_response.status
+		assert_equal "text/html", last_response["Content-Type"]
+		assert_includes last_response.body, "<h1>Aristas posset</h1>"
 	end
 end
