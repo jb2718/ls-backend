@@ -41,7 +41,6 @@ end
 
 get "/:filename" do
 	file_name = params[:filename]
-	format_file_data(file_name)
 	
 	if @files.include? file_name
 		format_file_data(file_name)
