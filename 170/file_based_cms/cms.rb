@@ -18,9 +18,13 @@ before do
 	end
 end
 
-def format_file_data(filename)
+def retrieve_content(filename)
 	path = "data/" + filename
-	content = File.open(path)
+	File.open(path)
+end
+
+def format_file_data(filename)
+	content = retrieve_content(filename)
 	formatted_data = ''
 
 	extension = filename.split('.')[1]
@@ -48,4 +52,32 @@ get "/:filename" do
 		session[:error] = "#{file_name} does not exist."
 		redirect '/'
 	end
+end
+
+#Render the edit file page
+get "/:filename/edit" do
+	@file_name = params[:filename]
+	@file_content = retrieve_content(@file_name)
+	erb :edit_document
+end
+
+# Update/edit page information
+post "/:filename" do
+  @file_name = params[:filename]
+  path = 'data/'+ @file_name
+  file = open(path,'w')
+  content = params[:file_content]
+  file.write(content)
+  file.close
+  session[:success] = "#{@file_name} has been updated."
+  redirect "/"
+
+  # error = error_for_list_name(list_name)
+  # if error
+  #   session[:error] = error
+  #   erb :edit_list, layout: :layout
+  # else
+  #   session[:success] = "#{@file_name} has been updated."
+  #   redirect "/"
+  # end
 end

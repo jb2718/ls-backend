@@ -39,9 +39,14 @@ class CMSTest < Minitest::Test
 	end
 
 	def test_view_markdown_document
-		get "test.md"
+		get "/test.md"
 		assert_equal 200, last_response.status
 		assert_equal "text/html", last_response["Content-Type"]
 		assert_includes last_response.body, "<h1>Aristas posset</h1>"
+	end
+
+	def test_edit_document_plaintext
+		get "/about.txt/edit"
+		assert_equal 200, last_response.status
 	end
 end
