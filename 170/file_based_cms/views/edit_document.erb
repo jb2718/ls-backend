@@ -1,0 +1,13 @@
+<form action=<%="/#{@file_name}"%> method="post">
+	<dl>
+		<dt>
+			<label for="file_name">Edit content of <%=@file_name%></label>
+		</dt>
+		<dd>
+			<input type="text" name="file_content" value="<%=@file_content.read%>">
+		</dd>
+	</dl>
+	<fieldset>
+		<input type="submit" value="Save Changes">
+	</fieldset>
+</form>
