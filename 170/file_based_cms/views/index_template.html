@@ -16,7 +16,9 @@
 					Acme CMS
 				</h1>
 				<div class="nav grid_3 push_9">
-					<a href="">Add New Document</a>
+					<ul>
+						<li><a href="">New Document</a></li>
+					</ul>
 				</div>
 		</div>
 	</header>
@@ -25,13 +27,14 @@
 			<div class="flash">
 				<p>This is a test message</p>
 			</div>
-			<div class="grid_8 push_2" id="doc-listing">
+			<div class="grid_9 push_1" id="doc-listing">
 				<h1>Admin's Documents</h1>
 				<table>
 					<tr class="head">
 						<th></th>
 						<th>File Type</th>
-						<th>Word Count</th>
+						<th>File Size</th>
+						<th>Action</th>
 						<th>Action</th>
 						<th>Action</th>
 					</tr>
@@ -48,6 +51,11 @@
 							<form>
 								<input type="submit" value="Delete" id="submit" />
 							</form>
+						</td>	
+						<td>
+							<form>
+								<input type="submit" value="Copy" id="submit" />
+							</form>
 						</td>							
 					</tr>
 					<tr>
@@ -63,15 +71,20 @@
 							<form>
 								<input type="submit" value="Delete" id="submit" />
 							</form>
-						</td>				
+						</td>
+						<td>
+							<form>
+								<input type="submit" value="Copy" id="submit" />
+							</form>
+						</td>					
 					</tr>
 				</table>
 			</div>
 
 		</div>
 	</section>
-	<footer>
-		
+	<footer class="clearfix">
+		<p>Signed in as Admin</p>
 	</footer>
 </body>
 </html>

@@ -29,6 +29,21 @@ body {
 	float: right;
 	text-align: right;
 }
+
+.nav ul li {
+	font-size: 85%;
+	color: #E6CFC5;
+	font-weight: bold;
+	list-style-image: url("../images/icon-plus.png");
+}
+.nav a {
+	color: #E6CFC5;
+	text-decoration: none;
+}
+
+.nav a:hover {
+	color: #ffffff;
+}
 /*
 =======================
 H-tags
@@ -123,4 +138,113 @@ Main Content Section
 #doc-listing table {
 	margin-left: auto;
 	margin-right: auto;
+}
+
+.login-form-box {
+	width: 272px;
+	margin: 0 auto;
+}
+
+#login-form {
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid #d6d6d6;
+	padding: 30px 20px 40px 20px;
+	background-color: white;
+	color: #737476;
+}
+
+#login-form h1 {
+	margin-bottom: 13px;
+}
+
+.title {
+	float: left;
+	width: 95px;
+	clear: left;
+}
+
+.login-input {
+	width: 170px;
+	border: 1px solid #d6d6d6;
+	padding: 2px;
+}
+
+.login-form-input-text {
+	margin-bottom: 10px;
+}
+
+.submit {
+	text-align: right;
+}
+
+/*
+=======================
+Edit Document Styles
+=======================
+*/
+
+#edit-doc-container{
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid #d6d6d6;
+	padding: 20px;
+}
+
+.textarea-label {
+	padding-bottom: 5px;
+	font-size: 90%;
+	color: #737476;
+}
+
+.edit-doc-save-fieldset {
+	text-align: right;
+	padding-top: 10px;	
+}
+
+#edit-doc-heading  {
+  padding: 18px 0px 20px 0px;
+}
+
+/*
+=======================
+Create Document Styles
+=======================
+*/
+
+#create-new-doc-form {
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid #d6d6d6;
+	padding: 30px 20px 40px 20px;
+	background-color: white;
+	color: #737476;
+}
+
+#create-new-doc-form h1 {
+	margin-bottom: 13px;
+}
+
+/*
+=======================
+Footer Section
+=======================
+*/
+footer {
+	clear: both;
+	position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+	background: rgba(0, 0, 0, 0.2);
+	padding: 15px 10px;
+	color: #737476;
+}
+footer p {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 75%;
+	text-align: center;
+}
+footer a {
+	color: #807c72;
 }
