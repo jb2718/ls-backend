@@ -1,0 +1,126 @@
+body {
+	background-color: #eeeceb;
+	margin: 0px;
+	text-align: center;
+	font-family: Arial, Verdana, sans-serif;
+	font-size: 100%
+}
+
+.header {
+	background-color: #e2764a;
+	padding: 0;
+	height: 100px;
+	position: fixed;
+	top: 0px;
+	width: 100%;
+	z-index: 50;
+	font-family: 'Open Sans', sans-serif;
+}
+
+#header-title {
+	font-weight: 700;
+	font-size: 39px;
+	margin-top: 25px;
+	color: #E6CFC5;
+	text-transform: uppercase;
+}
+
+.nav {
+	float: right;
+	text-align: right;
+}
+/*
+=======================
+H-tags
+=======================
+*/
+h1 {
+	font-size: 25px;
+	color: #545352;
+}
+
+
+/*
+=======================
+Tables
+=======================
+*/
+
+table {
+	border-spacing: 0px;}
+th, td {
+	padding: 5px 30px 5px 10px;
+	border-spacing: 0px;
+	font-size: 90%;
+	margin: 0px;}
+th, td {
+	color: #737476;
+	text-align: left;
+	background-color: #e0e9f0;
+	border-top: 1px solid #f1f8fe;
+	border-bottom: 1px solid #cbd2d8;
+	border-right: 1px solid #cbd2d8;}
+tr.head th {
+	color: #fff;
+	background-color: #90b4d6;
+	border-bottom: 2px solid #547ca0;
+	border-right: 1px solid #749abe;
+	border-top: 1px solid #90b4d6;
+	text-align: center;
+	text-shadow: -1px -1px 1px #666;
+	letter-spacing: 0.15em;}
+tr.head th:first-child {
+	-webkit-border-top-left-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	border-top-left-radius: 5px;}
+tr.head th:last-child {
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-right-radius: 5px;}
+td {
+	text-shadow: 1px 1px 1px #fff;}
+tr.even td, tr.even th {
+	background-color: #e8eff5;}
+
+
+/*
+=======================
+Main Content Section
+=======================
+*/
+.wrapper {
+	width: 960px;
+	margin: 0px auto;
+	text-align: left;
+}
+
+.main-content {
+	margin-top: 111px;
+	background-position: 122px 142px;
+	height: 570px;
+}
+
+.flash {
+	height: 34px;
+	margin: 10px 0px;
+	background-color: #F8FFB8;
+	color: #979C6E;
+	padding-top: 7px;
+	padding-left: 10px;
+}
+
+#doc-listing {
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid #d6d6d6;
+	padding: 20px;
+}
+
+#doc-listing h1 {
+	margin-bottom: 13px;
+}
+
+#doc-listing table {
+	margin-left: auto;
+	margin-right: auto;
+}
