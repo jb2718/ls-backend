@@ -35,6 +35,7 @@ body {
 	color: #E6CFC5;
 	font-weight: bold;
 	list-style-image: url("../images/icon-plus.png");
+	width: 116px;
 }
 .nav a {
 	color: #E6CFC5;
@@ -82,18 +83,20 @@ tr.head th {
 	border-right: 1px solid #749abe;
 	border-top: 1px solid #90b4d6;
 	text-align: center;
-	text-shadow: -1px -1px 1px #666;
 	letter-spacing: 0.15em;}
 tr.head th:first-child {
-	-webkit-border-top-left-radius: 5px;
+/*	-webkit-border-top-left-radius: 5px;
 	-moz-border-radius-topleft: 5px;
-	border-top-left-radius: 5px;}
+	border-top-left-radius: 5px;*/
+}
 tr.head th:last-child {
-	-webkit-border-top-right-radius: 5px;
+/*	-webkit-border-top-right-radius: 5px;
 	-moz-border-radius-topright: 5px;
-	border-top-right-radius: 5px;}
+	border-top-right-radius: 5px;*/
+}
 td {
-	text-shadow: 1px 1px 1px #fff;}
+
+}
 tr.even td, tr.even th {
 	background-color: #e8eff5;}
 
@@ -219,6 +222,7 @@ Create Document Styles
 	padding: 30px 20px 40px 20px;
 	background-color: white;
 	color: #737476;
+	margin-top: 45px;
 }
 
 #create-new-doc-form h1 {

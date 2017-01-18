@@ -5,6 +5,13 @@ require "tilt/erubis"
 require "pry"
 require "redcarpet"
 
+VALID_FILE_TYPES = {
+	#keys: file types app can process; 
+	#values: full word string representation of file type
+	txt: "text",
+	md: "markdown"
+}
+
 configure do
   set :session_secret, 'secret sauce'
   enable :sessions
@@ -12,15 +19,33 @@ configure do
 end
 
 before do
-	@files = []
-	Dir["data/*"].each do |string|
-		@files << string.gsub!('data/', '')
+	file_pattern = File.join(data_path, "*")
+	@file_names = Dir[file_pattern].map do |string|
+		File.basename(string)
+	end
+	session[:blah] = "stump logged in var"
+end
+
+def data_path
+	if ENV["RACK_ENV"] == "test"
+		File.expand_path("../test/data",__FILE__)
+	else
+		File.expand_path("../data",__FILE__)
 	end
 end
 
+def create_document(name, content="")
+	File.open(document_path(name),"w") do |file|
+		file.write(content)
+	end
+end
+
+def document_path(filename)
+	File.join(data_path, filename)
+end
+
 def retrieve_content(filename)
-	path = "data/" + filename
-	File.open(path)
+	File.open(document_path(filename))
 end
 
 def format_file_data(filename)
@@ -39,14 +64,46 @@ def format_file_data(filename)
 	formatted_data
 end
 
-get "/?" do	
-	erb :index
+def format_file_size(size)
+	case 
+	when (0...2**10).cover?(size)
+		"#{size} bytes"
+	when (2**10...2**20).cover?(size)
+		"#{'%.2f' % (Float(size)/2**10)} KB"
+	when (2**20...2**30).cover?(size)
+		"#{'%.2f' % (Float(size)/2**20)} MB"
+	when (2**30...2**40).cover?(size)
+		"#{'%.2f' % (Float(size)/2**30)} GB"
+	else
+		"> TB"
+	end
+end
+
+def expand_document_type(filename)
+	type = filename.split(".")[1].to_sym
+	if VALID_FILE_TYPES.has_key?(type)
+		VALID_FILE_TYPES[type]
+	else
+		"Invalid File Type"
+	end
+end
+
+get "/?" do
+	@file_data = {}
+	@file_names.each do |file_name|
+		size = File.size(document_path(file_name))
+		@file_data[file_name] = {
+			size: format_file_size(size),
+			type: expand_document_type(file_name)
+		}
+	end
+	erb :index, layout: :layout
 end
 
 get "/:filename" do
 	file_name = params[:filename]
-	
-	if @files.include? file_name
+
+	if @file_names.include? file_name
 		format_file_data(file_name)
 	else
 		session[:error] = "#{file_name} does not exist."
@@ -64,7 +121,7 @@ end
 # Update/edit page information
 post "/:filename" do
   @file_name = params[:filename]
-  path = 'data/'+ @file_name
+  path = File.join(data_path, @file_name)
   file = open(path,'w')
   content = params[:file_content]
   file.write(content)
@@ -80,4 +137,20 @@ post "/:filename" do
   #   session[:success] = "#{@file_name} has been updated."
   #   redirect "/"
   # end
+end
+
+#Render the new file page
+get "/file/new" do
+	erb :new_document
+end
+
+#Create new file page
+post "/file/new" do
+	doc_name = params[:doc_name].strip
+	type = params[:file_type]
+	file_name = "#{doc_name}.#{type}"
+	create_document(file_name)
+	@file_names << (file_name)
+	session[:success] = "#{file_name} has been created."
+	redirect "/"
 end

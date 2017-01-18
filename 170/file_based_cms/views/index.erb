@@ -1,11 +1,35 @@
-<%if session[:error]%>
-  <p><%= session.delete(:error) %></p>
-<%end%>
-<ul>
-	<% @files.each do |file| %>
-		<li>
-			<a href="<%= '/' + file %>"><%=file%></a>
-			<a href="<%= '/' + file + '/edit'%>">Edit</a>
-		</li>
-	<%end%>
-</ul>
+ <div class="grid_9 push_1" id="doc-listing">
+	<h1>Admin's Documents **fix me!</h1>
+	<table>
+		<% @file_names.each do |file_name| %>
+			<tr class="head">
+				<th>File Name</th>
+				<th>File Type</th>
+				<th>File Size</th>
+				<th></th>
+				<th></th>
+				<th></th>
+			</tr>
+			<tr>
+				<th><a href="<%= '/' + file_name %>"><%=file_name%></a></th>
+				<td><%= @file_data[file_name][:type] %></td>
+				<td><%= @file_data[file_name][:size] %></td>
+				<td>
+					<form action="<%= '/' + file_name + '/edit'%>" method="get">
+						<input type="submit" value="Edit" id="submit" />
+					</form>
+				</td>
+				<td>
+					<form>
+						<input type="submit" value="Delete" id="submit" />
+					</form>
+				</td>	
+				<td>
+					<form>
+						<input type="submit" value="Copy" id="submit" />
+					</form>
+				</td>							
+			</tr>
+		<%end%>
+	</table>
+</div>
