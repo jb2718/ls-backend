@@ -88,6 +88,9 @@ def expand_document_type(filename)
 	end
 end
 
+class Document
+end
+
 get "/?" do
 	@file_data = {}
 	@file_names.each do |file_name|
@@ -146,9 +149,8 @@ end
 
 #Create new file page
 post "/file/new" do
-	doc_name = params[:doc_name].strip
-	type = params[:file_type]
-	file_name = "#{doc_name}.#{type}"
+	file_name = params[:file_name]
+	puts file_name
 	create_document(file_name)
 	@file_names << (file_name)
 	session[:success] = "#{file_name} has been created."

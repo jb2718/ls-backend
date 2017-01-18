@@ -10,14 +10,6 @@ Minitest::Reporters.use!
 require_relative "../cms"
 
 
-
-def create_document(name, content="")
-	File.open(document_path(name),"w") do |file|
-		file.write(content)
-	end
-end
-
-
 class CMSTest < Minitest::Test
 	include Rack::Test::Methods
 
@@ -85,17 +77,18 @@ class CMSTest < Minitest::Test
 		assert_includes last_response.body, "Create New Document"
 	end
 
-	def test_new_document_create_button
-		post "file/new", "new_doc.txt"
+	def test_new_document_create
+		post "file/new", file_name: "new_doc.txt"
 		assert_equal 302, last_response.status
 
 		get last_response["Location"]
 		assert_equal 200, last_response.status
-		assert_includes last_response.body, "text.txt has been created"
+		assert_includes last_response.body, "new_doc.txt"
 	end
 
 	def test_new_document_error
-		post "file/new", ".txt"
+		skip
+		post "file/new", file_name: ".txt"
 		assert_equal 422, last_response.status
 		assert_includes last_response.body, "A file name is required"
 	end
