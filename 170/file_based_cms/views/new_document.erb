@@ -8,11 +8,11 @@
 			</div>
 			<p class="title">File Extension</p>
 			<select name="file_type">
-				<%VALID_FILE_TYPES.keys.each do |type|%>
+				<%@valid_file_types.keys.each do |type|%>
 				<option value="<%=type.to_s%>">.<%=type.to_s%></option>
 				<%end%>
 			</select>
-			<div class="submit">
+			<div class="submit new-doc-actions">
 				<input value="Create" id="submit" type="submit">
 				<a href="/">Cancel</a>
 			</div>

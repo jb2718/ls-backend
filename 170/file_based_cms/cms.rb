@@ -1,16 +1,7 @@
-require "sinatra"
-require "sinatra/reloader"
-require "sinatra/content_for"
-require "tilt/erubis"
-require "pry"
-require "redcarpet"
+libs = %w(sinatra sinatra/reloader sinatra/content_for tilt/erubis pry)
+libs.each  { |lib| require lib}
+require_relative 'document'
 
-VALID_FILE_TYPES = {
-	#keys: file types app can process; 
-	#values: full word string representation of file type
-	txt: "text",
-	md: "markdown"
-}
 
 configure do
   set :session_secret, 'secret sauce'
@@ -19,9 +10,9 @@ configure do
 end
 
 before do
-	file_pattern = File.join(data_path, "*")
-	@file_names = Dir[file_pattern].map do |string|
-		File.basename(string)
+	@documents = []
+	if !load_file_data.empty?
+		@documents = load_file_data
 	end
 	session[:blah] = "stump logged in var"
 end
@@ -34,80 +25,46 @@ def data_path
 	end
 end
 
-def create_document(name, content="")
-	File.open(document_path(name),"w") do |file|
-		file.write(content)
+def load_file_data
+	documents = []
+	file_pattern = File.join(data_path, "*")
+	Dir[file_pattern].each do |string|
+		file_name = File.basename(string)
+		path = File.dirname(string)
+		documents << Document.new
+		documents.last.load(file_name, path)
 	end
+	documents
 end
 
-def document_path(filename)
-	File.join(data_path, filename)
-end
-
-def retrieve_content(filename)
-	File.open(document_path(filename))
-end
-
-def format_file_data(filename)
-	content = retrieve_content(filename)
-	formatted_data = ''
-
-	extension = filename.split('.')[1]
-	if extension == "md"
-		markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
-		headers["Content-Type"] = "text/html"
-		formatted_data = markdown.render(content.read)
-	else
-		headers["Content-Type"] = "text/plain"
-		formatted_data = content.read
+def find_by_name(filename)
+	same_names = @documents.reject do |document|
+		document.name.downcase != filename.downcase
 	end
-	formatted_data
+	same_names.first
 end
 
-def format_file_size(size)
-	case 
-	when (0...2**10).cover?(size)
-		"#{size} bytes"
-	when (2**10...2**20).cover?(size)
-		"#{'%.2f' % (Float(size)/2**10)} KB"
-	when (2**20...2**30).cover?(size)
-		"#{'%.2f' % (Float(size)/2**20)} MB"
-	when (2**30...2**40).cover?(size)
-		"#{'%.2f' % (Float(size)/2**30)} GB"
-	else
-		"> TB"
+#Return error if doc name has error, otherwise return nil
+def error_for_new_doc_name(filename, extension)
+	full_file_name = filename + "." + extension
+  if !(1..20).cover?(filename.size)
+    return "File name must be between 1 and 20 characters"
+  elsif find_by_name(full_file_name)
+    return "File name must be unique"
 	end
-end
-
-def expand_document_type(filename)
-	type = filename.split(".")[1].to_sym
-	if VALID_FILE_TYPES.has_key?(type)
-		VALID_FILE_TYPES[type]
-	else
-		"Invalid File Type"
-	end
-end
-
-class Document
+	nil
 end
 
 get "/?" do
-	@file_data = {}
-	@file_names.each do |file_name|
-		size = File.size(document_path(file_name))
-		@file_data[file_name] = {
-			size: format_file_size(size),
-			type: expand_document_type(file_name)
-		}
-	end
 	erb :index, layout: :layout
 end
 
+#View file content
 get "/:filename" do
-	file_name = params[:filename]
-
-	if @file_names.include? file_name
-		format_file_data(file_name)
+	document = find_by_name(params[:filename])
+	if document
+		headers["Content-Type"] = document.format_content[:headers][:content_type]
+		document.format_content[:body]
 	else
 		session[:error] = "#{file_name} does not exist."
 		redirect '/'
@@ -116,43 +73,64 @@ end
 
 #Render the edit file page
 get "/:filename/edit" do
-	@file_name = params[:filename]
-	@file_content = retrieve_content(@file_name)
+	@document = find_by_name(params[:filename])
 	erb :edit_document
 end
 
-# Update/edit page information
-post "/:filename" do
-  @file_name = params[:filename]
-  path = File.join(data_path, @file_name)
-  file = open(path,'w')
-  content = params[:file_content]
-  file.write(content)
-  file.close
-  session[:success] = "#{@file_name} has been updated."
-  redirect "/"
+# # Update/edit page information
+# post "/:filename" do
+#   @file_name = params[:filename]
+#   path = File.join(data_path, @file_name)
+#   file = open(path,'w')
+#   content = params[:file_content]
+#   file.write(content)
+#   file.close
+#   session[:success] = "#{@file_name} has been updated."
+#   redirect "/"
 
-  # error = error_for_list_name(list_name)
-  # if error
-  #   session[:error] = error
-  #   erb :edit_list, layout: :layout
-  # else
-  #   session[:success] = "#{@file_name} has been updated."
-  #   redirect "/"
-  # end
-end
+#   # error = error_for_list_name(list_name)
+#   # if error
+#   #   session[:error] = error
+#   #   erb :edit_list, layout: :layout
+#   # else
+#   #   session[:success] = "#{@file_name} has been updated."
+#   #   redirect "/"
+#   # end
+# end
 
 #Render the new file page
 get "/file/new" do
-	erb :new_document
+	@valid_file_types = Document::VALID_FILE_TYPES
+	erb :new_document, layout: :layout
 end
 
 #Create new file page
 post "/file/new" do
-	file_name = params[:file_name]
-	puts file_name
-	create_document(file_name)
-	@file_names << (file_name)
-	session[:success] = "#{file_name} has been created."
+	@valid_file_types = Document::VALID_FILE_TYPES
+	file_name_base = params[:doc_name].strip
+	extension = params[:file_type]
+
+	error = error_for_new_doc_name(file_name_base, extension)
+	
+	if error
+		session[:error] = error
+    erb :new_document, layout: :layout
+	else
+		file_name = file_name_base.strip + "." + extension		
+		@documents << Document.new
+		@documents.last.create_document(file_name, data_path)
+		session[:success] = "#{file_name} has been created."
+		redirect "/"
+	end
+end
+
+#Delete a file
+post "/:filename/delete" do
+	filename = params[:filename]
+	doc = find_by_name(filename)
+
+	doc.delete_file
+	@documents.delete(doc)
+	session[:success] = "#{filename} was deleted"
 	redirect "/"
 end
