@@ -1,4 +1,4 @@
-libs = %w(sinatra sinatra/reloader sinatra/content_for tilt/erubis pry)
+libs = %w(sinatra sinatra/reloader sinatra/content_for tilt/erubis pry yaml bcrypt)
 libs.each  { |lib| require lib}
 require_relative 'document'
 
@@ -14,8 +14,18 @@ before do
 	if !load_file_data.empty?
 		@documents = load_file_data
 	end
-	session[:blah] = "stump logged in var"
 end
+
+def load_accounts
+	if ENV["RACK_ENV"] == "test"
+		path = File.expand_path("../test/test_user_accounts.yml",__FILE__)
+	else
+		path = File.expand_path("../user_accounts.yml",__FILE__)
+	end
+	YAML.load_file(path)
+end
+
+ACCOUNTS = load_accounts
 
 def data_path
 	if ENV["RACK_ENV"] == "test"
@@ -55,6 +65,48 @@ def error_for_new_doc_name(filename, extension)
 	nil
 end
 
+def signed_in?
+	session[:logged_in]
+end
+
+def require_sign_in
+	if !signed_in?
+		session[:error] = "You must be signed in to do that"
+		redirect "/"
+	end
+end
+
+def valid_login?(username, password)
+	return ACCOUNTS.has_key?(username) && BCrypt::Password.new(ACCOUNTS[username]) == password
+end
+
+get "/users/signin" do
+	erb :sign_in, layout: :layout
+end
+
+post "/users/signin" do
+	@username = params[:username]
+	password = params[:password]
+	if valid_login?(@username,password)
+		session[:username] = @username
+		session[:logged_in] = true
+		session[:success] = "Welcome!"
+		redirect "/"
+	else
+		session[:error] = "Invalid Credentials"
+		@username = params[:username]
+		erb :sign_in, layout: :layout
+	end
+end
+
+#log user out
+post "/users/signout" do
+	session[:username] = nil
+	session[:logged_in] = false
+	session[:success] = "You have been signed out"
+	redirect "/"
+end
+
 get "/?" do
 	erb :index, layout: :layout
 end
@@ -66,46 +118,37 @@ get "/:filename" do
 		headers["Content-Type"] = document.format_content[:headers][:content_type]
 		document.format_content[:body]
 	else
-		session[:error] = "#{file_name} does not exist."
+		session[:error] = "#{params[:filename]} does not exist."
 		redirect '/'
 	end
 end
 
 #Render the edit file page
 get "/:filename/edit" do
+	require_sign_in
 	@document = find_by_name(params[:filename])
 	erb :edit_document
 end
 
 # # Update/edit page information
-# post "/:filename" do
-#   @file_name = params[:filename]
-#   path = File.join(data_path, @file_name)
-#   file = open(path,'w')
-#   content = params[:file_content]
-#   file.write(content)
-#   file.close
-#   session[:success] = "#{@file_name} has been updated."
-#   redirect "/"
-
-#   # error = error_for_list_name(list_name)
-#   # if error
-#   #   session[:error] = error
-#   #   erb :edit_list, layout: :layout
-#   # else
-#   #   session[:success] = "#{@file_name} has been updated."
-#   #   redirect "/"
-#   # end
-# end
+post "/:filename/edit" do
+	require_sign_in
+	@document = find_by_name(params[:filename])
+  @document.update_content(params[:file_content])
+  session[:success] = "#{params[:filename]} has been updated."
+  redirect "/"
+end
 
 #Render the new file page
 get "/file/new" do
+	require_sign_in
 	@valid_file_types = Document::VALID_FILE_TYPES
 	erb :new_document, layout: :layout
 end
 
 #Create new file page
 post "/file/new" do
+	require_sign_in
 	@valid_file_types = Document::VALID_FILE_TYPES
 	file_name_base = params[:doc_name].strip
 	extension = params[:file_type]
@@ -114,6 +157,7 @@ post "/file/new" do
 	
 	if error
 		session[:error] = error
+		status 422
     erb :new_document, layout: :layout
 	else
 		file_name = file_name_base.strip + "." + extension		
@@ -126,6 +170,7 @@ end
 
 #Delete a file
 post "/:filename/delete" do
+	require_sign_in
 	filename = params[:filename]
 	doc = find_by_name(filename)
 

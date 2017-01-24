@@ -45,22 +45,6 @@ class Document
 		VALID_FILE_TYPES[type]
 	end
 
-	def delete_file
-		FileUtils.rm(document_path)
-	end
-
-
-	private
-
-
-	def compute_size
-		File.size(document_path)
-	end
-
-	def document_path
-		File.join(@file_path, @name)
-	end
-
 	def format_content
 		formatted_data = {}
 
@@ -74,5 +58,26 @@ class Document
 			formatted_data[:body] = @raw_content
 		end
 		formatted_data
+	end
+
+	def delete_file
+		FileUtils.rm(document_path)
+	end
+
+	def update_content(content)
+		@raw_content = content
+		File.write(document_path, @raw_content)
+	end
+
+
+	private
+
+
+	def compute_size
+		File.size(document_path)
+	end
+
+	def document_path
+		File.join(@file_path, @name)
 	end
 end

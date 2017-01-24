@@ -1,12 +1,11 @@
  <div class="grid_9 push_1" id="doc-listing">
-	<h1>Admin's Documents **fix me!</h1>
+	<h1>Documents</h1>
 	<table>
 		<% @documents.each do |document| %>
 			<tr class="head">
 				<th>File Name</th>
 				<th>File Type</th>
 				<th>File Size</th>
-				<th></th>
 				<th></th>
 				<th></th>
 			</tr>
@@ -23,12 +22,7 @@
 					<form action="<%= '/' + document.name + '/delete'%>" method="post">
 						<input type="submit" value="Delete" id="submit" />
 					</form>
-				</td>	
-				<td>
-					<form>
-						<input type="submit" value="Copy" id="submit" />
-					</form>
-				</td>							
+				</td>						
 			</tr>
 		<%end%>
 	</table>

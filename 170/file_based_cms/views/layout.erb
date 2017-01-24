@@ -15,7 +15,7 @@
 					Acme CMS
 				</h1>
 
-				<%if session[:blah]%>
+				<%if session[:logged_in]%>
 					<div class="nav grid_3 push_9">
 						<ul>
 							<li><a href="/file/new">New Document</a></li>
@@ -26,12 +26,6 @@
 	</header>
 	<section class="wrapper">
 		<div class="main-content container_12">
-			<%if session[:new_login]%>
-				<div class="flash">
-					<p>Test Message - WElcome%></p>
-				</div>			
-			<%end%>
-			
 			<%if session[:error]%>
 				<div class="flash">
 					<p><%= session.delete(:error) %></p>
@@ -49,7 +43,16 @@
 		</div>
 	</section>
 	<footer class="clearfix">
-		<p>Signed in as Admin***fix me!!</p>
+		<%if session[:logged_in]==true%>
+			<p>Signed in as <%="#{session[:username].capitalize}"%></p>
+			<form action="/users/signout" method="post">
+				<input value="Sign Out" id="submit" type="submit">
+			</form>
+		<%else%>
+			<form action="/users/signin" method="get">
+				<input value="Sign In" id="submit" type="submit">
+			</form>
+		<%end%>
 	</footer>
 </body>
 </html>
