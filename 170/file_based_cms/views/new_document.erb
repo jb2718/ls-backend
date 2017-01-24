@@ -4,7 +4,7 @@
 		<form class="login-form-box" action="/file/new" method="post">
 			<div class="login-form-input-text">
 				<label for="doc_name" class="title">Document Name</label>
-				<input class="login-input" id="doc_name" name="doc_name" type="text" placeholder="New Document Name" value="">
+				<input class="login-input" id="doc_name" name="doc_name" type="text" placeholder="New Document Name" value="<%=@file_name_base%>">
 			</div>
 			<p class="title">File Extension</p>
 			<select name="file_type">

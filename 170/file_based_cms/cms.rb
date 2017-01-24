@@ -61,6 +61,8 @@ def error_for_new_doc_name(filename, extension)
     return "File name must be between 1 and 20 characters"
   elsif find_by_name(full_file_name)
     return "File name must be unique"
+  elsif (filename =~ /(^[A-Za-z][A-Za-z0-9_]+)$/).nil?
+    return "Invalid file name.  File must begin with an alpha character.  The rest of the file name can only contain alphanumeric characters and underscores"
 	end
 	nil
 end
@@ -150,17 +152,18 @@ end
 post "/file/new" do
 	require_sign_in
 	@valid_file_types = Document::VALID_FILE_TYPES
-	file_name_base = params[:doc_name].strip
+	@file_name_base = params[:doc_name].strip
 	extension = params[:file_type]
 
-	error = error_for_new_doc_name(file_name_base, extension)
+	error = error_for_new_doc_name(@file_name_base, extension)
 	
 	if error
 		session[:error] = error
 		status 422
+		@file_name_base
     erb :new_document, layout: :layout
 	else
-		file_name = file_name_base.strip + "." + extension		
+		file_name = @file_name_base.strip + "." + extension		
 		@documents << Document.new
 		@documents.last.create_document(file_name, data_path)
 		session[:success] = "#{file_name} has been created."
