@@ -1,0 +1,21 @@
+<div class="grid_9 push_1">
+	<h1 id="edit-doc-heading">Create New Document</h1>
+	<div class="grid_4 push_3" id="create-new-doc-form">
+		<form class="login-form-box" action="/file/new" method="post">
+			<div class="login-form-input-text">
+				<label for="doc_name" class="title">Document Name</label>
+				<input class="login-input" id="doc_name" name="doc_name" type="text" placeholder="New Document Name" value="<%=@file_name_base%>">
+			</div>
+			<p class="title">File Extension</p>
+			<select name="file_type">
+				<%@valid_file_types.keys.each do |type|%>
+				<option value="<%=type.to_s%>">.<%=type.to_s%></option>
+				<%end%>
+			</select>
+			<div class="submit new-doc-actions">
+				<input value="Create" id="submit" type="submit">
+				<a href="/">Cancel</a>
+			</div>
+		</form>
+	</div>
+</div>

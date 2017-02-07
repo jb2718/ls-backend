@@ -1,13 +1,11 @@
-<form action=<%="/#{@file_name}"%> method="post">
+<form action=<%="/#{@document.name}"%> method="post">
 	<dl>
 		<dt>
-			<label for="file_name">Edit content of <%=@file_name%></label>
+			<label for="file_name">Edit content of <%=@document.name%></label>
 		</dt>
-		<dd>
-			<input type="text" name="file_content" value="<%=@file_content.read%>">
-		</dd>
+		<textarea name="file_content" rows="30" cols="135"><%=@document.raw_content%></textarea>
 	</dl>
-	<fieldset>
+	<fieldset class="submit">
 		<input type="submit" value="Save Changes">
 	</fieldset>
 </form>

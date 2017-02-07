@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Acme CMS</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/stylesheets/reset.css">
+  <link rel="stylesheet" href="/stylesheets/application.css">
+  <link rel="stylesheet" href="/stylesheets/960_12_col.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> 
+</head>
+<body>
+	<header class="header">
+		<div class="container_12">
+				<h1 id="header-title">
+					Acme CMS
+				</h1>
+
+				<%if session[:logged_in]%>
+					<div class="nav grid_3 push_9">
+						<ul>
+							<li><a href="/file/new">New Document</a></li>
+						</ul>
+					</div>
+				<%end%>
+		</div>
+	</header>
+	<section class="wrapper">
+		<div class="main-content container_12">
+			<%if session[:error]%>
+				<div class="flash">
+					<p><%= session.delete(:error) %></p>
+				</div>
+			<%end%>
+
+			<%if session[:success]%>
+				<div class="flash">
+					<p><%= session.delete(:success) %></p>
+				</div>
+			<%end%>
+			<main>
+				<%== yield %>
+			</main>
+		</div>
+	</section>
+	<footer class="clearfix">
+		<%if session[:logged_in]==true%>
+			<p>Signed in as <%="#{session[:username].capitalize}"%></p>
+			<form action="/users/signout" method="post">
+				<input value="Sign Out" id="submit" type="submit">
+			</form>
+		<%else%>
+			<form action="/users/signin" method="get">
+				<input value="Sign In" id="submit" type="submit">
+			</form>
+		<%end%>
+	</footer>
+</body>
+</html>
