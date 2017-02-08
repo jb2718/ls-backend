@@ -1,49 +1,49 @@
 body {
-	background-color: #eeeceb;
-	margin: 0px;
-	text-align: center;
-	font-family: Arial, Verdana, sans-serif;
-	font-size: 100%
+  background-color: #eeeceb;
+  margin: 0px;
+  text-align: center;
+  font-family: Arial, Verdana, sans-serif;
+  font-size: 100%
 }
 
 .header {
-	background-color: #e2764a;
-	padding: 0;
-	height: 100px;
-	position: fixed;
-	top: 0px;
-	width: 100%;
-	z-index: 50;
-	font-family: 'Open Sans', sans-serif;
+  background-color: #e2764a;
+  padding: 0;
+  height: 100px;
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  z-index: 50;
+  font-family: 'Open Sans', sans-serif;
 }
 
 #header-title {
-	font-weight: 700;
-	font-size: 39px;
-	margin-top: 25px;
-	color: #E6CFC5;
-	text-transform: uppercase;
+  font-weight: 700;
+  font-size: 39px;
+  margin-top: 25px;
+  color: #E6CFC5;
+  text-transform: uppercase;
 }
 
 .nav {
-	float: right;
-	text-align: right;
+  float: right;
+  text-align: right;
 }
 
 .nav ul li {
-	font-size: 85%;
-	color: #E6CFC5;
-	font-weight: bold;
-	list-style-image: url("../images/icon-plus.png");
-	width: 116px;
+  font-size: 85%;
+  color: #E6CFC5;
+  font-weight: bold;
+  list-style-image: url("../images/icon-plus.png");
+  width: 116px;
 }
 .nav a {
-	color: #E6CFC5;
-	text-decoration: none;
+  color: #E6CFC5;
+  text-decoration: none;
 }
 
 .nav a:hover {
-	color: #ffffff;
+  color: #ffffff;
 }
 /*
 =======================
@@ -51,8 +51,8 @@ H-tags
 =======================
 */
 h1 {
-	font-size: 25px;
-	color: #545352;
+  font-size: 25px;
+  color: #545352;
 }
 
 
@@ -63,42 +63,42 @@ Tables
 */
 
 table {
-	border-spacing: 0px;}
+  border-spacing: 0px;}
 th, td {
-	padding: 5px 30px 5px 10px;
-	border-spacing: 0px;
-	font-size: 90%;
-	margin: 0px;}
+  padding: 5px 30px 5px 10px;
+  border-spacing: 0px;
+  font-size: 90%;
+  margin: 0px;}
 th, td {
-	color: #737476;
-	text-align: left;
-	background-color: #e0e9f0;
-	border-top: 1px solid #f1f8fe;
-	border-bottom: 1px solid #cbd2d8;
-	border-right: 1px solid #cbd2d8;}
+  color: #737476;
+  text-align: left;
+  background-color: #e0e9f0;
+  border-top: 1px solid #f1f8fe;
+  border-bottom: 1px solid #cbd2d8;
+  border-right: 1px solid #cbd2d8;}
 tr.head th {
-	color: #fff;
-	background-color: #90b4d6;
-	border-bottom: 2px solid #547ca0;
-	border-right: 1px solid #749abe;
-	border-top: 1px solid #90b4d6;
-	text-align: center;
-	letter-spacing: 0.15em;}
+  color: #fff;
+  background-color: #90b4d6;
+  border-bottom: 2px solid #547ca0;
+  border-right: 1px solid #749abe;
+  border-top: 1px solid #90b4d6;
+  text-align: center;
+  letter-spacing: 0.15em;}
 tr.head th:first-child {
-/*	-webkit-border-top-left-radius: 5px;
-	-moz-border-radius-topleft: 5px;
-	border-top-left-radius: 5px;*/
+/*  -webkit-border-top-left-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  border-top-left-radius: 5px;*/
 }
 tr.head th:last-child {
-/*	-webkit-border-top-right-radius: 5px;
-	-moz-border-radius-topright: 5px;
-	border-top-right-radius: 5px;*/
+/*  -webkit-border-top-right-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-right-radius: 5px;*/
 }
 td {
 
 }
 tr.even td, tr.even th {
-	background-color: #e8eff5;}
+  background-color: #e8eff5;}
 
 
 /*
@@ -107,82 +107,82 @@ Main Content Section
 =======================
 */
 .wrapper {
-	width: 960px;
-	margin: 0px auto;
-	text-align: left;
+  width: 960px;
+  margin: 0px auto;
+  text-align: left;
 }
 
 .main-content {
-	margin-top: 111px;
-	background-position: 122px 142px;
-	height: 570px;
+  margin-top: 111px;
+  background-position: 122px 142px;
+  height: 570px;
 }
 
 .flash {
-	height: 34px;
-	margin: 10px 0px;
-	background-color: #F8FFB8;
-	color: #979C6E;
-	padding-top: 7px;
-	padding-left: 10px;
+  height: 34px;
+  margin: 10px 0px;
+  background-color: #F8FFB8;
+  color: #979C6E;
+  padding-top: 7px;
+  padding-left: 10px;
 }
 
 #doc-listing {
-	margin-left: auto;
-	margin-right: auto;
-	border: 1px solid #d6d6d6;
-	padding: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #d6d6d6;
+  padding: 20px;
 }
 
 #doc-listing h1 {
-	margin-bottom: 13px;
+  margin-bottom: 13px;
 }
 
 #doc-listing table {
-	margin-left: auto;
-	margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .login-form-box {
-	width: 272px;
-	margin: 0 auto;
+  width: 272px;
+  margin: 0 auto;
 }
 
 #login-form {
-	margin-left: auto;
-	margin-right: auto;
-	border: 1px solid #d6d6d6;
-	padding: 30px 20px 40px 20px;
-	background-color: white;
-	color: #737476;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #d6d6d6;
+  padding: 30px 20px 40px 20px;
+  background-color: white;
+  color: #737476;
 }
 
 #login-form h1 {
-	margin-bottom: 13px;
+  margin-bottom: 13px;
 }
 
 .title {
-	float: left;
-	width: 95px;
-	clear: left;
+  float: left;
+  width: 95px;
+  clear: left;
 }
 
 .login-input {
-	width: 170px;
-	border: 1px solid #d6d6d6;
-	padding: 2px;
+  width: 170px;
+  border: 1px solid #d6d6d6;
+  padding: 2px;
 }
 
 .login-form-input-text {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .submit {
-	text-align: right;
+  text-align: right;
 }
 
 .new-doc-actions {
-	padding-top: 18px;
+  padding-top: 18px;
 }
 
 /*
@@ -192,21 +192,21 @@ Edit Document Styles
 */
 
 #edit-doc-container{
-	margin-left: auto;
-	margin-right: auto;
-	border: 1px solid #d6d6d6;
-	padding: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #d6d6d6;
+  padding: 20px;
 }
 
 .textarea-label {
-	padding-bottom: 5px;
-	font-size: 90%;
-	color: #737476;
+  padding-bottom: 5px;
+  font-size: 90%;
+  color: #737476;
 }
 
 .edit-doc-save-fieldset {
-	text-align: right;
-	padding-top: 10px;	
+  text-align: right;
+  padding-top: 10px;  
 }
 
 #edit-doc-heading  {
@@ -220,17 +220,17 @@ Create Document Styles
 */
 
 #create-new-doc-form {
-	margin-left: auto;
-	margin-right: auto;
-	border: 1px solid #d6d6d6;
-	padding: 30px 20px 40px 20px;
-	background-color: white;
-	color: #737476;
-	margin-top: 45px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #d6d6d6;
+  padding: 30px 20px 40px 20px;
+  background-color: white;
+  color: #737476;
+  margin-top: 45px;
 }
 
 #create-new-doc-form h1 {
-	margin-bottom: 13px;
+  margin-bottom: 13px;
 }
 
 /*
@@ -239,20 +239,20 @@ Footer Section
 =======================
 */
 footer {
-	clear: both;
-	position: absolute;
+  clear: both;
+  position: absolute;
   right: 0;
   bottom: 0;
   left: 0;
-	background: rgba(0, 0, 0, 0.2);
-	padding: 15px 10px;
-	color: #737476;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 15px 10px;
+  color: #737476;
 }
 footer p {
-	font-family: Helvetica, Arial, sans-serif;
-	font-size: 75%;
-	text-align: center;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 75%;
+  text-align: center;
 }
 footer a {
-	color: #807c72;
+  color: #807c72;
 }
