@@ -1,0 +1,44 @@
+1.
+
+createdb event_mgmt
+psql -d event_mgmt < theater_full.sql
+
+-------------------------------------
+2.
+
+SELECT COUNT(id) FROM tickets;
+
+-------------------------------------
+3.
+
+SELECT COUNT(DISTINCT customer_id) FROM tickets;
+
+-------------------------------------
+4.
+
+SELECT ((COUNT(DISTINCT customer_id) * 100) / COUNT(DISTINCT customers.id)::float) 
+AS percentage FROM tickets 
+RIGHT OUTER JOIN customers ON tickets.customer_id =  customers.id;
+
+
+-------------------------------------
+5.
+
+SELECT name, COUNT(tickets.id) AS tickets_sold
+FROM tickets LEFT OUTER JOIN
+events ON tickets.event_id = events.id
+GROUP BY events.name ORDER BY tickets_sold DESC;
+
+-------------------------------------
+6.
+
+SELECT customers.id, customers.email, COUNT(DISTINCT(event_id)) AS number_of_events FROM tickets 
+LEFT OUTER JOIN customers ON tickets.customer_id = customers.id  
+GROUP BY customers.id HAVING COUNT(DISTINCT(event_id)) = 3;
+
+-------------------------------------
+7.
+
+
+
+-------------------------------------

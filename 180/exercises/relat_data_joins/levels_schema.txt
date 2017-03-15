@@ -1,0 +1,22 @@
+1.
+
+conceptual
+logical
+physical
+
+--------------------------------
+2.
+
+A conceptual schema deals with a high level concept of the entities and relationships of the data.  It is not specific to any particular database technology
+
+--------------------------------
+3.
+
+A physical schema deals with the database specific implementation of the entities and attributes of the data
+
+--------------------------------
+4.
+
+one-to-one
+one-to-many
+mamy-to-many

@@ -1,0 +1,16 @@
+DML - Data Manipulation Language
+Used to create, manipulate and retrieve the available data in the dataset;
+
+Example: SELECT * FROM films WHERE duration > 100;
+
+
+
+DDL - Data Definition Language
+Used to create or make changes to the actual data table or database
+
+Example: CREATE TABLE films(
+id serial PRIMARY KEY,
+title VARCHAR(255),
+director VARCHAR(255),
+duration INTEGER
+);

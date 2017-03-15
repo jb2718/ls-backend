@@ -1,0 +1,70 @@
+1.
+a.  The file checks to see if a films table already exists and deletes it if so
+
+b. 
+E:  table "films" does not exist, skipping
+DROP TABLE
+CREATE TABLE
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+
+The first line is a result of the check for the films table.  After that, the file drops a non-existant table
+Then it creates a new films table; then it inserts data into that table three times
+
+c.
+The first line drops the films table if it exists
+------------------
+2.
+
+SELECT * FROM films;
+
+------------------
+3.
+
+SELECT * FROM films WHERE LENGTH(title) < 12;
+------------------
+4.
+
+ALTER TABLE films ADD COLUMN director VARCHAR(255);
+
+ALTER TABLE films ADD COLUMN duration INTEGER;
+
+------------------
+5.
+
+UPDATE films SET director = 'John McTiernan', duration = 132 WHERE title = 'Die Hard';
+
+
+UPDATE films SET director = 'Michael Curtiz', duration = 102 WHERE title = 'Casablanca';
+
+UPDATE films SET director = 'Francis Ford Coppola', duration = 113 WHERE title = 'The Conversation';
+
+
+
+------------------
+6.
+
+INSERT INTO films (title, year, genre, director, duration)
+VALUES('1984', 1956, 'scifi', 'Michael Anderson', 90);
+
+INSERT INTO films (title, year, genre, director, duration)
+VALUES('Tinker Tailor Soldier Spy', 2011, 'espionage', 'Tomas Alfredson', 127);
+
+INSERT INTO films (title, year, genre, director, duration)
+VALUES('The Birdcage', 1996, 'comedy', 'Mike Nichols', 118);
+
+------------------
+7.
+
+SELECT title, (EXTRACT(YEAR FROM NOW())-year) AS age FROM films ORDER BY age ASC;
+
+------------------
+8.
+
+SELECT title, duration FROM films WHERE duration > 120 ORDER BY duration DESC;
+
+------------------
+9.
+
+SELECT title FROM films ORDER BY duration DESC LIMIT 1;
