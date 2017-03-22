@@ -1,0 +1,120 @@
+1.
+
+psql -d exercises < films2.sql
+
+--------------------------
+2.
+
+ALTER TABLE films ALTER COLUMN title SET NOT NULL;
+ALTER TABLE films ALTER COLUMN year SET NOT NULL;
+ALTER TABLE films ALTER COLUMN genre SET NOT NULL;
+ALTER TABLE films ALTER COLUMN director SET NOT NULL;
+ALTER TABLE films ALTER COLUMN duration SET NOT NULL;
+
+--------------------------
+3.
+
+After modifying a column to be NOT NULL, the "Modifiers" column of the \d films display will contain "not null" for that column
+
+--------------------------
+4.
+
+ALTER TABLE films ADD CONSTRAINT unique_title UNIQUE (title);
+
+--------------------------
+5.
+
+The unique constraint is added underneath the "Indexes:" section of \d films -
+
+Indexes:
+    "unique_title" UNIQUE CONSTRAINT, btree (title)
+
+
+--------------------------
+6.
+
+ALTER TABLE films DROP CONSTRAINT unique_title;
+
+--------------------------
+7.
+
+ALTER TABLE films ADD CHECK (LENGTH(title) >= 1);
+
+--------------------------
+8.
+
+INSERT INTO films (title, year, genre, director, duration)
+VALUES ('', 1999, 'suspense', 'Alfred Hitchcock', 102);
+
+The error is ----> 
+ERROR:  new row for relation "films" violates check constraint "films_title_check"
+DETAIL:  Failing row contains (, 1999, suspense, Alfred Hitchcock, 102).
+
+
+--------------------------
+9.
+
+It is displayed as a "Check constraint"
+
+Check constraints:
+    "films_title_check" CHECK (length(title::text) >= 1)
+
+--------------------------
+10.
+
+ALTER TABLE films DROP CONSTRAINT films_title_check;
+
+--------------------------
+11.
+
+ALTER TABLE films ADD CHECK (year >= 1900);
+ALTER TABLE films ADD CHECK (year <= 2100);
+
+--------------------------
+12.
+
+Check constraints:
+    "films_year_check" CHECK (year >= 1900)
+    "films_year_check1" CHECK (year <= 2100)
+
+
+--------------------------
+13.
+
+ALTER TABLE films ADD CHECK (LENGTH(director) >= 3 AND director LIKE '% %');
+
+--------------------------
+14.
+
+Check constraints:
+    "films_director_check" CHECK (length(director::text) >= 3 AND director::text ~~ '% %'::text)
+
+--------------------------
+15.
+
+UPDATE films SET director = 'Johnny'
+WHERE title = 'Die Hard';
+
+
+ERROR:  new row for relation "films" violates check constraint "films_director_check"
+DETAIL:  Failing row contains (Die Hard, 1988, action, Johnny, 132).
+
+
+--------------------------
+16.
+
+a) define schema with NOT NULL restriction
+b) define schema with DEFAULT value
+c) add constraint to schema that requires a certain format for data
+
+--------------------------
+17.
+
+You can define the table with conflicting constraints if there is not already data there; however, as soon as you try to enter data that violates those constraints, you will see an error.
+
+--------------------------
+18.
+
+\d <table name>
+
+

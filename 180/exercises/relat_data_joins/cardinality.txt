@@ -1,0 +1,18 @@
+1.
+
+Cardinality is the number of objects on each side of the relationship
+
+--------------------------------
+2.
+
+Modality determines if a relationship is optional or required
+
+--------------------------------
+3.
+
+one
+
+--------------------------------
+4.
+
+crow's foot notation

@@ -1,0 +1,103 @@
+1.
+
+CREATE TABLE people(
+name VARCHAR(255),
+age INTEGER,
+occupation VARCHAR(255)
+);
+
+---------------------
+2.
+
+INSERT INTO people (name, age, occupation)
+VALUES ('Abby', 34, 'biologist');
+
+INSERT INTO people (name, age)
+VALUES ('Mu''nisah', 26);
+
+INSERT INTO people (name, age, occupation)
+VALUES ('Mirabelle', 40, 'contractor');
+
+---------------------
+3.
+
+SELECT * FROM people WHERE age = 26;
+
+SELECT * FROM people WHERE age < 30;
+
+SELECT * FROM people WHERE occupation IS NULL;
+
+
+---------------------
+4.
+
+CREATE TABLE birds(
+name VARCHAR(255),
+length REAL,
+wingspan REAL,
+family VARCHAR(255),
+extinct BOOLEAN
+);
+
+---------------------
+5.
+
+INSERT INTO birds (name, length, wingspan, family, extinct)
+VALUES ('Spotted Towhee', 21.6, 26.7, 'Emberizidae', false);
+
+INSERT INTO birds (name, length, wingspan, family, extinct)
+VALUES ('American Robin', 25.5, 36.0, 'Turdidae', false);
+
+INSERT INTO birds (name, length, wingspan, family, extinct)
+VALUES ('Greater Koa Finch', 19.0, 24.0, 'Fringillidae', true);
+
+INSERT INTO birds (name, length, wingspan, family, extinct)
+VALUES ('Carolina Parakeet', 33.0, 55.8, 'Psittacidae', true);
+
+INSERT INTO birds (name, length, wingspan, family, extinct)
+VALUES ('Common Kestrel', 35.5, 73.5, 'Falconidae', false);
+
+---------------------
+6.
+
+SELECT name, family FROM birds WHERE extinct = false ORDER BY length DESC;
+
+---------------------
+7.
+
+SELECT AVG(wingspan) AS "average winspan", MIN(wingspan) AS "minimum wingspan", MAX(wingspan) AS "maximum wingspan" FROM birds;
+
+
+---------------------
+8.
+
+CREATE TABLE menu_items(
+item VARCHAR(255),
+prep_time REAL,
+ingredient_cost NUMERIC(5,2),
+sales INTEGER,
+menu_price NUMERIC(4,2)
+);
+
+---------------------
+9.
+
+INSERT INTO menu_items (item, prep_time, ingredient_cost, sales, menu_price)
+VALUES ('omelette', 10, 1.50, 182, 7.99);
+
+INSERT INTO menu_items (item, prep_time, ingredient_cost, sales, menu_price)
+VALUES ('tacos', 5, 2.00, 254, 8.99);
+
+INSERT INTO menu_items (item, prep_time, ingredient_cost, sales, menu_price)
+VALUES ('oatmeal', 1, 0.50, 79, 5.99);
+
+---------------------
+10.
+
+SELECT item,((menu_price * sales)-(ingredient_cost * sales)) AS "profit" FROM menu_items ORDER BY profit DESC LIMIT 1;
+
+
+---------------------
+11.
+
+SELECT item, menu_price, ingredient_cost, prep_time, (menu_price -ingredient_cost-( (prep_time / 60) * 13)) AS "profit" FROM menu_items ORDER BY profit DESC;

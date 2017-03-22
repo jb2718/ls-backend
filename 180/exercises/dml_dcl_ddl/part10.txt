@@ -1,0 +1,3 @@
+DML - because it is just creating data in this statement
+
+--> your argument above could be argued, but generally all CREATE statements are grouped with DDL

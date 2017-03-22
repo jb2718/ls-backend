@@ -1,0 +1,9 @@
+1. varchar goes up to 255; text is unlimited
+
+2. These three data types all store numeric information.  The integer data type stores integral numbers.  The real type stores floating-point numbers.  It has 6 decimal digit precision.  The decimal type stores floating-point numbers to arbitrary precision (as specified by the user - up to 16383 digits after the decimal).
+
+3. 2147483647
+
+4. The date type only includes a date, whereas timestamp has both the date and the time
+
+5. No

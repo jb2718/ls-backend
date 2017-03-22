@@ -1,29 +1,29 @@
  <div class="grid_9 push_1" id="doc-listing">
-	<h1>Documents</h1>
-	<table>
-		<% @documents.each do |document| %>
-			<tr class="head">
-				<th>File Name</th>
-				<th>File Type</th>
-				<th>File Size</th>
-				<th></th>
-				<th></th>
-			</tr>
-			<tr>
-				<th><a href="<%= '/' + document.name %>"><%=document.name%></a></th>
-				<td><%= document.format_file_type %></td>
-				<td><%= document.format_file_size %></td>
-				<td>
-					<form action="<%= '/' + document.name + '/edit'%>" method="get">
-						<input type="submit" value="Edit" id="submit" />
-					</form>
-				</td>
-				<td>
-					<form action="<%= '/' + document.name + '/delete'%>" method="post">
-						<input type="submit" value="Delete" id="submit" />
-					</form>
-				</td>						
-			</tr>
-		<%end%>
-	</table>
+  <h1>Documents</h1>
+  <table>
+    <% @documents.each do |document| %>
+      <tr class="head">
+        <th>File Name</th>
+        <th>File Type</th>
+        <th>File Size</th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <th><a href="<%= '/' + document.name %>"><%=document.name%></a></th>
+        <td><%= document.format_file_type %></td>
+        <td><%= document.format_file_size %></td>
+        <td>
+          <form action="<%= '/' + document.name + '/edit'%>" method="get">
+            <input type="submit" value="Edit" id="submit" />
+          </form>
+        </td>
+        <td>
+          <form action="<%= '/' + document.name + '/delete'%>" method="post">
+            <input type="submit" value="Delete" id="submit" />
+          </form>
+        </td>           
+      </tr>
+    <%end%>
+  </table>
 </div>

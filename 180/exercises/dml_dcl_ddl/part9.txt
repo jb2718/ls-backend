@@ -1,0 +1,3 @@
+DDL - Sort of right
+
+- You could consider it both DML and DDL because DROP TABLE deletes all data (DML) and deletes all schema (DDL)

@@ -1,0 +1,14 @@
+1. SQL is a declarative programming language.  It is also a "special purpose language"
+2. DML, DDL, DCL
+3.
+'canoe'
+'a long road'
+'weren''t'
+'"No way!"'
+
+4. || or concat()
+5. lower(string)
+6. 't' or 'f'
+7. SELECT  26.6 * 26.3 * 4 * 3.14;
+SELECT trunc(4 * pi() * 26.3 ^ 2);
+

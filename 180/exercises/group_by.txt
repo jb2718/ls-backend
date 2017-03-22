@@ -1,0 +1,58 @@
+1.
+
+psql -d exercises < films4.sql
+
+--------------------------
+2.
+
+INSERT INTO films(title, year, genre, director, duration)
+VALUES('Wayne''s World', 1992, 'comedy', 'Penelope Spheeris', 95);
+
+INSERT INTO films(title, year, genre, director, duration)
+VALUES('Bourne Identity', 2002, 'espionage', 'Doug Liman', 118);
+
+--------------------------
+3.
+
+SELECT DISTINCT genre FROM films WHERE LENGTH(title) > 1;
+
+
+--------------------------
+4.
+
+SELECT genre FROM films GROUP BY genre;
+
+--------------------------
+5.
+
+SELECT ROUND(AVG(duration)) AS avg_duration FROM films;
+
+--------------------------
+6.
+
+SELECT genre, ROUND(AVG(duration)) AS avg_duration FROM films GROUP BY genre;
+
+--------------------------
+7.
+
+SELECT ROUND(year/10) * 10 AS decade, ROUND(AVG(duration)) AS avg_duration FROM films GROUP BY decade ORDER BY decade;
+
+--------------------------
+8.
+
+SELECT * FROM films WHERE director LIKE 'John %';
+
+--------------------------
+9.
+
+SELECT genre, COUNT(genre) FROM films GROUP BY genre ORDER BY count DESC;
+
+--------------------------
+10.
+
+SELECT ROUND(year/10) * 10 AS decade, genre, string_agg(title, ', ') AS films FROM films GROUP BY decade, genre ORDER BY decade, genre;
+
+--------------------------
+11.
+
+SELECT genre, SUM(duration) AS total_duration FROM films GROUP BY genre ORDER BY total_duration ASC;
