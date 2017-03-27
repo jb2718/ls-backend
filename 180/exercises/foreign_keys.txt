@@ -1,0 +1,84 @@
+1.
+
+createdb orders_products
+psql -d orders_products < orders_products.sql
+
+--------------------------
+2.
+
+
+INSERT INTO products (name)
+VALUES ('small bolt');
+
+
+INSERT INTO products (name)
+VALUES ('large bolt');
+
+INSERT INTO orders (product_id, quantity)
+VALUES (1, 10);
+
+INSERT INTO orders (product_id, quantity)
+VALUES (1, 25);
+
+INSERT INTO orders (product_id, quantity)
+VALUES (2, 15);
+
+--------------------------
+3.
+
+SELECT quantity, products.name FROM orders INNER JOIN products on orders.product_id=products.id;
+
+--------------------------
+4.
+
+Yes you can insert a row into the orders table as it is currently configured because it does not
+have any constraints restricting that action:
+
+INSERT INTO orders (quantity) VALUES (19);
+
+
+--------------------------
+5.
+
+ALTER TABLE orders ALTER COLUMN product_id SET NOT NULL;
+
+When I run the statement above, I get the following error:
+ERROR:  column "product_id" contains null values
+
+--------------------------
+6.
+
+UPDATE orders SET product_id = 2 WHERE id=4;
+
+Now, I can run this command again, and it will work:
+ALTER TABLE orders ALTER COLUMN product_id SET NOT NULL;
+
+--------------------------
+7.
+
+CREATE TABLE reviews (
+id serial PRIMARY KEY,
+product_id integer REFERENCES products(id) NOT NULL,
+content text NOT NULL
+);
+
+--------------------------
+8.
+
+INSERT INTO reviews (product_id, content)
+VALUES (1, 'a little small');
+
+INSERT INTO reviews (product_id, content)
+VALUES (1, 'very round!');
+
+INSERT INTO reviews (product_id, content)
+VALUES (2, 'could have been smaller');  
+
+SELECT products.name AS Product, content AS Review FROM reviews INNER JOIN products on reviews.product_id=products.id;
+
+--------------------------
+9.
+
+False - See questions #4-6 above
+
+--------------------------

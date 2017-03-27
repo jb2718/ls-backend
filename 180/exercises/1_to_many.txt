@@ -1,0 +1,56 @@
+1.
+
+INSERT INTO calls ("when", duration, contact_id)
+VALUES ('2016-01-18 14:47:00', 632, 6);
+
+--------------------------
+2.
+
+SELECT calls.when, calls.duration, contacts.first_name FROM calls INNER JOIN contacts ON calls.contact_id = contacts.id WHERE contacts.last_name 
+NOT LIKE 'Swift' AND contacts.first_name 
+NOT LIKE 'William';
+
+--------------------------
+3.
+
+INSERT INTO contacts (first_name, last_name, number)
+VALUES ('Merve', 'Elk', 6343511126);
+
+INSERT INTO contacts (first_name, last_name, number)
+VALUES ('Sawa', 'Fyodorov', 6125594874);
+
+INSERT INTO calls ("when", duration, contact_id)
+VALUES ('2016-01-17 11:52:00', 175, 26);
+
+INSERT INTO calls ("when", duration, contact_id)
+VALUES ('2016-01-18 21:22:00', 79, 27);
+
+SELECT calls.when, calls.duration, contacts.first_name, contacts.last_name, contacts.number FROM calls 
+INNER JOIN contacts ON calls.contact_id = contacts.id;
+
+--------------------------
+4.
+
+ALTER TABLE contacts ADD CONSTRAINT contact_uniq_number UNIQUE(number);
+
+--------------------------
+5.
+
+INSERT INTO contacts (first_name, last_name, number)
+VALUES ('Willy', 'Wonka', 6343511126);
+
+Upon attempting to insert the data above, I get the following error:
+
+ERROR:  duplicate key value violates unique constraint "contact_uniq_number"
+DETAIL:  Key (number)=(6343511126) already exists.
+
+--------------------------
+6.
+
+"when" needs to be written with the double quotes because it is a reserved key word in Postgres.
+Without the quotes, Postgres will associated the reserved pre-defined meaning with the term 'when.'
+The double quotes are an indication to Postgres that when is an identifier and not a keyword.
+
+--------------------------
+7.
+
