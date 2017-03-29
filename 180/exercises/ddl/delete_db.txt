@@ -1,7 +1,13 @@
 Step 1
 
-- Return to the console and run:
+- Get out of the current db:
+- list out all the other databases you have available
+> \l
 
-> dropdb extrasolar
+- connect to another db:
+> \c films
+
+- run the following command to delete extrasolar db:
+> DROP DATABASE extrasolar;
 
 ---------------------------------
