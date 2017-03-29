@@ -1,0 +1,49 @@
+Step 1:
+
+ALTER TABLE stars ADD CHECK (spectral_type IN ('O', 'B', 'A', 'F', 'G', 'K', 'M'));
+ALTER TABLE stars ALTER COLUMN spectral_type SET NOT NULL;
+
+
+----------------------------------------------
+Further Exploration
+
+- Roll back changes
+
+ALTER TABLE stars
+DROP CONSTRAINT stars_spectral_type_check,
+ALTER COLUMN spectral_type DROP NOT NULL;
+
+- Add some data to column
+
+INSERT INTO stars (name, distance, companions)
+           VALUES ('Epsilon Eridani', 10.5, 1);
+
+INSERT INTO stars (name, distance, spectral_type, companions)
+           VALUES ('Lacaille 9352', 10.68, 'X', 1);
+           
+- Now what happens if you try to make the original column change?
+
+ALTER TABLE stars
+ADD CHECK (spectral_type IN ('O', 'B', 'A', 'F', 'G', 'K', 'M')),
+ALTER COLUMN spectral_type SET NOT NULL;
+
+If I try to run the command that checks for specific values and make a value mandatory, I get the following error:
+ERROR:  column "spectral_type" contains null values
+
+
+To fix the problem:
+- I could update the current data so that it complies with the changes I want to make - since there aren't that many values in the db
+
+UPDATE stars SET spectral_type = 'G' WHERE name = 'Epsilon Eridani';
+
+UPDATE stars SET spectral_type = 'G' WHERE name = 'Lacaille 9352';
+
+ALTER TABLE stars
+ADD CHECK (spectral_type IN ('O', 'B', 'A', 'F', 'G', 'K', 'M')),
+ALTER COLUMN spectral_type SET NOT NULL;
+
+
+
+
+- Or, I could delete the values that are not in compliance with the changes I want to make, then I can make the changes and re-enter 
+the deleted data

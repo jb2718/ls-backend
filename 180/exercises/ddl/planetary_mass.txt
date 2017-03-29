@@ -1,0 +1,14 @@
+Step 1.
+
+Make mass accept fractional values of any precision, required, and positive
+
+ALTER TABLE planets ALTER COLUMN mass SET NOT NULL,
+ADD CHECK (mass > 0),
+ALTER COLUMN mass TYPE numeric;
+
+-------------------------------
+Step 2
+
+Make designation column required
+
+ALTER TABLE planets ALTER COLUMN designation SET NOT NULL;

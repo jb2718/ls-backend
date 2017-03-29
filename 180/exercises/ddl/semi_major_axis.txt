@@ -1,0 +1,43 @@
+Step 1
+- Add a semi_major_axis column to planets table
+--data type: numeric
+--required
+
+
+ALTER TABLE planets ADD COLUMN semi_major_axis numeric NOT NULL;
+
+-----------------------------------
+Further Exploration
+
+- Roll back changes
+
+ALTER TABLE planets DROP COLUMN semi_major_axis;
+
+- Add some data to column
+
+INSERT INTO stars (name, distance, spectral_type, companions)
+           VALUES ('Alpha Centauri B', 4.37, 'K', 3);
+INSERT INTO stars (name, distance, spectral_type, companions)
+           VALUES ('Epsilon Eridani', 10.5, 'K', 0);
+           
+INSERT INTO planets (designation, mass, star_id)
+           VALUES ('b', 0.0036, 6);
+INSERT INTO planets (designation, mass, star_id)
+           VALUES ('c', 0.1, 8);
+           
+- Now what happens if you try to make the original column change?
+
+ALTER TABLE planets ADD COLUMN semi_major_axis numeric NOT NULL;
+
+When I try to make the original table update to add semi_major_axis, I get the following error:
+
+ERROR:  column "semi_major_axis" contains null values
+
+In order to correct this, I can start by adding a column without the NOT NULL constraint;
+ALTER TABLE planets ADD COLUMN semi_major_axis numeric;
+
+- Then I will have to go in and add some specific value or a default to that column for each row in the table
+UPDATE planets SET semi_major_axis = 0;
+
+- Then I can add the NOT NULL constraint back in.
+ALTER TABLE planets ALTER COLUMN semi_major_axis SET NOT NULL;

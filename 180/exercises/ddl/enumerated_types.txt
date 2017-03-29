@@ -1,0 +1,20 @@
+Step 1.
+
+drop the current spectral_type constraint
+
+ALTER TABLE stars DROP CONSTRAINT stars_spectral_type_check;
+
+-------------------------------
+Step 2
+
+Create the enumerable
+
+CREATE TYPE spectral_vals AS ENUM ('O', 'B', 'A', 'F', 'G', 'K', 'M');
+
+
+-------------------------------
+Step 3
+
+Update the table with the new enumerable data type
+
+ ALTER TABLE stars ALTER COLUMN spectral_type TYPE spectral_vals USING spectral_type::spectral_vals;

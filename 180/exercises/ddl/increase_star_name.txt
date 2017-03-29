@@ -1,0 +1,4 @@
+Step 1
+Modify name field in star column so it can be up to 50 chars
+
+ALTER TABLE stars ALTER COLUMN name TYPE VARCHAR(50);

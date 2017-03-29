@@ -1,0 +1,7 @@
+Step 1
+
+- Return to the console and run:
+
+> dropdb extrasolar
+
+---------------------------------

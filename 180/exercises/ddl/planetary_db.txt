@@ -1,0 +1,30 @@
+Step 1.
+
+create db named extrasolar
+
+> createdb extrasolar
+
+-------------------------------
+Step 2
+
+define the data you want to track for stars and for planets
+create a stars table and a planets table
+
+
+CREATE TABLE stars (
+   id serial,
+   name VARCHAR(25) UNIQUE NOT NULL,
+   distance INTEGER NOT NULL CHECK (distance > 0),
+   spectral_type CHAR(1),
+   companions INTEGER NOT NULL CHECK (companions > 0),
+   PRIMARY KEY (id)
+);
+
+CREATE TABLE planets(
+   id serial,
+   designation CHAR(1),
+   mass INTEGER,
+   PRIMARY KEY (id)
+);
+
+-------------------------------

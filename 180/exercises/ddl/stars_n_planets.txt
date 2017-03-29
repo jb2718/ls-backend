@@ -1,0 +1,5 @@
+Step 1
+Add star_id column to planets table
+star_id is required, and cannot be null- must have a value that is actually present in stars table
+
+ALTER TABLE planets ADD COLUMN star_id integer NOT NULL REFERENCES stars(id);

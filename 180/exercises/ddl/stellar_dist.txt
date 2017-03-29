@@ -1,0 +1,22 @@
+Step 1
+
+ALTER TABLE stars ALTER COLUMN distance TYPE numeric;
+
+
+-----------------------------------
+Further Exploration
+
+- Roll back changes
+
+ALTER TABLE stars ALTER COLUMN distance TYPE integer;
+
+- Add some data to column
+
+INSERT INTO stars (name, distance, spectral_type, companions)
+           VALUES ('Alpha Orionis', 643, 'M', 9);
+           
+- Now what happens if you try to make the original column change?
+
+ALTER TABLE stars ALTER COLUMN distance TYPE numeric;
+Nothing happened...
+perhaps because the integer value was easily converted to a numeric type of arbitrary scale/precision
