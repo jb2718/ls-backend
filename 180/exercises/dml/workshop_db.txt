@@ -1,0 +1,26 @@
+Step 1.
+
+create db named workshop
+
+> createdb workshop
+
+-------------------------------
+Step 2
+
+define the data you want to track for devices and for parts
+create a devices table and a parts table
+
+
+CREATE TABLE devices (
+   id serial PRIMARY KEY,
+   name varchar(100) NOT NULL,
+   created_at timestamp DEFAULT now()
+);
+
+CREATE TABLE parts(
+   id serial PRIMARY KEY,
+   part_number integer UNIQUE NOT NULL,
+   device_id integer REFERENCES devices(id)
+);
+
+-------------------------------

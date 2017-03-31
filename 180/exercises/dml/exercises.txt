@@ -1,0 +1,92 @@
+-------------------
+select part number
+
+SELECT * FROM parts WHERE CAST(part_number AS text) LIKE '1%';
+
+
+
+
+-------------------------
+aggregate function
+
+SELECT devices.name, COUNT(parts.id) AS num_of_parts from devices INNER JOIN parts ON devices.id = parts.device_id GROUP BY name;
+
+
+
+-------------------------
+order by
+
+(expected output format)
+
+name          | count
+--------------+-------
+Accelerometer |     3
+Gyroscope     |     5
+
+
+SELECT devices.name, COUNT(parts.id) AS num_of_parts from devices INNER JOIN parts ON devices.id = parts.device_id GROUP BY name ORDER BY ;
+
+
+-------------------------
+order by
+
+SELECT devices.name, COUNT(parts.id) AS num_of_parts from devices 
+INNER JOIN parts ON devices.id = parts.device_id 
+GROUP BY devices.name ORDER BY devices.name ASC;
+
+-------------------------
+is null is not null
+- sql query that generates list of all parts belonging to any device
+
+SELECT part_number, device_id FROM parts WHERE device_id IS NOT NULL;
+
+- sql query that generates list of all parts NOT belonging to any device 
+
+SELECT part_number, device_id FROM parts WHERE device_id IS NULL;
+
+
+
+
+-------------------------
+oldest device
+
+- insert new device/parts into db
+INSERT INTO devices (name) VALUES ('Magnetometer');
+INSERT INTO parts (part_number, device_id) VALUES (42, 3);
+
+- query for the oldest device in db
+ SELECT * FROM devices WHERE created_at = (SELECT MIN(created_at) FROM devices);
+ 
+ 
+-------------------------
+update device id
+
+UPDATE parts SET device_id = 1 WHERE id = 8; 
+UPDATE parts SET device_id = 1 WHERE id = 7; 
+
+-------------------------
+update device id - further exploration
+
+- set part with smallest part number to belong to Gyroscope
+
+--- first find part with smallest part number
+SELECT * FROM parts ORDER BY part_number ASC LIMIT 1;
+
+--- now alter that part's device id to that of the Gyroscope
+
+UPDATE parts SET device_id = 2 WHERE part_number = (SELECT part_number FROM parts ORDER BY part_number ASC LIMIT 1);
+
+
+------------------------
+delete accelerometer
+
+- delete all parts related to accelerometer and delete accelerometer
+
+----first delete all parts of accelerometer
+DELETE FROM parts WHERE device_id = 1;
+
+---then delete accelerometer
+DELETE FROM devices WHERE id = 1;
+
+------------------------
+delete accelerometer - further exploration
