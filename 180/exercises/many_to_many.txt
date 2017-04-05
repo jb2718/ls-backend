@@ -1,0 +1,96 @@
+1.
+
+SELECT books.id, books.author, string_agg(categories.name, ',') FROM books                                                                                                           
+INNER JOIN books_categories ON books.id = books_categories.book_id 
+INNER JOIN categories ON books_categories.category_id = categories.id GROUP BY books.id;
+
+(result)
+
+ id |     author      |           categories
+----+-----------------+--------------------------------
+  1 | Charles Dickens | Fiction, Classics
+  2 | J. K. Rowling   | Fiction, Fantasy
+  3 | Walter Isaacson | Nonfiction, Biography, Physics
+(3 rows)
+
+------------------------------------
+2.
+
+In order to enter the given info into the database, I have to make sure to set the values 
+in the books_categories table properly.  I will also need to add in some categories.
+
+
+INSERT INTO books (author, title)
+VALUES ('Lynn Sherr','Sally Ride: America''s First Woman in Space');
+
+INSERT INTO books_categories (book_id, category_id)
+VALUES (4,5);
+
+INSERT INTO books_categories (book_id, category_id)
+VALUES (4,1);
+
+INSERT INTO categories (name)
+VALUES('Space Exploration');
+
+INSERT INTO books_categories (book_id, category_id)
+VALUES (4,7);
+
+****************************************
+INSERT INTO books (author, title)
+VALUES ('Charlotte Brontë','Jane Eyre');
+
+INSERT INTO books_categories (book_id, category_id)
+VALUES (5,2);
+
+INSERT INTO books_categories (book_id, category_id)
+VALUES (5,4);
+
+****************************************
+INSERT INTO books (author, title)
+VALUES ('Meeru Dhalwala and Vikram', 'VijVij''s: Elegant and Inspired Indian Cuisine');
+
+INSERT INTO categories (name)
+VALUES('Cookbook');
+
+INSERT INTO categories (name)
+VALUES('South Asia');
+
+INSERT INTO books_categories (book_id, category_id)
+VALUES (6,8);
+
+INSERT INTO books_categories (book_id, category_id)
+VALUES (6,1);
+
+INSERT INTO books_categories (book_id, category_id)
+VALUES (6,9);
+
+------------------------------------
+3.
+
+ALTER TABLE books_categories ADD CONSTRAINT unique_tuple UNIQUE (book_id, category_id);
+
+------------------------------------
+4.
+
+SELECT categories.name, 
+count(books.id) AS book_count, 
+string_agg(books.title, ',') AS book_titles 
+FROM categories
+INNER JOIN books_categories ON categories.id = books_categories.category_id 
+INNER JOIN books ON books_categories.book_id = books.id GROUP BY categories.id ORDER BY categories.name ASC;
+
+
+
+(result)
+
+      name        | book_count |                                 book_titles
+------------------+------------+-----------------------------------------------------------------------------
+Biography         |          2 | Einstein: His Life and Universe, Sally Ride: America's First Woman in Space
+Classics          |          2 | A Tale of Two Cities, Jane Eyre
+Cookbook          |          1 | Vij's: Elegant and Inspired Indian Cuisine
+Fantasy           |          1 | Harry Potter
+Fiction           |          3 | Jane Eyre, Harry Potter, A Tale of Two Cities
+Nonfiction        |          3 | Sally Ride: America's First Woman in Space, Einstein: His Life and Universe, Vij's: Elegant and Inspired Indian Cuisine
+Physics           |          1 | Einstein: His Life and Universe
+South Asia        |          1 | Vij's: Elegant and Inspired Indian Cuisine
+Space Exploration |          1 | Sally Ride: America's First Woman in Space

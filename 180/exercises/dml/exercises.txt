@@ -90,3 +90,20 @@ DELETE FROM devices WHERE id = 1;
 
 ------------------------
 delete accelerometer - further exploration
+
+
+Remove foreign key constraint form parts table on device_id
+
+Add new foreign key constraint on device_id with ON DELETE CASCADE
+
+ALTER TABLE parts 
+  DROP CONSTRAINT parts_device_id_fkey,
+  ADD CONSTRAINT parts_device_id_fkey 
+    FOREIGN KEY (device_id) REFERENCES devices(id) ON DELETE CASCADE;
+
+
+    
+Delete device; delete will cascade into parts table and delete corresponding rows.
+
+DELETE FROM devices WHERE id = 1;
+
