@@ -1,0 +1,94 @@
+customers with services
+
+
+SELECT DISTINCT customers.id, customers.name, customers.payment_token FROM customers 
+INNER JOIN customers_services ON customers.id = customers_services.customer_id;
+
+-------------------------------------------------------
+customers with no services 
+
+SELECT customers.id, customers.name, customers.payment_token FROM customers 
+LEFT JOIN customers_services ON customers.id = customers_services.customer_id
+WHERE customers.id NOT IN (SELECT DISTINCT customers.id FROM customers 
+INNER JOIN customers_services ON customers.id = customers_services.customer_id);
+
+
+**Further Exploration
+
+
+-------------------------------------------------------
+services with no customers
+
+SELECT services.description FROM customers 
+RIGHT JOIN customers_services ON customers.id = customers_services.customer_id
+RIGHT JOIN services ON customers_services.service_id = services.id
+WHERE customer_id IS NULL;
+
+
+-------------------------------------------------------
+services for each customer
+
+
+SELECT name, string_agg(services.description, ', ') as services
+FROM customers
+LEFT JOIN customers_services ON customers.id = customers_services.customer_id
+LEFT JOIN services ON customers_services.service_id = services.id GROUP BY name;
+
+
+** Further Exploration
+
+
+-------------------------------------------------------
+services with at least 3 customers 
+
+SELECT services.description as description, count(customers_services.service_id) as count
+FROM services
+INNER JOIN customers_services ON services.id = customers_services.service_id
+GROUP BY services.id
+HAVING count(customers_services.service_id) >= 3
+ORDER BY description;
+
+
+-------------------------------------------------------
+Total Income
+
+SELECT SUM(services.price) as gross FROM customers_services 
+INNER JOIN services ON customers_services.service_id = services.id;
+
+-------------------------------------------------------
+add new customer 
+
+INSERT INTO customers (name, payment_token)
+VALUES('John Doe', 'EYODHLCN');
+
+INSERT INTO customers_services (customer_id, service_id)
+VALUES (7,2);
+
+INSERT INTO customers_services (customer_id, service_id)
+VALUES (7,3);
+
+INSERT INTO customers_services (customer_id, service_id)
+VALUES (7,4);
+
+
+-------------------------------------------------------
+Hypothetical
+
+SELECT SUM(services.price) as current_total FROM customers_services 
+INNER JOIN services ON customers_services.service_id = services.id
+WHERE price > 100;
+
+
+SELECT SUM(services.price) as hypothetical_total FROM customers 
+CROSS JOIN services
+WHERE services.price > 100;
+
+** Further Exploration
+
+-------------------------------------------------------
+delete a customer and a service
+
+DELETE FROM customers WHERE name = 'Chen Ke-Hua';
+
+DELETE FROM customers_services WHERE service_id = 8;
+DELETE FROM services WHERE id = 8;
