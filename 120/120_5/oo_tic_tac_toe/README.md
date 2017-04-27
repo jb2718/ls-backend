@@ -1,7 +1,7 @@
-#Object-Oriented Tic Tac Toe Game
+# Object-Oriented Tic Tac Toe Game
 This is an object oriented version of the classic Tic Tac Toe game.  It has two players and uses a 3 x 3 game board.
 
-##Settings
+## Settings
 Inside the Game class (which can be found in "main.rb"), there are two constants you can set according to your own whims: MAX_SCORE and WHO_GOES_FIRST
 
 MAX_SCORE is the number of points it takes to win an entire game.  Each game is comprised of several rounds of tic-tac-toe.  The first player to reach the MAX_SCORE wins the game and the scores are reset on the next round.  This setting should be set to an integer greater than or equal to 1.
@@ -14,7 +14,7 @@ WHO_GOES_FIRST should be set to one of three options: :user, :computer, or :choi
 
 * :choice - the user will be prompted at the start of each game to determine who should start each round in that game
 
-##Instructions
+## Instructions
 
 * Enter `$ ruby main.rb` from the root folder
 
@@ -53,7 +53,7 @@ WHO_GOES_FIRST should be set to one of three options: :user, :computer, or :choi
 
 * Once the round ends, you will be asked if you would like to play again or not.  Enter "yes" (or 'y') to continue playing or "no" (or 'n') to end the program
 
-##Features
+## Features
 
 * Computer AI - the computer player has some light capabilities to make "smarter" choices than just a random selection from the available moves.  The computer has the ability to try to choose the final move of two-in-a-row for the win (by "two-in-a-row", I mean any combination of two marks shy of one more for a win - even if they are not physically adjacent).  If that does not work on the first try, the computer will try to defend any instances of two-in-a-row that the opponent may have.
 
@@ -67,5 +67,5 @@ WHO_GOES_FIRST should be set to one of three options: :user, :computer, or :choi
   * the board can tell you if there is a tic-tac-toe (3 in row) for a certain mark
 
 
-##Development
+## Development
 This game was built using Ruby 2.3.0p0
